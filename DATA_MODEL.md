@@ -241,4 +241,3 @@ Data Principle
 
 The data model must be simple, readable, exportable, and easy to migrate later.
 
-DESIGN_SYSTEM.md
