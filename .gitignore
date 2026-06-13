@@ -45,3 +45,6 @@ firebase-adminsdk*.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Design references from Stitch
+design-reference/
+stitch-export/
