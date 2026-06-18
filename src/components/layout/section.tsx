@@ -19,26 +19,24 @@ export function Section({
 }: SectionProps) {
   return (
     <section
-      className={["py-12 sm:py-16 lg:py-20", className]
+      className={["py-16 sm:py-20 lg:py-28", className]
         .filter(Boolean)
         .join(" ")}
       {...props}
     >
       <Container>
         {(eyebrow || title || description) && (
-          <div className="mb-8 max-w-2xl sm:mb-10">
+          <div className="mb-10 max-w-3xl sm:mb-14">
             {eyebrow && (
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#7A2E2E]">
-                {eyebrow}
-              </p>
+              <p className="label-caps mb-4 text-[#7a2e2e]">{eyebrow}</p>
             )}
             {title && (
-              <h2 className="text-3xl font-semibold leading-tight text-[#2E2A27] sm:text-4xl">
+              <h2 className="editorial-heading text-4xl text-[#1a1c1b] sm:text-5xl lg:text-6xl">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="mt-4 text-base leading-7 text-[#6B5A50]">
+              <p className="mt-5 max-w-2xl text-base leading-8 text-[#70675f] sm:text-lg">
                 {description}
               </p>
             )}

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
 import { PublicHeader } from "@/components/layout/public-header";
@@ -11,7 +10,7 @@ import {
   getProductsByCategory,
   getVisibleProducts,
 } from "@/features/catalog/catalog.service";
-import type { Product, ProductCategory } from "@/types/product";
+import type { ProductCategory } from "@/types/product";
 import { PRODUCT_CATEGORIES } from "@/types/product";
 
 export const metadata: Metadata = {
@@ -42,13 +41,6 @@ function isProductCategory(value: string): value is ProductCategory {
   return PRODUCT_CATEGORIES.includes(value as ProductCategory);
 }
 
-function productsWithSafePlaceholders(products: Product[]): Product[] {
-  return products.map((product) => ({
-    ...product,
-    images: [],
-  }));
-}
-
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   const resolvedSearchParams = await searchParams;
   const categoryParam = resolvedSearchParams?.categoria;
@@ -56,69 +48,85 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     typeof categoryParam === "string" && isProductCategory(categoryParam)
       ? categoryParam
       : undefined;
-  const products = productsWithSafePlaceholders(
-    selectedCategory
-      ? getProductsByCategory(selectedCategory)
-      : getVisibleProducts(),
-  );
+  const products = selectedCategory
+    ? getProductsByCategory(selectedCategory)
+    : getVisibleProducts();
 
   return (
-    <div className="min-h-screen bg-[#FFF8F1] text-[#2E2A27]">
+    <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
       <PublicHeader />
-      <main>
-        <section className="border-b border-[#E7D8CC]">
-          <Container className="py-12 sm:py-16">
-            <Badge variant="neutral">Catálogo</Badge>
-            <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight text-[#3A2418] sm:text-5xl">
-              Prendas seleccionadas para consultar directo por WhatsApp.
-            </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-[#6B5A50]">
-              Explorá productos visibles, filtrá por categoría y abrí la ficha
-              para ver talles, colores y disponibilidad.
-            </p>
-            <div className="mt-6">
-              <WhatsAppCTA label="Consulta general por WhatsApp" />
-            </div>
-          </Container>
-        </section>
+      <main className="w-full pb-[120px]">
+        <header className="mx-auto w-full max-w-[1440px] px-5 pb-8 pt-[120px] text-center md:px-16 md:text-left">
+          <h1 className="editorial-title mb-4 text-5xl text-[#000000] md:text-[80px]">
+            The Curated
+            <br />
+            <span className="text-[#747878]">Collection.</span>
+          </h1>
+          <p className="mx-auto max-w-2xl text-lg leading-[1.6] text-[#444748] md:mx-0">
+            Una selección asimétrica de piezas esenciales. Paletas tonales,
+            texturas urbanas y prendas pensadas para elevar el uso diario.
+          </p>
+        </header>
 
-        <Container className="py-8 sm:py-10">
-          <nav aria-label="Filtrar por categoría">
-            <ul className="flex gap-2 overflow-x-auto pb-2">
-              <li>
-                <Link
-                  className={[
-                    "inline-flex min-h-10 items-center whitespace-nowrap border px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7A2E2E]",
-                    selectedCategory
-                      ? "border-[#E7D8CC] bg-white text-[#3A2418] hover:bg-[#E8D6C0]/45"
-                      : "border-[#3A2418] bg-[#3A2418] text-[#FFF8F1]",
-                  ].join(" ")}
-                  href="/catalogo"
-                >
-                  Todas
-                </Link>
-              </li>
-              {PRODUCT_CATEGORIES.map((category) => (
-                <li key={category}>
+        <div className="sticky top-[72px] z-40 w-full border-y border-[#c4c7c7]/20 bg-[#faf9f7]/95 backdrop-blur">
+          <Container className="flex flex-col items-center justify-between gap-2 py-2 md:flex-row">
+            <nav aria-label="Filtrar por categoría" className="w-full md:w-auto">
+              <ul className="no-scrollbar flex w-full gap-8 overflow-x-auto pb-2 md:w-auto md:pb-0">
+                <li>
                   <Link
                     className={[
-                      "inline-flex min-h-10 items-center whitespace-nowrap border px-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7A2E2E]",
-                      selectedCategory === category
-                        ? "border-[#3A2418] bg-[#3A2418] text-[#FFF8F1]"
-                        : "border-[#E7D8CC] bg-white text-[#3A2418] hover:bg-[#E8D6C0]/45",
+                      "label-caps pb-1 transition-colors",
+                      selectedCategory
+                        ? "text-[#444748] hover:text-[#a03d3f]"
+                        : "border-b border-[#000000] text-[#000000]",
                     ].join(" ")}
-                    href={`/catalogo?categoria=${category}`}
+                    href="/catalogo"
                   >
-                    {categoryLabels[category]}
+                    All
                   </Link>
                 </li>
-              ))}
-            </ul>
-          </nav>
-        </Container>
+                {PRODUCT_CATEGORIES.map((category) => (
+                  <li key={category}>
+                    <Link
+                      className={[
+                        "label-caps whitespace-nowrap pb-1 transition-colors",
+                        selectedCategory === category
+                          ? "border-b border-[#000000] text-[#000000]"
+                          : "text-[#444748] hover:text-[#a03d3f]",
+                      ].join(" ")}
+                      href={`/catalogo?categoria=${category}`}
+                    >
+                      {categoryLabels[category]}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-        <Container className="pb-14 sm:pb-20">
-          <ProductGrid products={products} />
+            <div className="hidden items-center gap-2 md:flex">
+              <span className="label-caps text-[#747878]">Talles:</span>
+              {["S", "M", "L"].map((size) => (
+                <span
+                  className="label-caps flex h-8 w-8 items-center justify-center rounded-full border border-[#c4c7c7] text-[#444748]"
+                  key={size}
+                >
+                  {size}
+                </span>
+              ))}
+            </div>
+          </Container>
+        </div>
+
+        <section className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 py-8 md:grid-cols-12 md:px-16">
+          <div className="md:col-span-12">
+            <ProductGrid products={products} variant="editorial" />
+          </div>
+        </section>
+
+        <Container>
+          <div className="border-t border-[#e3e2e0] pt-8">
+            <WhatsAppCTA label="Consulta personalizada por WhatsApp" />
+          </div>
         </Container>
       </main>
       <Footer />

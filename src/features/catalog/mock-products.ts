@@ -3,13 +3,20 @@ import type { Product } from "@/types/product";
 const createdAt = new Date("2026-01-10T12:00:00.000Z");
 const updatedAt = new Date("2026-01-10T12:00:00.000Z");
 
+const localImages = {
+  editorialWide: "/products/zara3.webp",
+  studioPortrait: "/products/images.jpg",
+  studioClose: "/products/images (1).jpg",
+  softLook: "/products/450e.avif",
+} as const;
+
 export const mockProducts: Product[] = [
   {
     id: "prod-jean-wide-leg-celeste",
     name: "Jean Wide Leg Celeste",
     slug: "jean-wide-leg-celeste",
     description:
-      "Jean wide leg de tiro alto en denim celeste, pensado para looks urbanos comodos y frescos.",
+      "Jean wide leg de tiro alto en denim celeste, pensado para looks urbanos cómodos y frescos.",
     price: 49900,
     category: "jeans",
     sizes: ["36", "38", "40", "42"],
@@ -17,10 +24,14 @@ export const mockProducts: Product[] = [
     stockStatus: "available",
     images: [
       {
-        url: "/images/products/jean-wide-leg-celeste/main.webp",
-        path: "products/prod-jean-wide-leg-celeste/main.webp",
-        alt: "Jean wide leg celeste de tiro alto",
+        url: localImages.editorialWide,
+        alt: "Modelo con look editorial en blanco y negro para Jean Wide Leg Celeste",
         position: 0,
+      },
+      {
+        url: localImages.studioClose,
+        alt: "Detalle editorial blanco y negro para Jean Wide Leg Celeste",
+        position: 1,
       },
     ],
     isVisible: true,
@@ -34,7 +45,7 @@ export const mockProducts: Product[] = [
     name: "Top Morley Bordó",
     slug: "top-morley-bordo",
     description:
-      "Top de morley bordó con calce al cuerpo, ideal para combinar con denim o sastreria.",
+      "Top de morley bordó con calce al cuerpo, ideal para combinar con denim o sastrería.",
     price: 25900,
     category: "tops",
     sizes: ["S", "M", "L"],
@@ -42,9 +53,8 @@ export const mockProducts: Product[] = [
     stockStatus: "ask_stock",
     images: [
       {
-        url: "/images/products/top-morley-bordo/main.webp",
-        path: "products/prod-top-morley-bordo/main.webp",
-        alt: "Top morley bordó femenino",
+        url: localImages.softLook,
+        alt: "Top Morley Bordó en fotografía editorial blanco y negro",
         position: 0,
       },
     ],
@@ -67,9 +77,8 @@ export const mockProducts: Product[] = [
     stockStatus: "available",
     images: [
       {
-        url: "/images/products/sweater-tejido-chocolate/main.webp",
-        path: "products/prod-sweater-tejido-chocolate/main.webp",
-        alt: "Sweater tejido color chocolate",
+        url: localImages.studioClose,
+        alt: "Sweater Tejido Chocolate en editorial de moda blanco y negro",
         position: 0,
       },
     ],
@@ -84,7 +93,7 @@ export const mockProducts: Product[] = [
     name: "Campera Negra Urbana",
     slug: "campera-negra-urbana",
     description:
-      "Campera negra de silueta urbana, facil de sumar a outfits de dia y noche.",
+      "Campera negra de silueta urbana, fácil de sumar a outfits de día y noche.",
     price: 68900,
     category: "camperas",
     sizes: ["S", "M", "L"],
@@ -92,9 +101,8 @@ export const mockProducts: Product[] = [
     stockStatus: "available",
     images: [
       {
-        url: "/images/products/campera-negra-urbana/main.webp",
-        path: "products/prod-campera-negra-urbana/main.webp",
-        alt: "Campera negra urbana",
+        url: localImages.studioPortrait,
+        alt: "Campera Negra Urbana en fotografía editorial blanco y negro",
         position: 0,
       },
     ],
@@ -117,9 +125,8 @@ export const mockProducts: Product[] = [
     stockStatus: "sold_out",
     images: [
       {
-        url: "/images/products/pantalon-sastrero-negro/main.webp",
-        path: "products/prod-pantalon-sastrero-negro/main.webp",
-        alt: "Pantalón sastrero negro de corte recto",
+        url: localImages.editorialWide,
+        alt: "Pantalón Sastrero Negro en editorial de moda blanco y negro",
         position: 0,
       },
     ],
@@ -134,7 +141,7 @@ export const mockProducts: Product[] = [
     name: "Buzo Off White",
     slug: "buzo-off-white",
     description:
-      "Buzo off white de calce relajado, comodo y versatil para looks casuales.",
+      "Buzo off white de calce relajado, cómodo y versátil para looks casuales.",
     price: 37900,
     category: "buzos",
     sizes: ["S", "M", "L", "XL"],
@@ -142,9 +149,8 @@ export const mockProducts: Product[] = [
     stockStatus: "available",
     images: [
       {
-        url: "/images/products/buzo-off-white/main.webp",
-        path: "products/prod-buzo-off-white/main.webp",
-        alt: "Buzo off white de calce relajado",
+        url: localImages.studioClose,
+        alt: "Buzo Off White en fotografía editorial blanco y negro",
         position: 0,
       },
     ],
@@ -159,7 +165,7 @@ export const mockProducts: Product[] = [
     name: "Remera Vintage",
     slug: "remera-vintage",
     description:
-      "Remera de inspiracion vintage con textura suave, pensada para uso diario.",
+      "Remera de inspiración vintage con textura suave, pensada para uso diario.",
     price: 21900,
     category: "tops",
     sizes: ["S", "M", "L"],
@@ -167,9 +173,8 @@ export const mockProducts: Product[] = [
     stockStatus: "available",
     images: [
       {
-        url: "/images/products/remera-vintage/main.webp",
-        path: "products/prod-remera-vintage/main.webp",
-        alt: "Remera vintage gris lavado",
+        url: localImages.softLook,
+        alt: "Remera Vintage en fotografía editorial blanco y negro",
         position: 0,
       },
     ],
@@ -183,8 +188,7 @@ export const mockProducts: Product[] = [
     id: "prod-cargo-denim",
     name: "Cargo Denim",
     slug: "cargo-denim",
-    description:
-      "Pantalón cargo denim con bolsillos laterales y actitud urbana.",
+    description: "Pantalón cargo denim con bolsillos laterales y actitud urbana.",
     price: 57900,
     category: "jeans",
     sizes: ["36", "38", "40", "42"],
@@ -192,9 +196,8 @@ export const mockProducts: Product[] = [
     stockStatus: "ask_stock",
     images: [
       {
-        url: "/images/products/cargo-denim/main.webp",
-        path: "products/prod-cargo-denim/main.webp",
-        alt: "Pantalón cargo denim azul",
+        url: localImages.editorialWide,
+        alt: "Cargo Denim en fotografía editorial blanco y negro",
         position: 0,
       },
     ],
@@ -209,7 +212,7 @@ export const mockProducts: Product[] = [
     name: "Polera Básica Blanca",
     slug: "polera-basica-blanca",
     description:
-      "Polera blanca basica de cuello alto, liviana y facil de combinar.",
+      "Polera blanca básica de cuello alto, liviana y fácil de combinar.",
     price: 29900,
     category: "tops",
     sizes: ["S", "M", "L"],
@@ -217,9 +220,8 @@ export const mockProducts: Product[] = [
     stockStatus: "available",
     images: [
       {
-        url: "/images/products/polera-basica-blanca/main.webp",
-        path: "products/prod-polera-basica-blanca/main.webp",
-        alt: "Polera basica blanca de cuello alto",
+        url: localImages.studioPortrait,
+        alt: "Polera Básica Blanca en fotografía editorial blanco y negro",
         position: 0,
       },
     ],
@@ -234,7 +236,7 @@ export const mockProducts: Product[] = [
     name: "Conjunto Gris y Negro",
     slug: "conjunto-gris-y-negro",
     description:
-      "Conjunto gris y negro de dos piezas, comodo y pulido para resolver el look completo.",
+      "Conjunto gris y negro de dos piezas, cómodo y pulido para resolver el look completo.",
     price: 74900,
     category: "conjuntos",
     sizes: ["S", "M", "L"],
@@ -242,9 +244,8 @@ export const mockProducts: Product[] = [
     stockStatus: "available",
     images: [
       {
-        url: "/images/products/conjunto-gris-y-negro/main.webp",
-        path: "products/prod-conjunto-gris-y-negro/main.webp",
-        alt: "Conjunto gris y negro de dos piezas",
+        url: localImages.studioPortrait,
+        alt: "Conjunto Gris y Negro en fotografía editorial blanco y negro",
         position: 0,
       },
     ],
@@ -259,7 +260,7 @@ export const mockProducts: Product[] = [
     name: "Cartera Bordó Mini",
     slug: "cartera-bordo-mini",
     description:
-      "Cartera mini bordó para sumar un acento femenino y calido al outfit.",
+      "Cartera mini bordó para sumar un acento femenino y cálido al outfit.",
     price: 32900,
     category: "accesorios",
     sizes: ["Único"],
@@ -267,9 +268,8 @@ export const mockProducts: Product[] = [
     stockStatus: "available",
     images: [
       {
-        url: "/images/products/cartera-bordo-mini/main.webp",
-        path: "products/prod-accesorio-cartera-bordo/main.webp",
-        alt: "Cartera mini color bordó",
+        url: localImages.softLook,
+        alt: "Cartera Bordó Mini en fotografía editorial blanco y negro",
         position: 0,
       },
     ],
