@@ -51,48 +51,66 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   const products = selectedCategory
     ? getProductsByCategory(selectedCategory)
     : getVisibleProducts();
+  const selectedCategoryLabel = selectedCategory
+    ? categoryLabels[selectedCategory]
+    : "Toda la selección";
 
   return (
     <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
       <PublicHeader />
-      <main className="w-full pb-[120px]">
-        <header className="mx-auto w-full max-w-[1440px] px-5 pb-8 pt-[120px] text-center md:px-16 md:text-left">
-          <h1 className="editorial-title mb-4 text-5xl text-[#000000] md:text-[80px]">
-            The Curated
-            <br />
-            <span className="text-[#747878]">Collection.</span>
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg leading-[1.6] text-[#444748] md:mx-0">
-            Una selección asimétrica de piezas esenciales. Paletas tonales,
-            texturas urbanas y prendas pensadas para elevar el uso diario.
-          </p>
+      <main className="w-full pb-24">
+        <header className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 pb-10 pt-20 md:px-16 md:pb-14 md:pt-28 lg:grid-cols-12 lg:items-end lg:pt-[104px]">
+          <div className="lg:col-span-7">
+            <p className="label-caps mb-4 text-[#8a5a3c]">
+              {selectedCategoryLabel}
+            </p>
+            <h1 className="editorial-title text-[clamp(3.25rem,12vw,5rem)] leading-[1.02] text-[#2f140d] md:text-[80px]">
+              Nuestra
+              <br />
+              <span className="italic text-[#8a5a3c]">Colección.</span>
+            </h1>
+          </div>
+
+          <div className="max-w-xl lg:col-span-5 lg:justify-self-end">
+            <p className="text-base leading-[1.75] text-[#5f5048] md:text-lg">
+              Una selección curada de prendas urbanas, texturas cálidas y
+              siluetas fáciles de usar. Elegí una pieza y consultá stock por
+              WhatsApp, sin carrito ni pasos innecesarios.
+            </p>
+            <div className="mt-6 flex items-center gap-4">
+              <span className="h-px w-12 bg-[#c98b7a]/70" />
+              <p className="label-caps text-[#747878]">
+                {products.length} piezas visibles
+              </p>
+            </div>
+          </div>
         </header>
 
-        <div className="sticky top-[72px] z-40 w-full border-y border-[#c4c7c7]/20 bg-[#faf9f7]/95 backdrop-blur">
-          <Container className="flex flex-col items-center justify-between gap-2 py-2 md:flex-row">
-            <nav aria-label="Filtrar por categoría" className="w-full md:w-auto">
-              <ul className="no-scrollbar flex w-full gap-8 overflow-x-auto pb-2 md:w-auto md:pb-0">
+        <div className="sticky top-[68px] z-30 w-full border-y border-[#e7d8cc]/80 bg-[#faf9f7]/96 backdrop-blur-md">
+          <Container className="flex flex-col gap-3 py-3 md:flex-row md:items-center md:justify-between">
+            <nav aria-label="Filtrar por categoría" className="w-full">
+              <ul className="no-scrollbar flex w-full gap-6 overflow-x-auto pb-1 md:gap-8 md:pb-0">
                 <li>
                   <Link
                     className={[
-                      "label-caps pb-1 transition-colors",
+                      "label-caps whitespace-nowrap border-b pb-1 transition-colors",
                       selectedCategory
-                        ? "text-[#444748] hover:text-[#a03d3f]"
-                        : "border-b border-[#000000] text-[#000000]",
+                        ? "border-transparent text-[#5f5048] hover:border-[#c98b7a] hover:text-[#7a2e2e]"
+                        : "border-[#2f140d] text-[#2f140d]",
                     ].join(" ")}
                     href="/catalogo"
                   >
-                    All
+                    Todos
                   </Link>
                 </li>
                 {PRODUCT_CATEGORIES.map((category) => (
                   <li key={category}>
                     <Link
                       className={[
-                        "label-caps whitespace-nowrap pb-1 transition-colors",
+                        "label-caps whitespace-nowrap border-b pb-1 transition-colors",
                         selectedCategory === category
-                          ? "border-b border-[#000000] text-[#000000]"
-                          : "text-[#444748] hover:text-[#a03d3f]",
+                          ? "border-[#2f140d] text-[#2f140d]"
+                          : "border-transparent text-[#5f5048] hover:border-[#c98b7a] hover:text-[#7a2e2e]",
                       ].join(" ")}
                       href={`/catalogo?categoria=${category}`}
                     >
@@ -103,29 +121,28 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
               </ul>
             </nav>
 
-            <div className="hidden items-center gap-2 md:flex">
-              <span className="label-caps text-[#747878]">Talles:</span>
-              {["S", "M", "L"].map((size) => (
-                <span
-                  className="label-caps flex h-8 w-8 items-center justify-center rounded-full border border-[#c4c7c7] text-[#444748]"
-                  key={size}
-                >
-                  {size}
-                </span>
-              ))}
-            </div>
+            <p className="label-caps hidden shrink-0 text-[#8c7a6b] lg:block">
+              Catálogo editorial
+            </p>
           </Container>
         </div>
 
-        <section className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 py-8 md:grid-cols-12 md:px-16">
-          <div className="md:col-span-12">
-            <ProductGrid products={products} variant="editorial" />
-          </div>
+        <section className="mx-auto w-full max-w-[1440px] px-5 py-10 md:px-16 md:py-14">
+          <ProductGrid products={products} variant="editorial" />
         </section>
 
         <Container>
-          <div className="border-t border-[#e3e2e0] pt-8">
-            <WhatsAppCTA label="Consulta personalizada por WhatsApp" />
+          <div className="flex flex-col items-start justify-between gap-5 border-t border-[#e7d8cc] pt-8 md:flex-row md:items-center">
+            <div>
+              <p className="label-caps mb-2 text-[#8a5a3c]">
+                Asistencia personalizada
+              </p>
+              <p className="max-w-xl text-sm leading-7 text-[#5f5048]">
+                Si buscás un talle, color o combinación puntual, te ayudamos a
+                encontrar la prenda correcta por WhatsApp.
+              </p>
+            </div>
+            <WhatsAppCTA label="Consulta personalizada" variant="secondary" />
           </div>
         </Container>
       </main>

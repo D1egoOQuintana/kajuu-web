@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/footer";
 import { PublicHeader } from "@/components/layout/public-header";
 import { ProductGrid } from "@/components/product/product-grid";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
+import { Badge } from "@/components/ui/badge";
 import {
   getProductBySlug,
   getProductsByCategory,
@@ -24,6 +25,8 @@ type ProductDetailPageProps = {
     slug: string;
   }>;
 };
+
+type StockBadgeVariant = "available" | "soldOut" | "askStock";
 
 const fallbackImages: ProductImage[] = [
   {
@@ -61,6 +64,49 @@ const stockLabels: Record<ProductStockStatus, string> = {
   ask_stock: "Consultar stock",
 };
 
+const stockBadgeVariants: Record<ProductStockStatus, StockBadgeVariant> = {
+  available: "available",
+  sold_out: "soldOut",
+  ask_stock: "askStock",
+};
+
+const colorSwatches: Record<string, string> = {
+  azul: "bg-[#7da3b8]",
+  blanco: "bg-[#f7f1e8]",
+  bordó: "bg-[#7a2e2e]",
+  celeste: "bg-[#9ec5d8]",
+  chocolate: "bg-[#5a3428]",
+  grafito: "bg-[#4f5454]",
+  gris: "bg-[#8f8d88]",
+  marrón: "bg-[#8a5a3c]",
+  negro: "bg-[#1a1c1b]",
+  "off white": "bg-[#f5efe4]",
+};
+
+const careBlocks = [
+  {
+    title: "Detalles de la prenda",
+    body: "Prenda seleccionada para uso diario con calce cómodo, terminación prolija y estética urbana. Consultanos por medidas puntuales antes de coordinar.",
+  },
+  {
+    title: "Entregas",
+    body: "Coordinamos entregas en CABA y punto de encuentro en Floresta. Los tiempos se confirman por WhatsApp según disponibilidad.",
+  },
+  {
+    title: "Cambios y talles",
+    body: "Los cambios se revisan según estado de la prenda y disponibilidad de talle o color. Si tenés dudas, te ayudamos a elegir antes de reservar.",
+  },
+] as const;
+
+function getColorSwatchClass(color: string): string {
+  const normalizedColor = color.toLowerCase();
+  const matchedColor = Object.keys(colorSwatches).find((knownColor) =>
+    normalizedColor.includes(knownColor),
+  );
+
+  return matchedColor ? colorSwatches[matchedColor] : "bg-[#e8d6c0]";
+}
+
 export function generateStaticParams() {
   return getVisibleProducts().map((product) => ({
     slug: product.slug,
@@ -97,175 +143,176 @@ export default async function ProductDetailPage({
 
   const galleryImages =
     product.images.length > 0
-      ? [...product.images, ...fallbackImages].slice(0, 3)
+      ? [...product.images, ...fallbackImages].slice(0, 4)
       : fallbackImages;
   const mainImage = galleryImages[0];
   const relatedProducts = getProductsByCategory(product.category)
     .filter((relatedProduct) => relatedProduct.id !== product.id)
     .slice(0, 3);
+  const visibleRelatedProducts =
+    relatedProducts.length > 0
+      ? relatedProducts
+      : getVisibleProducts()
+          .filter((relatedProduct) => relatedProduct.id !== product.id)
+          .slice(0, 3);
 
   return (
     <div className="flex min-h-screen flex-col bg-[#faf9f7] text-[#1a1c1b]">
       <PublicHeader />
       <main className="flex-grow">
-        <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-8 px-5 py-8 lg:grid-cols-12 lg:gap-8 lg:px-16 lg:py-[120px]">
-          <div className="relative flex flex-col-reverse gap-4 lg:col-span-7 lg:flex-row lg:gap-8">
-            <div className="no-scrollbar flex shrink-0 gap-4 overflow-x-auto lg:w-24 lg:flex-col lg:overflow-visible">
+        <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-10 px-5 py-8 md:px-16 lg:grid-cols-[minmax(0,7fr)_minmax(22rem,5fr)] lg:gap-12 lg:py-24">
+          <div className="relative flex flex-col-reverse gap-4 lg:flex-row lg:gap-8">
+            <div className="no-scrollbar flex shrink-0 gap-3 overflow-x-auto lg:w-24 lg:flex-col lg:overflow-visible">
               {galleryImages.map((image, index) => (
                 <div
                   className={[
-                    "relative h-24 w-20 shrink-0 bg-[#efeeec] lg:h-32 lg:w-full",
+                    "relative h-24 w-20 shrink-0 border bg-[#efeeec] lg:h-32 lg:w-full",
                     index === 0
-                      ? "border border-[#000000]"
-                      : "border border-transparent hover:border-[#c4c7c7]",
+                      ? "border-[#2f140d]"
+                      : "border-[#e7d8cc] opacity-85",
                   ].join(" ")}
                   key={`${image.url}-${index}`}
                 >
                   <Image
                     alt={image.alt}
                     className="h-full w-full object-cover"
-                    height={160}
+                    height={180}
                     src={image.url}
-                    width={120}
+                    width={140}
                   />
                   <span className="absolute inset-0 bg-[#faf9f7]/20 transition-colors hover:bg-transparent" />
                 </div>
               ))}
             </div>
 
-            <div className="image-container relative flex-grow bg-[#efeeec] lg:h-[819px]">
+            <figure className="image-container relative min-h-[420px] flex-grow border border-[#e7d8cc]/70 bg-[#efeeec] md:min-h-[620px] lg:min-h-[760px]">
               <Image
                 alt={mainImage.alt}
-                className="h-full w-full object-cover object-center"
-                height={1200}
+                className="h-full w-full object-cover object-center sepia-[0.08]"
+                height={1300}
                 priority
                 src={mainImage.url}
-                width={900}
+                width={980}
               />
-            </div>
+              <figcaption className="absolute bottom-4 left-4 border border-[#faf9f7]/60 bg-[#2f140d]/78 px-3 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#faf9f7] backdrop-blur-sm">
+                Kajuu editorial
+              </figcaption>
+            </figure>
           </div>
 
-          <aside className="flex flex-col gap-8 pt-8 lg:sticky lg:top-32 lg:col-span-5 lg:h-fit lg:pl-8 lg:pt-0">
-            <div className="flex flex-col gap-2">
+          <aside className="flex flex-col gap-7 lg:sticky lg:top-28 lg:h-fit lg:pt-4">
+            <div>
               <Link
-                className="label-caps w-fit text-[#444748] transition-colors hover:text-[#000000]"
+                className="label-caps mb-3 inline-flex text-[#8a5a3c] transition-colors hover:text-[#7a2e2e]"
                 href="/catalogo"
               >
-                Catálogo
+                Volver al catálogo
               </Link>
-              <span className="label-caps text-[#444748]">
+              <p className="label-caps mb-3 text-[#5f5048]">
                 {categoryLabels[product.category]}
-              </span>
-              <h1 className="editorial-heading text-[32px] text-[#1a1c1b] lg:text-[48px]">
+              </p>
+              <h1 className="editorial-heading text-[clamp(2.45rem,9vw,3.65rem)] leading-[1.05] text-[#2f140d]">
                 {product.name}
               </h1>
-              <p className="mt-2 text-lg leading-[1.6] text-[#444748]">
+              <p className="mt-4 text-xl text-[#2f140d]">
                 {formatPriceARS(product.price)}
               </p>
-              <div className="mt-2 flex flex-col gap-1">
-                <p className="text-base font-medium text-[#000000]">
-                  {stockLabels[product.stockStatus]}
-                </p>
-                <p className="text-base leading-[1.6] text-[#444748]">
-                  Entregas en CABA y punto Floresta a coordinar.
-                </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <Badge variant={stockBadgeVariants[product.stockStatus]} />
+                {product.isNewArrival ? <Badge variant="new" /> : null}
+                {product.isFeatured ? <Badge variant="featured" /> : null}
               </div>
             </div>
 
-            <p className="text-base leading-[1.6] text-[#444748]">
-              {product.description}
-            </p>
-
-            <div className="flex flex-col gap-3">
-              <span className="label-caps text-[#1a1c1b]">
-                Color: {product.colors[0]}
-              </span>
-              <div className="flex gap-4">
-                {product.colors.map((color, index) => (
-                  <span
-                    aria-label={color}
-                    className={[
-                      "h-8 w-8 rounded-full border ring-2 ring-transparent ring-offset-2 ring-offset-[#faf9f7]",
-                      index === 0
-                        ? "border-[#000000] bg-[#a3c1d4]"
-                        : "border-[#c4c7c7] bg-[#2f3130]",
-                    ].join(" ")}
-                    key={color}
-                    role="img"
-                  />
-                ))}
-              </div>
+            <div className="border-y border-[#e7d8cc] py-6">
+              <p className="text-base leading-[1.75] text-[#5f5048]">
+                {product.description}
+              </p>
+              <p className="mt-4 text-sm leading-7 text-[#5f5048]">
+                {stockLabels[product.stockStatus]}. Entregas en CABA y punto
+                Floresta a coordinar.
+              </p>
             </div>
 
-            <div className="flex flex-col gap-3">
-              <div className="flex w-full items-center justify-between">
-                <span className="label-caps text-[#1a1c1b]">Talle</span>
-                <Link
-                  className="label-caps text-[#444748] underline decoration-[#c4c7c7] transition-colors hover:text-[#000000]"
-                  href="/guia-talles"
-                >
-                  Guía de Talles
-                </Link>
-              </div>
-              <div className="mt-2 flex flex-wrap gap-4">
-                {product.sizes.map((size, index) => (
-                  <span className="group relative pb-1" key={size}>
+            <div className="space-y-6">
+              <section aria-labelledby="product-colors">
+                <h2 className="label-caps mb-3 text-[#1a1c1b]" id="product-colors">
+                  Colores
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {product.colors.map((color) => (
                     <span
-                      className={[
-                        "label-caps transition-colors",
-                        index === 1 ? "text-[#000000]" : "text-[#444748]",
-                      ].join(" ")}
+                      className="inline-flex items-center gap-2 border border-[#e7d8cc] bg-[#faf9f7] px-3 py-2 text-xs text-[#5f5048]"
+                      key={color}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={[
+                          "h-4 w-4 rounded-full border border-[#2f140d]/20",
+                          getColorSwatchClass(color),
+                        ].join(" ")}
+                      />
+                      {color}
+                    </span>
+                  ))}
+                </div>
+              </section>
+
+              <section aria-labelledby="product-sizes">
+                <div className="mb-3 flex items-center justify-between gap-4">
+                  <h2 className="label-caps text-[#1a1c1b]" id="product-sizes">
+                    Talles
+                  </h2>
+                  <Link
+                    className="label-caps text-[#5f5048] underline decoration-[#c98b7a] transition-colors hover:text-[#7a2e2e]"
+                    href="/guia-talles"
+                  >
+                    Guía de talles
+                  </Link>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((size) => (
+                    <span
+                      className="label-caps inline-flex min-h-10 min-w-10 items-center justify-center border border-[#d8c6b8] bg-[#faf9f7] px-3 text-[#2f140d]"
+                      key={size}
                     >
                       {size}
                     </span>
-                    <span
-                      className={[
-                        "absolute bottom-0 left-0 h-px w-full origin-left bg-[#000000] transition-transform",
-                        index === 1 ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
-                      ].join(" ")}
-                    />
-                  </span>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </section>
             </div>
 
-            <div className="border-t border-[#c4c7c7]/30 pt-4">
+            <div>
               <WhatsAppCTA
-                className="w-full justify-between px-6"
+                className="w-full justify-center border-[#2f140d] bg-[#2f140d] text-[#faf9f7] hover:!border-[#7a2e2e] hover:!bg-[#7a2e2e]"
                 label="Consultar por WhatsApp"
                 productName={product.name}
                 size="lg"
-                variant="secondary"
               />
-              <p className="label-caps mt-4 text-center text-[#444748]">
-                Bespoke Assistance · Asesoramiento personalizado
+              <p className="label-caps mt-4 text-center text-[#8c7a6b]">
+                Asesoramiento personalizado
               </p>
             </div>
 
-            <div className="mt-4 flex flex-col">
-              {[
-                {
-                  title: "Entregas y cambios",
-                  body: "Coordinamos entregas en CABA y punto Floresta. Los cambios se revisan según disponibilidad de talle, color y estado de la prenda.",
-                },
-                {
-                  title: "Cuidados de la prenda",
-                  body: "Lavar con colores similares, secar a la sombra y evitar calor directo para preservar textura y color.",
-                },
-              ].map((item) => (
+            <div className="flex flex-col">
+              {careBlocks.map((item) => (
                 <details
-                  className="group border-b border-[#c4c7c7]/30 py-4"
+                  className="group border-b border-[#e7d8cc] py-4"
                   key={item.title}
                 >
-                  <summary className="flex cursor-pointer list-none items-center justify-between">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
                     <span className="label-caps text-[#1a1c1b]">
                       {item.title}
                     </span>
-                    <span className="text-[#444748] transition-transform group-open:rotate-180">
+                    <span
+                      aria-hidden="true"
+                      className="text-lg leading-none text-[#8a5a3c] transition-transform group-open:rotate-45"
+                    >
                       +
                     </span>
                   </summary>
-                  <p className="pt-4 text-base leading-[1.6] text-[#444748]">
+                  <p className="pt-4 text-sm leading-7 text-[#5f5048]">
                     {item.body}
                   </p>
                 </details>
@@ -274,15 +321,15 @@ export default async function ProductDetailPage({
           </aside>
         </section>
 
-        <section className="border-t border-[#c4c7c7]/20 bg-[#faf9f7]">
-          <div className="mx-auto max-w-[1440px] px-5 py-[120px] lg:px-16">
-            <div className="mb-8 flex flex-col items-center text-center">
-              <span className="label-caps mb-2 text-[#444748]">Editorial</span>
-              <h2 className="editorial-heading text-[32px] text-[#1a1c1b]">
-                Completa el Look
+        <section className="border-t border-[#e7d8cc] bg-[#faf9f7]">
+          <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-16 lg:py-24">
+            <div className="mb-10 flex flex-col items-center text-center">
+              <span className="label-caps mb-3 text-[#8a5a3c]">Editorial</span>
+              <h2 className="editorial-heading text-[32px] text-[#2f140d] md:text-[44px]">
+                Completa el look
               </h2>
             </div>
-            <ProductGrid products={relatedProducts} />
+            <ProductGrid products={visibleRelatedProducts} />
           </div>
         </section>
       </main>

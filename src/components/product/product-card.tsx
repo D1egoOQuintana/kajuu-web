@@ -88,9 +88,11 @@ export function ProductCard({
       ? imageAspectClasses.portrait
       : imageAspectClasses.tall;
   const badgeVariants = getProductBadgeVariants(product);
+  const primaryBadge = badgeVariants[0];
+  const secondaryBadge = badgeVariants[1];
 
   return (
-    <article className="editorial-card group flex h-full flex-col gap-2">
+    <article className="editorial-card group flex h-full flex-col">
       <Link
         aria-label={`Ver detalle de ${product.name}`}
         className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a03d3f]"
@@ -98,7 +100,7 @@ export function ProductCard({
       >
         <div
           className={[
-            "image-container relative overflow-hidden bg-[#f4f3f1]",
+            "image-container relative overflow-hidden border border-[#e7d8cc]/60 bg-[#efeeec]",
             aspectClass,
           ].join(" ")}
         >
@@ -120,24 +122,24 @@ export function ProductCard({
             />
           )}
 
-          <div className="absolute left-3 top-3 flex max-w-[calc(100%-1.5rem)] flex-wrap gap-1.5 sm:left-4 sm:top-4">
-            {badgeVariants.map((variant) => (
-              <Badge
-                className={variant === "askStock" ? "max-w-[9rem]" : undefined}
-                key={variant}
-                variant={variant}
-              />
-            ))}
+          <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-3 sm:inset-x-4 sm:top-4">
+            <Badge
+              className={primaryBadge === "askStock" ? "max-w-[9rem]" : undefined}
+              variant={primaryBadge}
+            />
+            {secondaryBadge ? (
+              <Badge className="hidden sm:inline-flex" variant={secondaryBadge} />
+            ) : null}
           </div>
         </div>
       </Link>
 
-      <div className="mt-2 flex flex-1 items-start justify-between gap-4 px-1">
-        <div>
-          <p className="label-caps mb-1 text-[#8a5a3c]">
+      <div className="mt-4 flex flex-1 items-start justify-between gap-4 px-1">
+        <div className="min-w-0">
+          <p className="label-caps mb-2 text-[#8a5a3c]">
             {categoryLabels[product.category]}
           </p>
-          <h3 className="text-base font-medium leading-6 text-[#2f140d]">
+          <h3 className="text-[0.96rem] font-medium leading-6 text-[#2f140d]">
             <Link
               className="transition-colors hover:text-[#7a2e2e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
               href={`/catalogo/${product.slug}`}
@@ -145,13 +147,13 @@ export function ProductCard({
               {product.name}
             </Link>
           </h3>
-          <p className="mt-1 text-base text-[#5f5048]">
+          <p className="mt-1 text-sm text-[#5f5048]">
             {formatPriceARS(product.price)}
           </p>
         </div>
 
         <WhatsAppCTA
-          className="!min-h-0 shrink-0 !border-transparent !bg-transparent !px-0 !py-0 text-[#5f5048] hover:!border-b-[#7a2e2e] hover:!bg-transparent hover:!text-[#7a2e2e]"
+          className="!min-h-0 shrink-0 !border-transparent !bg-transparent !px-0 !py-0 text-[0.62rem] text-[#5f5048] hover:!border-b-[#7a2e2e] hover:!bg-transparent hover:!text-[#7a2e2e]"
           label="Consultar"
           productName={product.name}
           size="sm"
