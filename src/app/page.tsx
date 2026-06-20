@@ -11,7 +11,7 @@ import { Footer } from "@/components/layout/footer";
 import { PublicHeader } from "@/components/layout/public-header";
 import { ProductGrid } from "@/components/product/product-grid";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
-import { getFeaturedProducts } from "@/features/catalog/catalog.service";
+import { getNewArrivalProducts } from "@/features/catalog/catalog.service";
 
 export const metadata: Metadata = {
   title: "Kajuu Indumentaria | Catálogo boutique femenino",
@@ -107,7 +107,7 @@ const instagramCards: InstagramCardStackItem[] = [
 ];
 
 export default function Home() {
-  const featuredProducts = getFeaturedProducts().slice(0, 3);
+  const newArrivals = getNewArrivalProducts().slice(0, 4);
 
   return (
     <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
@@ -136,7 +136,7 @@ export default function Home() {
               </p>
               <div className="flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap xl:ml-10 2xl:ml-12">
                 <Link
-                  className="inline-flex min-h-12 w-full min-w-[10.5rem] items-center justify-center whitespace-nowrap border border-[#24130d] bg-[#24130d] px-7 py-4 text-center text-[13px] font-semibold uppercase tracking-[0.12em] text-[#faf9f7] shadow-[0_10px_24px_rgba(47,20,13,0.12)] transition-colors duration-300 hover:border-[#7a2e2e] hover:bg-[#7a2e2e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e] sm:w-auto"
+                  className="inline-flex min-h-12 w-full min-w-[10.5rem] items-center justify-center whitespace-nowrap border border-[#2f140d] bg-[#e8d6c0] px-7 py-4 text-center text-[13px] font-semibold uppercase tracking-[0.14em] text-[#2f140d] shadow-[0_10px_24px_-12px_rgba(47,20,13,0.28)] transition-all duration-300 hover:bg-[#d4bf9f] hover:shadow-[0_14px_28px_-12px_rgba(47,20,13,0.32)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e] sm:w-auto"
                   href="/catalogo"
                 >
                   Ver catálogo
@@ -189,57 +189,62 @@ export default function Home() {
               <div className="mx-auto mt-5 h-px w-12 bg-[#8c7a6b]" />
             </div>
 
-            <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-3 md:gap-8">
+            <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-3 md:gap-10">
               {categoryHighlights.map((category, index) => (
                 <Link
                   className={[
-                    "group block",
-                    index === 1 ? "md:translate-y-5" : "",
+                    "group block text-center",
+                    index === 1 ? "md:translate-y-8" : "",
                   ]
                     .filter(Boolean)
                     .join(" ")}
                   href={category.href}
                   key={category.href}
                 >
-                  <div className="image-container mb-4 aspect-[5/6] max-h-[420px] bg-[#efeeec]">
+                  <div className="image-container mx-auto mb-5 aspect-[4/5] w-full max-w-[360px] bg-[#efeeec]">
                     <Image
                       alt={category.alt}
                       className="h-full w-full object-cover sepia-[0.08]"
-                      height={840}
+                      height={900}
                       src={category.image}
-                      width={700}
+                      width={720}
                     />
                   </div>
-                  <h3 className="editorial-heading text-center text-[29px] text-[#1a1c1b] transition-colors group-hover:text-[#8c7a6b] md:text-[32px]">
+                  <h3 className="editorial-heading mx-auto max-w-[360px] text-[26px] text-[#1a1c1b] transition-colors group-hover:text-[#8c7a6b] md:text-[30px]">
                     {category.label}
                   </h3>
+                  <span aria-hidden="true" className="mx-auto mt-3 block h-px w-10 bg-[#c98b7a]/60 transition-all duration-300 group-hover:w-16 group-hover:bg-[#8a5a3c]" />
                 </Link>
               ))}
             </div>
           </Container>
         </section>
 
-        <section className="relative z-10 mx-auto w-full max-w-[1440px] px-5 pb-16 pt-20 md:px-16 md:pb-20 md:pt-24">
-          <div className="mb-8 flex flex-col items-start justify-between border-b border-[#e7d8cc] pb-4 md:flex-row md:items-end">
-            <div>
-              <h2 className="editorial-heading text-[32px] italic text-[#2f140d] md:text-[48px]">
-                Shop the Look
+        {newArrivals.length > 0 ? (
+          <section
+            aria-labelledby="ultimos-ingresos-heading"
+            className="relative z-10 mx-auto w-full max-w-[1440px] px-5 pb-20 pt-20 md:px-16 md:pb-24 md:pt-24"
+          >
+            <div className="mb-10 flex items-end justify-between gap-6 border-b border-[#e7d8cc] pb-5 md:mb-14">
+              <h2
+                className="editorial-heading text-[32px] italic text-[#2f140d] md:text-[44px]"
+                id="ultimos-ingresos-heading"
+              >
+                Últimos ingresos
               </h2>
-              <p className="mt-2 text-base leading-[1.6] text-[#5f5048]">
-                Conjuntos estilizados para tu día a día.
-              </p>
+              <Link
+                aria-label="Ver todos los últimos ingresos"
+                className="label-caps inline-flex shrink-0 items-center gap-2 border-b border-[#2f140d] pb-1 text-[#2f140d] transition-colors hover:border-[#7a2e2e] hover:text-[#7a2e2e]"
+                href="/catalogo?filter=new"
+              >
+                Ver todos
+                <span aria-hidden="true">→</span>
+              </Link>
             </div>
-            <Link
-              className="label-caps mt-4 text-[#2f140d] transition-colors hover:text-[#8a5a3c] md:mt-0"
-              href="/catalogo"
-            >
-              Ver Todos
-            </Link>
-          </div>
-          <div className="pb-2">
-            <ProductGrid products={featuredProducts} />
-          </div>
-        </section>
+
+            <ProductGrid products={newArrivals} />
+          </section>
+        ) : null}
 
         <InstagramCardStackCarousel cards={instagramCards} />
       </main>

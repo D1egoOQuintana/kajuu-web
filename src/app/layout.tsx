@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter, Playfair_Display } from "next/font/google";
+
+import { WhatsAppFloating } from "@/components/product/whatsapp-floating";
 import "./globals.css";
 
 const inter = Inter({
@@ -40,7 +42,10 @@ export default function RootLayout({
       lang="es"
       className={`${inter.variable} ${playfair.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen antialiased">
+        {children}
+        <WhatsAppFloating />
+      </body>
     </html>
   );
 }

@@ -13,11 +13,11 @@ const baseClasses =
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "border-[#2f140d] bg-[#2f140d] text-[#ffffff] shadow-sm hover:border-[#7a2e2e] hover:bg-[#7a2e2e]",
+    "border-[#2f140d] bg-[#e8d6c0] font-semibold text-[#2f140d] tracking-[0.14em] shadow-[0_8px_20px_-12px_rgba(47,20,13,0.22)] hover:bg-[#d4bf9f] hover:shadow-[0_12px_26px_-12px_rgba(47,20,13,0.32)]",
   secondary:
-    "border-[#e7d8cc] bg-[#faf9f7] text-[#2f140d] hover:border-[#8a5a3c] hover:bg-[#f4f3f1]",
+    "border-[#2f140d] bg-[#faf9f7] font-semibold text-[#2f140d] tracking-[0.14em] hover:bg-[#f4f3f1] hover:border-[#7a2e2e]",
   ghost:
-    "border-transparent bg-transparent text-[#2f140d] hover:text-[#8a5a3c]",
+    "border-transparent bg-transparent font-semibold text-[#2f140d] tracking-[0.14em] hover:text-[#8a5a3c]",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {

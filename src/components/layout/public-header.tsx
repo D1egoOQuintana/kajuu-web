@@ -1,19 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 
 const leftNavigationItems = [
   { href: "/", label: "Inicio" },
   { href: "/catalogo", label: "Catálogo" },
-  { href: "/ultimos-ingresos", label: "Últimos ingresos" },
-  { href: "/lookbook", label: "Lookbook" },
 ] as const;
 
 const rightNavigationItems = [
   { href: "/como-comprar", label: "Cómo comprar" },
+  { href: "/guia-talles", label: "Guía de talles" },
   { href: "/contacto", label: "Contacto" },
 ] as const;
 
@@ -22,122 +21,196 @@ const mobileNavigationItems = [
   ...rightNavigationItems,
 ] as const;
 
+const SCROLL_HIDE_THRESHOLD = 80;
+const SCROLL_CAPSULE_THRESHOLD = 24;
+
 export function PublicHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isCapsule, setIsCapsule] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 8);
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const currentY = window.scrollY;
+      const previousY = lastScrollY.current;
+
+      setIsCapsule(currentY > SCROLL_CAPSULE_THRESHOLD);
+
+      if (currentY < SCROLL_HIDE_THRESHOLD) {
+        setIsHidden(false);
+      } else if (currentY > previousY + 4) {
+        setIsHidden(true);
+      } else if (currentY < previousY - 4) {
+        setIsHidden(false);
+      }
+
+      lastScrollY.current = currentY;
     };
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    const handleScroll = () => {
+      if (frame !== 0) return;
+      frame = window.requestAnimationFrame(update);
+    };
 
+    update();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      if (frame !== 0) window.cancelAnimationFrame(frame);
     };
   }, []);
 
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKey);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [isMenuOpen]);
+
   return (
-    <header
-      className={[
-        "kajuu-public-header sticky top-0 z-50 isolate border-b backdrop-blur-md transition-[background-color,border-color,box-shadow] duration-300",
-        isScrolled
-          ? "border-[#d8c6b8] bg-[#faf9f7]/98 shadow-[0_10px_30px_rgba(58,36,24,0.07)]"
-          : "border-[#e7d8cc]/80 bg-[#faf9f7]/94 shadow-[0_1px_0_rgba(58,36,24,0.04)]",
-      ].join(" ")}
-    >
+    <>
       <div
         className={[
-          "mx-auto grid w-full max-w-[1440px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4 px-5 sm:px-8 xl:gap-8 xl:px-16",
-          "transition-all duration-300",
-          isScrolled
-            ? "min-h-[60px] py-2 xl:min-h-[66px]"
-            : "min-h-[68px] py-3 xl:min-h-[76px]",
+          "kajuu-header-shell",
+          isCapsule ? "is-capsule" : "is-flush",
+          isHidden ? "is-hidden" : "is-visible",
         ].join(" ")}
       >
-        <nav
-          aria-label="Navegación principal izquierda"
-          className="hidden min-w-0 xl:block"
-        >
-          <ul className="flex min-w-0 items-center gap-5 2xl:gap-8">
+        <header className="kajuu-header-inner">
+          <nav
+            aria-label="Navegación principal izquierda"
+            className="kajuu-header-nav hidden xl:flex"
+          >
             {leftNavigationItems.map((item) => (
-              <li key={item.href}>
+              <Link
+                className="kajuu-header-link"
+                href={item.href}
+                key={item.href}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <Link
+            aria-label="Kajuu — ir al inicio"
+            className="kajuu-header-brand"
+            href="/"
+          >
+            <span className="kajuu-header-brand-full">Kajuu</span>
+            <span aria-hidden="true" className="kajuu-header-brand-mark">
+              K
+            </span>
+          </Link>
+
+          <div className="hidden items-center gap-6 xl:flex">
+            <nav aria-label="Navegación principal derecha" className="kajuu-header-nav">
+              {rightNavigationItems.map((item) => (
                 <Link
-                  className="nav-link label-caps whitespace-nowrap text-[#3a2418] transition-colors duration-300 hover:text-[#7a2e2e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
+                  className="kajuu-header-link"
                   href={item.href}
+                  key={item.href}
                 >
                   {item.label}
                 </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <span aria-hidden="true" className="xl:hidden" />
-
-        <Link
-          className="editorial-heading justify-self-center text-[29px] font-bold uppercase tracking-[-0.035em] text-[#2f140d] transition-colors duration-300 hover:text-[#7a2e2e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e] xl:text-[33px]"
-          href="/"
-        >
-          Kajuu
-        </Link>
-
-        <div className="hidden min-w-0 items-center justify-end gap-5 xl:flex 2xl:gap-8">
-          <nav aria-label="Navegación principal derecha">
-            <ul className="flex min-w-0 items-center gap-5 2xl:gap-8">
-              {rightNavigationItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    className="nav-link label-caps whitespace-nowrap text-[#3a2418] transition-colors duration-300 hover:text-[#7a2e2e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
-                    href={item.href}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
               ))}
-            </ul>
-          </nav>
-          <WhatsAppCTA label="WhatsApp" size="sm" variant="ghost" />
-        </div>
+            </nav>
+            <span aria-hidden="true" className="h-4 w-px bg-[#2f140d]/20" />
+            <WhatsAppCTA label="WhatsApp" size="sm" variant="ghost" />
+          </div>
 
-        <button
-          aria-controls="mobile-navigation"
-          aria-expanded={isMenuOpen}
-          aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-          className="justify-self-end border border-[#e7d8cc] bg-[#faf9f7]/90 px-4 py-3 text-[12px] font-semibold uppercase tracking-[0.15em] text-[#3a2418] transition-colors duration-300 hover:border-[#8a5a3c] hover:bg-[#f4f3f1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e] xl:hidden"
-          onClick={() => setIsMenuOpen((current) => !current)}
-          type="button"
-        >
-          {isMenuOpen ? "Cerrar" : "Menú"}
-        </button>
+          <button
+            aria-controls="kajuu-mobile-drawer"
+            aria-expanded={isMenuOpen}
+            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            className="kajuu-header-burger inline-flex xl:hidden"
+            onClick={() => setIsMenuOpen((current) => !current)}
+            type="button"
+          >
+            <span aria-hidden="true" className="kajuu-burger-line" />
+            <span aria-hidden="true" className="kajuu-burger-line" />
+            <span aria-hidden="true" className="kajuu-burger-line" />
+          </button>
+        </header>
       </div>
 
-      {isMenuOpen && (
-        <nav
-          aria-label="Navegación mobile"
-          className="border-t border-[#e7d8cc] bg-[#faf9f7]/98 backdrop-blur-md xl:hidden"
-          id="mobile-navigation"
-        >
-          <ul className="mx-auto flex w-full max-w-[1440px] flex-col px-5 py-5 sm:px-8">
-            {mobileNavigationItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  className="block border-b border-[#e7d8cc] py-4 text-lg text-[#2e2a27] transition-colors hover:text-[#7a2e2e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-            <li className="pt-5">
-              <WhatsAppCTA className="w-full" label="Consultar por WhatsApp" />
-            </li>
-          </ul>
+      {/* Mobile drawer — slide-in desde la derecha con backdrop */}
+      <div
+        aria-hidden={!isMenuOpen}
+        className={[
+          "kajuu-drawer-backdrop xl:hidden",
+          isMenuOpen ? "is-open" : "",
+        ].join(" ")}
+        onClick={() => setIsMenuOpen(false)}
+      />
+
+      <aside
+        aria-hidden={!isMenuOpen}
+        aria-label="Menú móvil"
+        aria-modal={isMenuOpen}
+        className={[
+          "kajuu-drawer xl:hidden",
+          isMenuOpen ? "is-open" : "",
+        ].join(" ")}
+        id="kajuu-mobile-drawer"
+        role="dialog"
+      >
+        <div className="flex items-center justify-between border-b border-[#e7d8cc] px-6 py-5">
+          <span className="editorial-heading text-2xl tracking-tight text-[#2f140d]">
+            Kajuu
+          </span>
+          <button
+            aria-label="Cerrar menú"
+            className="kajuu-drawer-close"
+            onClick={() => setIsMenuOpen(false)}
+            type="button"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+        <nav aria-label="Navegación móvil" className="flex flex-col px-6 py-4">
+          {mobileNavigationItems.map((item, index) => (
+            <Link
+              className="kajuu-drawer-link"
+              href={item.href}
+              key={item.href}
+              onClick={() => setIsMenuOpen(false)}
+              style={{ animationDelay: `${index * 60 + 120}ms` }}
+            >
+              <span className="kajuu-drawer-link-index">
+                0{index + 1}
+              </span>
+              <span className="kajuu-drawer-link-label">{item.label}</span>
+              <span aria-hidden="true" className="kajuu-drawer-link-arrow">
+                →
+              </span>
+            </Link>
+          ))}
         </nav>
-      )}
-    </header>
+
+        <div className="mt-auto border-t border-[#e7d8cc] px-6 py-6">
+          <p className="label-caps mb-3 text-[#7a2e2e]">Asistencia directa</p>
+          <WhatsAppCTA
+            className="w-full"
+            label="Consultar por WhatsApp"
+            variant="primary"
+          />
+        </div>
+      </aside>
+    </>
   );
 }

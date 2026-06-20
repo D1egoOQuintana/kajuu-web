@@ -7,6 +7,7 @@ import { PublicHeader } from "@/components/layout/public-header";
 import { ProductGrid } from "@/components/product/product-grid";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 import {
+  getNewArrivalProducts,
   getProductsByCategory,
   getVisibleProducts,
 } from "@/features/catalog/catalog.service";
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
 type CatalogPageProps = {
   searchParams?: Promise<{
     categoria?: string | string[];
+    filter?: string | string[];
   }>;
 };
 
@@ -41,19 +43,37 @@ function isProductCategory(value: string): value is ProductCategory {
   return PRODUCT_CATEGORIES.includes(value as ProductCategory);
 }
 
+function readFirstParam(
+  value: string | string[] | undefined,
+): string | undefined {
+  if (Array.isArray(value)) {
+    return value[0];
+  }
+  return value;
+}
+
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   const resolvedSearchParams = await searchParams;
-  const categoryParam = resolvedSearchParams?.categoria;
+  const filterParam = readFirstParam(resolvedSearchParams?.filter);
+  const categoryParam = readFirstParam(resolvedSearchParams?.categoria);
+
+  const isNewFilter = filterParam === "new";
   const selectedCategory =
-    typeof categoryParam === "string" && isProductCategory(categoryParam)
+    !isNewFilter && categoryParam && isProductCategory(categoryParam)
       ? categoryParam
       : undefined;
-  const products = selectedCategory
-    ? getProductsByCategory(selectedCategory)
-    : getVisibleProducts();
-  const selectedCategoryLabel = selectedCategory
-    ? categoryLabels[selectedCategory]
-    : "Toda la selección";
+
+  const products = isNewFilter
+    ? getNewArrivalProducts()
+    : selectedCategory
+      ? getProductsByCategory(selectedCategory)
+      : getVisibleProducts();
+
+  const selectedLabel = isNewFilter
+    ? "Últimos ingresos"
+    : selectedCategory
+      ? categoryLabels[selectedCategory]
+      : "Toda la selección";
 
   return (
     <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
@@ -61,21 +81,21 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
       <main className="w-full pb-24">
         <header className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 pb-10 pt-20 md:px-16 md:pb-14 md:pt-28 lg:grid-cols-12 lg:items-end lg:pt-[104px]">
           <div className="lg:col-span-7">
-            <p className="label-caps mb-4 text-[#8a5a3c]">
-              {selectedCategoryLabel}
-            </p>
+            <p className="label-caps mb-4 text-[#8a5a3c]">{selectedLabel}</p>
             <h1 className="editorial-title text-[clamp(3.25rem,12vw,5rem)] leading-[1.02] text-[#2f140d] md:text-[80px]">
-              Nuestra
+              {isNewFilter ? "Últimos" : "Nuestra"}
               <br />
-              <span className="italic text-[#8a5a3c]">Colección.</span>
+              <span className="italic text-[#8a5a3c]">
+                {isNewFilter ? "ingresos." : "Colección."}
+              </span>
             </h1>
           </div>
 
           <div className="max-w-xl lg:col-span-5 lg:justify-self-end">
             <p className="text-base leading-[1.75] text-[#5f5048] md:text-lg">
-              Una selección curada de prendas urbanas, texturas cálidas y
-              siluetas fáciles de usar. Elegí una pieza y consultá stock por
-              WhatsApp, sin carrito ni pasos innecesarios.
+              {isNewFilter
+                ? "Las piezas que entraron al showroom esta temporada. Calce, textura y actitud para renovar el uso diario, sin carrito ni pasos innecesarios."
+                : "Una selección curada de prendas urbanas, texturas cálidas y siluetas fáciles de usar. Elegí una pieza y consultá stock por WhatsApp, sin carrito ni pasos innecesarios."}
             </p>
             <div className="mt-6 flex items-center gap-4">
               <span className="h-px w-12 bg-[#c98b7a]/70" />
@@ -88,24 +108,44 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
 
         <div className="sticky top-[68px] z-30 w-full border-y border-[#e7d8cc]/80 bg-[#faf9f7]/96 backdrop-blur-md">
           <Container className="flex flex-col gap-3 py-3 md:flex-row md:items-center md:justify-between">
-            <nav aria-label="Filtrar por categoría" className="w-full">
+            <nav aria-label="Filtrar el catálogo" className="w-full">
               <ul className="no-scrollbar flex w-full gap-6 overflow-x-auto pb-1 md:gap-8 md:pb-0">
                 <li>
                   <Link
+                    aria-current={
+                      !isNewFilter && !selectedCategory ? "page" : undefined
+                    }
                     className={[
                       "label-caps whitespace-nowrap border-b pb-1 transition-colors",
-                      selectedCategory
-                        ? "border-transparent text-[#5f5048] hover:border-[#c98b7a] hover:text-[#7a2e2e]"
-                        : "border-[#2f140d] text-[#2f140d]",
+                      !isNewFilter && !selectedCategory
+                        ? "border-[#2f140d] text-[#2f140d]"
+                        : "border-transparent text-[#5f5048] hover:border-[#c98b7a] hover:text-[#7a2e2e]",
                     ].join(" ")}
                     href="/catalogo"
                   >
                     Todos
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    aria-current={isNewFilter ? "page" : undefined}
+                    className={[
+                      "label-caps whitespace-nowrap border-b pb-1 transition-colors",
+                      isNewFilter
+                        ? "border-[#7a2e2e] text-[#7a2e2e]"
+                        : "border-transparent text-[#5f5048] hover:border-[#c98b7a] hover:text-[#7a2e2e]",
+                    ].join(" ")}
+                    href="/catalogo?filter=new"
+                  >
+                    Últimos ingresos
+                  </Link>
+                </li>
                 {PRODUCT_CATEGORIES.map((category) => (
                   <li key={category}>
                     <Link
+                      aria-current={
+                        selectedCategory === category ? "page" : undefined
+                      }
                       className={[
                         "label-caps whitespace-nowrap border-b pb-1 transition-colors",
                         selectedCategory === category

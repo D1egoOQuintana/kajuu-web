@@ -68,7 +68,7 @@ export default function LookbookPage() {
         >
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              className="inline-flex min-h-12 items-center justify-center border border-[#2f140d] bg-[#2f140d] px-5 text-center text-[0.72rem] font-medium uppercase tracking-[0.1em] text-[#faf9f7] transition-colors duration-300 hover:border-[#7a2e2e] hover:bg-[#7a2e2e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
+              className="inline-flex min-h-12 items-center justify-center border border-[#2f140d] bg-[#e8d6c0] px-5 text-center text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#2f140d] shadow-[0_8px_20px_-12px_rgba(47,20,13,0.28)] transition-all duration-300 hover:bg-[#d4bf9f] hover:shadow-[0_12px_26px_-12px_rgba(47,20,13,0.32)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
               href="/catalogo"
             >
               Ver catálogo

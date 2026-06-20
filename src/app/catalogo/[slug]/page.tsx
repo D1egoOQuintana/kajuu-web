@@ -285,7 +285,7 @@ export default async function ProductDetailPage({
 
             <div>
               <WhatsAppCTA
-                className="w-full justify-center border-[#2f140d] bg-[#2f140d] text-[#faf9f7] hover:!border-[#7a2e2e] hover:!bg-[#7a2e2e]"
+                className="w-full justify-center !min-h-14 !text-[0.78rem]"
                 label="Consultar por WhatsApp"
                 productName={product.name}
                 size="lg"
