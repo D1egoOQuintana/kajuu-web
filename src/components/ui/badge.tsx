@@ -22,12 +22,12 @@ const badgeLabels: Record<BadgeVariant, string> = {
 };
 
 const variantClasses: Record<BadgeVariant, string> = {
-  new: "border-[#faf9f7] bg-[#faf9f7] text-[#000000] shadow-sm",
-  featured: "border-[#000000] bg-[#000000] text-[#ffffff] shadow-sm",
-  available: "rounded-full border-[#faf9f7]/80 bg-[#faf9f7]/80 text-[#000000] shadow-sm backdrop-blur",
-  soldOut: "rounded-full border-[#faf9f7]/80 bg-[#faf9f7]/80 text-[#444748] shadow-sm backdrop-blur",
-  askStock: "rounded-full border-[#faf9f7]/80 bg-[#faf9f7]/80 text-[#a03d3f] shadow-sm backdrop-blur",
-  neutral: "border-[#c4c7c7] bg-[#ffffff] text-[#444748]",
+  new: "border-[#e7d8cc]/85 bg-[#faf9f7]/92 text-[#2f140d] backdrop-blur-sm",
+  featured: "border-[#2f140d]/85 bg-[#2f140d]/92 text-[#faf9f7] backdrop-blur-sm",
+  available: "border-[#e7d8cc]/85 bg-[#faf9f7]/92 text-[#3a2418] backdrop-blur-sm",
+  soldOut: "border-[#c4c7c7]/85 bg-[#faf9f7]/92 text-[#444748] backdrop-blur-sm",
+  askStock: "border-[#d8b9b1]/85 bg-[#faf9f7]/92 text-[#7a2e2e] backdrop-blur-sm",
+  neutral: "border-[#c4c7c7] bg-[#faf9f7] text-[#444748]",
 };
 
 export function Badge({
@@ -39,7 +39,7 @@ export function Badge({
   return (
     <span
       className={[
-        "label-caps inline-flex w-fit items-center border px-3 py-1 leading-none",
+        "inline-flex w-fit max-w-full items-center border px-2 py-1 text-[0.62rem] font-semibold uppercase leading-none tracking-[0.08em]",
         variantClasses[variant],
         className,
       ]

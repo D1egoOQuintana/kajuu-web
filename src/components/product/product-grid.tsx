@@ -39,7 +39,7 @@ export function ProductGrid({
 }: ProductGridProps) {
   if (products.length === 0) {
     return (
-      <div className="border border-[#e7d8cc] bg-[#fffdf9]/80 px-5 py-12 text-center">
+      <div className="border border-[#e7d8cc] bg-[#f4f3f1]/80 px-5 py-12 text-center">
         <h2 className="editorial-heading text-3xl text-[#2f140d]">
           No hay productos disponibles.
         </h2>

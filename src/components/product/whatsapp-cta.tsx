@@ -15,7 +15,7 @@ const variantClasses: Record<WhatsAppCTAVariant, string> = {
   primary:
     "border-[#000000] bg-[#000000] text-[#ffffff] hover:border-[#8c7a6b] hover:bg-[#8c7a6b]",
   secondary:
-    "border-[#c4c7c7] bg-[#ffffff] text-[#000000] hover:border-[#000000]",
+    "border-[#c4c7c7] bg-[#faf9f7] text-[#000000] hover:border-[#000000] hover:bg-[#f4f3f1]",
   ghost:
     "border-transparent bg-transparent text-[#000000] hover:text-[#8c7a6b]",
 };

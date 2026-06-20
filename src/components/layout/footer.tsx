@@ -16,8 +16,8 @@ const exploreLinks = [
 
 export function Footer() {
   return (
-    <footer className="mt-[120px] w-full bg-[#000000] text-[#ffffff]">
-      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 py-[120px] md:grid-cols-4 md:px-16">
+    <footer className="mt-0 w-full bg-[#000000] text-[#ffffff]">
+      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 py-20 md:grid-cols-4 md:px-16 md:py-24">
         <div className="col-span-1 md:col-span-2">
           <Link
             className="editorial-heading mb-8 block w-fit text-[48px] uppercase tracking-[-0.04em] text-[#ffffff] transition-colors duration-300 hover:text-[#a03d3f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a03d3f]"

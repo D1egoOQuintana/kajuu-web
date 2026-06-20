@@ -3,11 +3,7 @@ import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { formatPriceARS } from "@/lib/utils/format-price";
-import type {
-  Product,
-  ProductCategory,
-  ProductStockStatus,
-} from "@/types/product";
+import type { Product, ProductCategory } from "@/types/product";
 
 import { WhatsAppCTA } from "./whatsapp-cta";
 
@@ -19,6 +15,13 @@ type ProductCardProps = {
   imageAspect?: ProductImageAspect;
 };
 
+type ProductBadgeVariant =
+  | "new"
+  | "featured"
+  | "available"
+  | "soldOut"
+  | "askStock";
+
 const categoryLabels: Record<ProductCategory, string> = {
   jeans: "Jeans",
   tops: "Tops",
@@ -29,15 +32,6 @@ const categoryLabels: Record<ProductCategory, string> = {
   conjuntos: "Conjuntos",
   accesorios: "Accesorios",
   otros: "Otros",
-};
-
-const stockBadgeVariant: Record<
-  ProductStockStatus,
-  "available" | "soldOut" | "askStock"
-> = {
-  available: "available",
-  sold_out: "soldOut",
-  ask_stock: "askStock",
 };
 
 const placeholderTone: Record<ProductCategory, string> = {
@@ -59,6 +53,26 @@ const imageAspectClasses: Record<ProductImageAspect, string> = {
   wide: "aspect-[16/10] md:aspect-[21/9]",
 };
 
+function getProductBadgeVariants(product: Product): ProductBadgeVariant[] {
+  if (product.stockStatus === "sold_out") {
+    return ["soldOut"];
+  }
+
+  if (product.stockStatus === "ask_stock") {
+    return ["askStock"];
+  }
+
+  if (product.isNewArrival) {
+    return ["new", "available"];
+  }
+
+  if (product.isFeatured) {
+    return ["featured", "available"];
+  }
+
+  return ["available"];
+}
+
 export function ProductCard({
   product,
   compact = false,
@@ -73,6 +87,7 @@ export function ProductCard({
     : compact
       ? imageAspectClasses.portrait
       : imageAspectClasses.tall;
+  const badgeVariants = getProductBadgeVariants(product);
 
   return (
     <article className="editorial-card group flex h-full flex-col gap-2">
@@ -83,14 +98,14 @@ export function ProductCard({
       >
         <div
           className={[
-            "image-container relative overflow-hidden bg-[#f4eee8]",
+            "image-container relative overflow-hidden bg-[#f4f3f1]",
             aspectClass,
           ].join(" ")}
         >
           {primaryImage ? (
             <Image
               alt={primaryImage.alt}
-                className="product-img object-cover sepia-[0.08]"
+              className="product-img object-cover sepia-[0.08]"
               fill
               sizes="(min-width: 1280px) 25vw, (min-width: 768px) 40vw, 100vw"
               src={primaryImage.url}
@@ -105,12 +120,14 @@ export function ProductCard({
             />
           )}
 
-          <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-            {product.isNewArrival && <Badge variant="new">NEW IN</Badge>}
-            {product.isFeatured && <Badge variant="featured">LIMITED</Badge>}
-          </div>
-          <div className="absolute right-4 top-4">
-            <Badge variant={stockBadgeVariant[product.stockStatus]} />
+          <div className="absolute left-3 top-3 flex max-w-[calc(100%-1.5rem)] flex-wrap gap-1.5 sm:left-4 sm:top-4">
+            {badgeVariants.map((variant) => (
+              <Badge
+                className={variant === "askStock" ? "max-w-[9rem]" : undefined}
+                key={variant}
+                variant={variant}
+              />
+            ))}
           </div>
         </div>
       </Link>

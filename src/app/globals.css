@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fff8f1;
-  --foreground: #2e2a27;
-  --surface: #fff8f1;
+  --background: #faf9f7;
+  --foreground: #1a1c1b;
+  --surface: #faf9f7;
   --surface-container-lowest: #ffffff;
   --surface-container-low: #f4f3f1;
   --surface-container: #efeeec;
@@ -37,14 +37,14 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 88px;
   background: var(--background);
 }
 
 body {
   min-height: 100vh;
   overflow-x: hidden;
-  background:
-    linear-gradient(180deg, #fff8f1 0%, #faf9f7 44%, #fff8f1 100%);
+  background: var(--surface);
   color: var(--foreground);
   font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   text-rendering: optimizeLegibility;
@@ -119,8 +119,18 @@ a {
   width: 3rem;
 }
 
+.kajuu-public-header::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -12px;
+  height: 12px;
+  background: linear-gradient(180deg, rgba(58, 36, 24, 0.055), transparent);
+  pointer-events: none;
+}
+
 .image-wash {
-  background: #f4eee8;
+  background: var(--surface-container-low);
 }
 
 .product-placeholder {
@@ -237,6 +247,138 @@ a {
   }
 }
 
+@keyframes kajuu-card-stack-loop {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.kajuu-card-stack-section {
+  overflow: hidden;
+  border-top: 1px solid #e7d8cc;
+  background: #faf9f7;
+  padding-block: 2.75rem 2.25rem;
+}
+
+.kajuu-card-stack-viewport {
+  min-height: clamp(17.5rem, 30vw, 25.5rem);
+  overflow: hidden;
+  padding-block: 0.75rem 1.25rem;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+.kajuu-card-stack-track {
+  display: flex;
+  width: max-content;
+  min-width: 200%;
+  align-items: center;
+  padding-inline: max(1.25rem, calc((100vw - 1440px) / 2 + 4rem));
+  animation: kajuu-card-stack-loop 38s linear infinite;
+  will-change: transform;
+}
+
+.kajuu-card-stack-viewport:hover .kajuu-card-stack-track,
+.kajuu-card-stack-viewport:focus-within .kajuu-card-stack-track {
+  animation-play-state: paused;
+}
+
+.kajuu-card-stack-slide {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 clamp(11.25rem, 17.5vw, 16rem);
+  margin-left: clamp(-1.25rem, -1.8vw, -0.5rem);
+  transform: translateY(var(--stack-lift)) rotate(var(--stack-rotate));
+  transform-origin: center 72%;
+  transition:
+    transform 260ms ease,
+    z-index 260ms ease;
+}
+
+.kajuu-card-stack-slide:first-child {
+  margin-left: 0;
+}
+
+.kajuu-card-stack-slide:hover,
+.kajuu-card-stack-slide:focus-visible {
+  z-index: 20;
+  transform: translateY(calc(var(--stack-lift) - 0.45rem)) rotate(0deg) scale(1.025);
+}
+
+.kajuu-card-stack-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid rgba(231, 216, 204, 0.95);
+  background: #e8d6c0;
+  box-shadow:
+    0 1.4rem 3rem rgba(47, 20, 13, 0.16),
+    0 0.25rem 0.75rem rgba(47, 20, 13, 0.08);
+}
+
+.kajuu-card-stack-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 35%, rgba(47, 20, 13, 0.7) 100%),
+    linear-gradient(90deg, rgba(138, 90, 60, 0.18), transparent 42%);
+  pointer-events: none;
+}
+
+.kajuu-card-stack-card img {
+  transition: transform 700ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.kajuu-card-stack-slide:hover img,
+.kajuu-card-stack-slide:focus-visible img {
+  transform: scale(1.04);
+}
+
+.kajuu-card-stack-content {
+  position: absolute;
+  inset-inline: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+}
+
+@media (max-width: 767px) {
+  .kajuu-card-stack-section {
+    padding-block: 2.25rem 1.75rem;
+  }
+
+  .kajuu-card-stack-viewport {
+    min-height: 17rem;
+    overflow-x: auto;
+    padding-block: 0.5rem 1rem;
+    scrollbar-width: none;
+    mask-image: none;
+  }
+
+  .kajuu-card-stack-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .kajuu-card-stack-track {
+    padding-inline: 1rem;
+    animation-duration: 26s;
+  }
+
+  .kajuu-card-stack-slide {
+    flex-basis: min(70vw, 11.5rem);
+    margin-left: -0.35rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    scroll-padding-top: 96px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -253,6 +395,22 @@ a {
 
   .instagram-marquee-track {
     animation: none !important;
+    transform: none !important;
+  }
+
+  .kajuu-card-stack-viewport {
+    overflow-x: auto;
+    mask-image: none;
+  }
+
+  .kajuu-card-stack-track {
+    animation: none !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .kajuu-card-stack-slide {
+    margin-left: 0.75rem;
     transform: none !important;
   }
 }
