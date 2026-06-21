@@ -19,7 +19,7 @@ export function PageHero({
 }: PageHeroProps) {
   return (
     <header className="bg-[#faf9f7]">
-      <Container className="grid gap-8 pb-10 pt-20 md:pb-14 md:pt-28 lg:grid-cols-12 lg:items-end lg:pt-[104px]">
+      <Container className="grid gap-8 pb-10 pt-28 md:pb-14 md:pt-36 lg:grid-cols-12 lg:items-end lg:pt-[136px]">
         <div className="lg:col-span-7">
           <p className="label-caps mb-4 text-[#8a5a3c]">{eyebrow}</p>
           <h1 className="editorial-title text-[clamp(3.15rem,12vw,5rem)] leading-[1.02] text-[#2f140d] md:text-[80px]">

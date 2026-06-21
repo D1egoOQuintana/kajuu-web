@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { KajuuFaq } from "@/components/content/kajuu-faq";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
 import { PublicHeader } from "@/components/layout/public-header";
@@ -65,7 +66,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
       <PublicHeader />
       <main className="pb-24">
-        <Container className="pt-20 pb-12 md:pt-28 md:pb-16">
+        <Container className="pt-28 pb-12 md:pt-36 md:pb-16">
           <div className="max-w-3xl">
             <p className="label-caps mb-5 block text-[#7a2e2e] fade-in-up">
               Contacto y dudas
@@ -170,29 +171,7 @@ export default function ContactPage() {
                 Preguntas Frecuentes
               </h2>
 
-              <div className="flex flex-col">
-                {faqs.map((faq) => (
-                  <details
-                    className="group border-b border-[#e7d8cc] py-5 transition-colors"
-                    key={faq.question}
-                  >
-                    <summary className="faq-toggle flex cursor-pointer list-none items-center justify-between gap-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]">
-                      <h3 className="editorial-heading text-xl text-[#2f140d] transition-colors duration-300 group-hover:text-[#7a2e2e] md:text-2xl">
-                        {faq.question}
-                      </h3>
-                      <span
-                        aria-hidden="true"
-                        className="faq-icon shrink-0 text-2xl font-light leading-none text-[#8a5a3c]"
-                      >
-                        +
-                      </span>
-                    </summary>
-                    <p className="max-w-3xl pt-4 pr-6 text-[15px] leading-7 text-[#5f5048]">
-                      {faq.answer}
-                    </p>
-                  </details>
-                ))}
-              </div>
+              <KajuuFaq items={[...faqs]} />
 
               <div className="mt-12 flex flex-col items-start justify-between gap-5 rounded-xl border border-[#e7d8cc] bg-[#f4f3f1] p-7 md:flex-row md:items-center md:p-8">
                 <div className="max-w-lg">

@@ -78,7 +78,7 @@ export default function SizeGuidePage() {
     <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
       <PublicHeader />
       <main className="pb-24">
-        <Container className="pt-20 pb-12 md:pt-28 md:pb-16">
+        <Container className="pt-28 pb-12 md:pt-36 md:pb-16">
           <div className="max-w-3xl">
             <p
               className="label-caps mb-5 block text-[#7a2e2e] fade-in-up"
@@ -147,38 +147,27 @@ export default function SizeGuidePage() {
               {/* Tablas */}
               <div className="flex flex-col gap-10 lg:col-span-8">
                 <div className="overflow-x-auto">
-                  <h3 className="label-caps mb-4 text-[#2f140d]">
+                  <h3 className="label-caps mb-5 text-[#2f140d]">
                     Tops & Sweaters (cm)
                   </h3>
-                  <table className="w-full min-w-[480px] border-collapse text-left">
+                  <table className="kajuu-size-table min-w-[480px]">
                     <thead>
-                      <tr className="border-b-2 border-[#2f140d]">
-                        <th className="label-caps py-4 text-[#5f5048]" scope="col">
-                          Talle
-                        </th>
-                        <th className="label-caps py-4 text-[#5f5048]" scope="col">
-                          Busto
-                        </th>
-                        <th className="label-caps py-4 text-[#5f5048]" scope="col">
-                          Cintura
-                        </th>
-                        <th className="label-caps py-4 text-[#5f5048]" scope="col">
-                          Largo
-                        </th>
+                      <tr>
+                        <th scope="col">Talle</th>
+                        <th scope="col">Busto</th>
+                        <th scope="col">Cintura</th>
+                        <th scope="col">Largo</th>
                       </tr>
                     </thead>
                     <tbody>
                       {topsSweaters.map((row) => (
-                        <tr
-                          className="border-b border-[#e7d8cc]/60 transition-colors hover:bg-[#f4f3f1]"
-                          key={row.size}
-                        >
-                          <th className="py-5 text-base font-medium text-[#2f140d]" scope="row">
+                        <tr key={row.size}>
+                          <th className="size-letter" scope="row">
                             {row.size}
                           </th>
-                          <td className="py-5 text-[#5f5048]">{row.bust}</td>
-                          <td className="py-5 text-[#5f5048]">{row.waist}</td>
-                          <td className="py-5 text-[#5f5048]">{row.length}</td>
+                          <td className="size-value">{row.bust}</td>
+                          <td className="size-value">{row.waist}</td>
+                          <td className="size-value">{row.length}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -186,38 +175,27 @@ export default function SizeGuidePage() {
                 </div>
 
                 <div className="overflow-x-auto">
-                  <h3 className="label-caps mb-4 text-[#2f140d]">
+                  <h3 className="label-caps mb-5 text-[#2f140d]">
                     Jeans & Bottoms (cm)
                   </h3>
-                  <table className="w-full min-w-[480px] border-collapse text-left">
+                  <table className="kajuu-size-table min-w-[480px]">
                     <thead>
-                      <tr className="border-b-2 border-[#2f140d]">
-                        <th className="label-caps py-4 text-[#5f5048]" scope="col">
-                          Talle / Eq
-                        </th>
-                        <th className="label-caps py-4 text-[#5f5048]" scope="col">
-                          Cintura
-                        </th>
-                        <th className="label-caps py-4 text-[#5f5048]" scope="col">
-                          Cadera
-                        </th>
-                        <th className="label-caps py-4 text-[#5f5048]" scope="col">
-                          Entrepierna
-                        </th>
+                      <tr>
+                        <th scope="col">Talle / Eq</th>
+                        <th scope="col">Cintura</th>
+                        <th scope="col">Cadera</th>
+                        <th scope="col">Entrepierna</th>
                       </tr>
                     </thead>
                     <tbody>
                       {jeansBottoms.map((row) => (
-                        <tr
-                          className="border-b border-[#e7d8cc]/60 transition-colors hover:bg-[#f4f3f1]"
-                          key={row.size}
-                        >
-                          <th className="py-5 text-base font-medium text-[#2f140d]" scope="row">
+                        <tr key={row.size}>
+                          <th className="size-letter" scope="row">
                             {row.size}
                           </th>
-                          <td className="py-5 text-[#5f5048]">{row.waist}</td>
-                          <td className="py-5 text-[#5f5048]">{row.hip}</td>
-                          <td className="py-5 text-[#5f5048]">{row.inseam}</td>
+                          <td className="size-value">{row.waist}</td>
+                          <td className="size-value">{row.hip}</td>
+                          <td className="size-value">{row.inseam}</td>
                         </tr>
                       ))}
                     </tbody>

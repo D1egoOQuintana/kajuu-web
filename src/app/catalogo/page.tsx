@@ -79,7 +79,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
       <PublicHeader />
       <main className="w-full pb-24">
-        <header className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 pb-10 pt-20 md:px-16 md:pb-14 md:pt-28 lg:grid-cols-12 lg:items-end lg:pt-[104px]">
+        <header className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 pb-10 pt-28 md:px-16 md:pb-14 md:pt-36 lg:grid-cols-12 lg:items-end lg:pt-[136px]">
           <div className="lg:col-span-7">
             <p className="label-caps mb-4 text-[#8a5a3c]">{selectedLabel}</p>
             <h1 className="editorial-title text-[clamp(3.25rem,12vw,5rem)] leading-[1.02] text-[#2f140d] md:text-[80px]">
@@ -106,7 +106,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           </div>
         </header>
 
-        <div className="sticky top-[68px] z-30 w-full border-y border-[#e7d8cc]/80 bg-[#faf9f7]/96 backdrop-blur-md">
+        <div className="sticky top-[78px] z-30 w-full border-y border-[#e7d8cc]/80 bg-[#faf9f7]/96 backdrop-blur-md">
           <Container className="flex flex-col gap-3 py-3 md:flex-row md:items-center md:justify-between">
             <nav aria-label="Filtrar el catálogo" className="w-full">
               <ul className="no-scrollbar flex w-full gap-6 overflow-x-auto pb-1 md:gap-8 md:pb-0">

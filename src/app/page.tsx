@@ -113,7 +113,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
       <PublicHeader />
       <main className="relative z-0 overflow-x-clip">
-        <section className="relative isolate overflow-hidden bg-[#faf9f7] px-5 pb-12 pt-8 sm:pt-10 md:px-10 lg:px-16 lg:py-12">
+        <section className="relative isolate overflow-hidden bg-[#faf9f7] px-5 pb-12 pt-24 sm:pt-28 md:px-10 md:pt-32 lg:px-16 lg:pb-16 lg:pt-36">
           <div className="pointer-events-none absolute inset-y-8 right-0 hidden w-[42%] bg-[#f4f3f1] xl:block" />
           <div className="pointer-events-none absolute left-0 top-16 hidden h-px w-[18vw] bg-[#e7d8cc] xl:block" />
 

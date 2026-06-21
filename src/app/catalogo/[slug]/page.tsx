@@ -160,7 +160,7 @@ export default async function ProductDetailPage({
     <div className="flex min-h-screen flex-col bg-[#faf9f7] text-[#1a1c1b]">
       <PublicHeader />
       <main className="flex-grow">
-        <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-10 px-5 py-8 md:px-16 lg:grid-cols-[minmax(0,7fr)_minmax(22rem,5fr)] lg:gap-12 lg:py-24">
+        <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-10 px-5 pt-28 pb-12 md:px-16 md:pt-36 md:pb-16 lg:grid-cols-[minmax(0,7fr)_minmax(22rem,5fr)] lg:gap-12 lg:pt-[136px] lg:pb-24">
           <div className="relative flex flex-col-reverse gap-4 lg:flex-row lg:gap-8">
             <div className="no-scrollbar flex shrink-0 gap-3 overflow-x-auto lg:w-24 lg:flex-col lg:overflow-visible">
               {galleryImages.map((image, index) => (
