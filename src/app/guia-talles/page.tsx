@@ -80,21 +80,16 @@ export default function SizeGuidePage() {
       <main className="pb-24">
         <Container className="pt-28 pb-12 md:pt-36 md:pb-16">
           <div className="max-w-3xl">
-            <p
-              className="label-caps mb-5 block text-[#7a2e2e] fade-in-up"
-            >
+            <p className="label-caps mb-5 block text-[#7a2e2e]">
               Medidas y cambios
             </p>
             <h1
-              className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[#2f140d] md:text-[80px] fade-in-up"
-              style={{ animationDelay: "120ms", textWrap: "balance" }}
+              className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[#2f140d] md:text-[80px]"
+              style={{ textWrap: "balance" }}
             >
               Guía de Talles y Cambios
             </h1>
-            <p
-              className="mt-6 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg fade-in-up"
-              style={{ animationDelay: "240ms" }}
-            >
+            <p className="mt-6 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg">
               Encontrá tu calce perfecto. Las medidas son orientativas y pueden
               variar según tela y silueta, por eso siempre podemos confirmar
               dudas puntuales por WhatsApp.

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { SortSelect, type SortOption } from "@/components/catalog/sort-select";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
 import { PublicHeader } from "@/components/layout/public-header";
@@ -11,8 +12,28 @@ import {
   getProductsByCategory,
   getVisibleProducts,
 } from "@/features/catalog/catalog.service";
-import type { ProductCategory } from "@/types/product";
+import type { Product, ProductCategory } from "@/types/product";
 import { PRODUCT_CATEGORIES } from "@/types/product";
+
+const VALID_SORTS: ReadonlySet<SortOption> = new Set([
+  "recent",
+  "price-asc",
+  "price-desc",
+]);
+
+function isSortOption(value: string): value is SortOption {
+  return VALID_SORTS.has(value as SortOption);
+}
+
+function sortProducts(products: Product[], sort: SortOption): Product[] {
+  if (sort === "price-asc") {
+    return [...products].sort((a, b) => a.price - b.price);
+  }
+  if (sort === "price-desc") {
+    return [...products].sort((a, b) => b.price - a.price);
+  }
+  return products;
+}
 
 export const metadata: Metadata = {
   title: "Catálogo | Kajuu Indumentaria",
@@ -24,6 +45,7 @@ type CatalogPageProps = {
   searchParams?: Promise<{
     categoria?: string | string[];
     filter?: string | string[];
+    sort?: string | string[];
   }>;
 };
 
@@ -56,18 +78,22 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   const resolvedSearchParams = await searchParams;
   const filterParam = readFirstParam(resolvedSearchParams?.filter);
   const categoryParam = readFirstParam(resolvedSearchParams?.categoria);
+  const sortParam = readFirstParam(resolvedSearchParams?.sort);
 
   const isNewFilter = filterParam === "new";
   const selectedCategory =
     !isNewFilter && categoryParam && isProductCategory(categoryParam)
       ? categoryParam
       : undefined;
+  const selectedSort: SortOption =
+    sortParam && isSortOption(sortParam) ? sortParam : "recent";
 
-  const products = isNewFilter
+  const baseProducts = isNewFilter
     ? getNewArrivalProducts()
     : selectedCategory
       ? getProductsByCategory(selectedCategory)
       : getVisibleProducts();
+  const products = sortProducts(baseProducts, selectedSort);
 
   const selectedLabel = isNewFilter
     ? "Últimos ingresos"
@@ -106,10 +132,13 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           </div>
         </header>
 
-        <div className="sticky top-[78px] z-30 w-full border-y border-[#e7d8cc]/80 bg-[#faf9f7]/96 backdrop-blur-md">
-          <Container className="flex flex-col gap-3 py-3 md:flex-row md:items-center md:justify-between">
-            <nav aria-label="Filtrar el catálogo" className="w-full">
-              <ul className="no-scrollbar flex w-full gap-6 overflow-x-auto pb-1 md:gap-8 md:pb-0">
+        <div className="sticky top-0 z-40 w-full border-b border-[#e7d8cc] bg-[#faf9f7] shadow-[0_6px_16px_-12px_rgba(47,20,13,0.25)]">
+          <Container className="flex flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between md:gap-8 md:py-5">
+            <nav
+              aria-label="Filtrar el catálogo"
+              className="min-w-0 flex-1"
+            >
+              <ul className="no-scrollbar flex w-full items-center gap-6 overflow-x-auto pb-1 md:gap-7 md:pb-0">
                 <li>
                   <Link
                     aria-current={
@@ -140,6 +169,9 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                     Últimos ingresos
                   </Link>
                 </li>
+                <li aria-hidden="true" className="shrink-0">
+                  <span className="block h-4 w-px bg-[#e7d8cc]" />
+                </li>
                 {PRODUCT_CATEGORIES.map((category) => (
                   <li key={category}>
                     <Link
@@ -161,11 +193,36 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
               </ul>
             </nav>
 
-            <p className="label-caps hidden shrink-0 text-[#8c7a6b] lg:block">
-              Catálogo editorial
-            </p>
+            <div className="flex shrink-0 items-center gap-5 md:gap-6">
+              <span
+                aria-hidden="true"
+                className="hidden h-5 w-px bg-[#e7d8cc] md:block"
+              />
+              <SortSelect current={selectedSort} />
+            </div>
           </Container>
         </div>
+
+        {(isNewFilter || selectedCategory) && (
+          <Container className="flex flex-wrap items-center justify-between gap-3 border-b border-[#e7d8cc]/60 py-4">
+            <p className="label-caps text-[#8c7a6b]">
+              Mostrando{" "}
+              <span className="text-[#2f140d]">{products.length}</span>{" "}
+              {products.length === 1 ? "pieza" : "piezas"}
+              <span className="mx-2 text-[#c98b7a]">·</span>
+              <span className="text-[#2f140d]">
+                {isNewFilter ? "Últimos ingresos" : categoryLabels[selectedCategory!]}
+              </span>
+            </p>
+            <Link
+              className="label-caps inline-flex items-center gap-2 border-b border-[#7a2e2e]/40 pb-0.5 text-[#7a2e2e] transition-colors hover:border-[#7a2e2e] hover:text-[#5a1f1f]"
+              href={selectedSort === "recent" ? "/catalogo" : `/catalogo?sort=${selectedSort}`}
+            >
+              Limpiar filtros
+              <span aria-hidden="true">×</span>
+            </Link>
+          </Container>
+        )}
 
         <section className="mx-auto w-full max-w-[1440px] px-5 py-10 md:px-16 md:py-14">
           <ProductGrid products={products} variant="editorial" />

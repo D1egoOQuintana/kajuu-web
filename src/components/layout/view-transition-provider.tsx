@@ -19,6 +19,20 @@ export function ViewTransitionProvider({
   const router = useRouter();
 
   useEffect(() => {
+    // Warm-prefetch routes so the FIRST navigation is instant (no RSC fetch delay
+    // → view-transition snapshot 'new' matches the actual updated DOM → animation visible)
+    const routes = [
+      "/",
+      "/catalogo",
+      "/como-comprar",
+      "/guia-talles",
+      "/contacto",
+      "/lookbook",
+    ];
+    routes.forEach((route) => router.prefetch(route));
+  }, [router]);
+
+  useEffect(() => {
     const doc = document as DocumentWithViewTransitions;
     if (typeof doc.startViewTransition !== "function") return;
 
@@ -59,13 +73,12 @@ export function ViewTransitionProvider({
       event.stopPropagation();
       event.stopImmediatePropagation();
 
-      document.documentElement.classList.add("is-view-transitioning");
       const transition = doc.startViewTransition!(() => {
         router.push(href);
       });
-      transition.finished.finally(() => {
-        document.documentElement.classList.remove("is-view-transitioning");
-      });
+      // Silently swallow benign timeouts (Next.js can abort transitions if
+      // the route fetch is slow on cold cache; the navigation still happens)
+      transition.finished.catch(() => {});
     };
 
     document.addEventListener("click", handleClick, { capture: true });

@@ -101,19 +101,16 @@ export default function HowToBuyPage() {
         <header className="bg-[#faf9f7]">
           <Container className="grid grid-cols-1 gap-8 pt-28 pb-12 md:pt-36 md:pb-16 lg:grid-cols-12 lg:pt-[136px]">
             <div className="lg:col-span-9 lg:col-start-2">
-              <p className="label-caps mb-5 block text-[#7a2e2e] fade-in-up">
+              <p className="label-caps mb-5 block text-[#7a2e2e]">
                 La experiencia
               </p>
               <h1
-                className="editorial-title text-[clamp(3.15rem,12vw,5rem)] leading-[1.02] text-[#2f140d] md:text-[80px] fade-in-up"
-                style={{ animationDelay: "120ms", textWrap: "balance" }}
+                className="editorial-title text-[clamp(3.15rem,12vw,5rem)] leading-[1.02] text-[#2f140d] md:text-[80px]"
+                style={{ textWrap: "balance" }}
               >
                 Cómo Comprar
               </h1>
-              <p
-                className="mt-7 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg fade-in-up"
-                style={{ animationDelay: "240ms" }}
-              >
+              <p className="mt-7 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg">
                 Un proceso diseñado para ser tan cuidado como nuestras prendas.
                 Cada paso está pensado para que adquieras tu próxima pieza Kajuu
                 con asistencia personalizada y total tranquilidad.

@@ -68,19 +68,16 @@ export default function ContactPage() {
       <main className="pb-24">
         <Container className="pt-28 pb-12 md:pt-36 md:pb-16">
           <div className="max-w-3xl">
-            <p className="label-caps mb-5 block text-[#7a2e2e] fade-in-up">
+            <p className="label-caps mb-5 block text-[#7a2e2e]">
               Contacto y dudas
             </p>
             <h1
-              className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[#2f140d] md:text-[80px] fade-in-up"
-              style={{ animationDelay: "120ms", textWrap: "balance" }}
+              className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[#2f140d] md:text-[80px]"
+              style={{ textWrap: "balance" }}
             >
               Estamos para ayudarte.
             </h1>
-            <p
-              className="mt-7 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg fade-in-up"
-              style={{ animationDelay: "240ms" }}
-            >
+            <p className="mt-7 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg">
               Nuestro equipo está dedicado a brindarte una experiencia de
               compra cuidada. Explorá las preguntas frecuentes o escribinos
               directamente para asistencia personalizada.
