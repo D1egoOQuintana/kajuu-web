@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kajuu.com.ar"),
+  metadataBase: new URL("https://kajuu-web.vercel.app"),
   title: {
     default: "Kajuu Indumentaria | Catálogo boutique",
     template: "%s | Kajuu Indumentaria",
