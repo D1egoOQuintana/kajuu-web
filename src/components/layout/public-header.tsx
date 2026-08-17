@@ -29,6 +29,8 @@ export function PublicHeader() {
   const [isCapsule, setIsCapsule] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const drawerRef = useRef<HTMLElement>(null);
+  const burgerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -78,14 +80,39 @@ export function PublicHeader() {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    const burger = burgerRef.current;
+    const drawer = drawerRef.current;
+    const focusables = drawer
+      ? Array.from(
+          drawer.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled])',
+          ),
+        )
+      : [];
+    focusables[0]?.focus();
+
     const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsMenuOpen(false);
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+        return;
+      }
+      if (event.key !== "Tab" || focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", handleKey);
 
     return () => {
       document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", handleKey);
+      burger?.focus();
     };
   }, [isMenuOpen]);
 
@@ -147,6 +174,7 @@ export function PublicHeader() {
             aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
             className="kajuu-header-burger inline-flex xl:hidden"
             onClick={() => setIsMenuOpen((current) => !current)}
+            ref={burgerRef}
             type="button"
           >
             <span aria-hidden="true" className="kajuu-burger-line" />
@@ -175,6 +203,7 @@ export function PublicHeader() {
           isMenuOpen ? "is-open" : "",
         ].join(" ")}
         id="kajuu-mobile-drawer"
+        ref={drawerRef}
         role="dialog"
       >
         <div className="flex items-center justify-between border-b border-[#e7d8cc] px-6 py-5">

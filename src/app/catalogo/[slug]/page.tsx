@@ -13,16 +13,13 @@ import {
   getProductsByCategory,
   getVisibleProducts,
 } from "@/features/catalog/catalog.service";
+import { SITE_URL } from "@/lib/site";
 import { formatPriceARS } from "@/lib/utils/format-price";
 import type {
   ProductCategory,
   ProductImage,
   ProductStockStatus,
 } from "@/types/product";
-
-// Dominio de producción (coincide con metadataBase del layout); se usa para el
-// link del producto en el mensaje de WhatsApp y para las URLs de Open Graph.
-const SITE_URL = "https://kajuu.com.ar";
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -173,8 +170,37 @@ export default async function ProductDetailPage({
           .filter((relatedProduct) => relatedProduct.id !== product.id)
           .slice(0, 3);
 
+  const ldPrimaryImage =
+    [...product.images].sort((a, b) => a.position - b.position).at(0) ??
+    fallbackImages[0];
+  const availability =
+    product.stockStatus === "sold_out"
+      ? "https://schema.org/OutOfStock"
+      : product.stockStatus === "ask_stock"
+        ? "https://schema.org/LimitedAvailability"
+        : "https://schema.org/InStock";
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: `${SITE_URL}${ldPrimaryImage.url}`,
+    brand: { "@type": "Brand", name: "Kajuu Indumentaria" },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "ARS",
+      price: product.price,
+      availability,
+      url: `${SITE_URL}/catalogo/${product.slug}`,
+    },
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-[#faf9f7] text-[#1a1c1b]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <PublicHeader />
       <main className="flex-grow">
         <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-10 px-5 pt-28 pb-12 md:px-16 md:pt-36 md:pb-16 lg:grid-cols-[minmax(0,7fr)_minmax(22rem,5fr)] lg:gap-12 lg:pt-[136px] lg:pb-24">

@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Lookbook",
   description:
     "Inspiración de outfits Kajuu con denim, básicos, abrigos y sastrería urbana.",
+  // Ruta viva pero fuera de navegación; sin fotos propias todavía, la
+  // mantenemos fuera del índice de Google hasta tener contenido diferenciado.
+  robots: { index: false, follow: true },
 };
 
 const looks = [

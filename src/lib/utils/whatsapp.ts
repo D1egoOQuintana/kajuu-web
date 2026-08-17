@@ -7,7 +7,7 @@ type CreateProductWhatsAppUrlParams = {
   productUrl?: string;
 };
 
-const DEFAULT_KAJUU_WHATSAPP_PHONE = "5491112345678";
+const DEFAULT_KAJUU_WHATSAPP_PHONE = "51989498385";
 
 export function createProductWhatsAppUrl({
   productName,
