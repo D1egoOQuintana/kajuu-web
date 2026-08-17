@@ -38,7 +38,7 @@ export function SortSelect({ current }: SortSelectProps) {
       className="flex shrink-0 items-center gap-3"
       htmlFor={selectId}
     >
-      <span className="label-caps text-[#8c7a6b]">Ordenar</span>
+      <span className="label-caps text-[#6d5c4e]">Ordenar</span>
       <span className="relative inline-flex items-center">
         <select
           aria-label="Ordenar productos"

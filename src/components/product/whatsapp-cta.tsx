@@ -9,6 +9,10 @@ type WhatsAppCTAProps = {
   className?: string;
   variant?: WhatsAppCTAVariant;
   size?: WhatsAppCTASize;
+  productSize?: string;
+  productColor?: string;
+  priceLabel?: string;
+  productUrl?: string;
 };
 
 const variantClasses: Record<WhatsAppCTAVariant, string> = {
@@ -32,9 +36,17 @@ export function WhatsAppCTA({
   className,
   variant = "primary",
   size = "md",
+  productSize,
+  productColor,
+  priceLabel,
+  productUrl,
 }: WhatsAppCTAProps) {
   const url = createProductWhatsAppUrl({
     productName: productName ?? "el catálogo de Kajuu",
+    size: productSize,
+    color: productColor,
+    priceLabel,
+    productUrl,
   });
 
   return (

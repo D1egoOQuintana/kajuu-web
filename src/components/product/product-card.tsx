@@ -7,12 +7,8 @@ import type { Product, ProductCategory } from "@/types/product";
 
 import { WhatsAppCTA } from "./whatsapp-cta";
 
-type ProductImageAspect = "portrait" | "tall" | "square" | "wide";
-
 type ProductCardProps = {
   product: Product;
-  compact?: boolean;
-  imageAspect?: ProductImageAspect;
 };
 
 type ProductBadgeVariant =
@@ -46,47 +42,27 @@ const placeholderTone: Record<ProductCategory, string> = {
   otros: "from-[#efe4d8] via-[#d6bdab] to-[#8a5a3c]",
 };
 
-const imageAspectClasses: Record<ProductImageAspect, string> = {
-  portrait: "aspect-[3/4]",
-  tall: "aspect-[4/5]",
-  square: "aspect-square",
-  wide: "aspect-[16/10] md:aspect-[21/9]",
-};
-
 function getProductBadgeVariants(product: Product): ProductBadgeVariant[] {
   if (product.stockStatus === "sold_out") {
     return ["soldOut"];
   }
 
   if (product.stockStatus === "ask_stock") {
-    return ["askStock"];
+    return product.isNewArrival ? ["new", "askStock"] : ["askStock"];
   }
 
   if (product.isNewArrival) {
-    return ["new", "available"];
+    return ["new"];
   }
 
-  if (product.isFeatured) {
-    return ["featured", "available"];
-  }
-
-  return ["available"];
+  return [];
 }
 
-export function ProductCard({
-  product,
-  compact = false,
-  imageAspect,
-}: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
   const primaryImage = product.images
     .slice()
     .sort((firstImage, secondImage) => firstImage.position - secondImage.position)
     .at(0);
-  const aspectClass = imageAspect
-    ? imageAspectClasses[imageAspect]
-    : compact
-      ? imageAspectClasses.portrait
-      : imageAspectClasses.tall;
   const badgeVariants = getProductBadgeVariants(product);
   const primaryBadge = badgeVariants[0];
   const secondaryBadge = badgeVariants[1];
@@ -98,18 +74,13 @@ export function ProductCard({
         className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#a03d3f]"
         href={`/catalogo/${product.slug}`}
       >
-        <div
-          className={[
-            "image-container relative overflow-hidden border border-[#e7d8cc]/60 bg-[#efeeec]",
-            aspectClass,
-          ].join(" ")}
-        >
+        <div className="image-container relative aspect-[4/5] overflow-hidden border border-[#e7d8cc]/60 bg-[#efeeec]">
           {primaryImage ? (
             <Image
               alt={primaryImage.alt}
               className="product-img object-cover sepia-[0.08]"
               fill
-              sizes="(min-width: 1280px) 25vw, (min-width: 768px) 40vw, 100vw"
+              sizes="(min-width: 1024px) 25vw, 50vw"
               src={primaryImage.url}
             />
           ) : (
@@ -122,15 +93,22 @@ export function ProductCard({
             />
           )}
 
-          <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-3 sm:inset-x-4 sm:top-4">
-            <Badge
-              className={primaryBadge === "askStock" ? "max-w-[9rem]" : undefined}
-              variant={primaryBadge}
-            />
-            {secondaryBadge ? (
-              <Badge className="hidden sm:inline-flex" variant={secondaryBadge} />
-            ) : null}
-          </div>
+          {primaryBadge ? (
+            <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-3 sm:inset-x-4 sm:top-4">
+              <Badge
+                className={
+                  primaryBadge === "askStock" ? "max-w-[9rem]" : undefined
+                }
+                variant={primaryBadge}
+              />
+              {secondaryBadge ? (
+                <Badge
+                  className="hidden sm:inline-flex"
+                  variant={secondaryBadge}
+                />
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </Link>
 
@@ -153,7 +131,7 @@ export function ProductCard({
         </div>
 
         <WhatsAppCTA
-          className="!min-h-0 shrink-0 !border-transparent !bg-transparent !px-0 !py-0 text-[0.62rem] text-[#5f5048] hover:!border-b-[#7a2e2e] hover:!bg-transparent hover:!text-[#7a2e2e]"
+          className="!min-h-11 shrink-0 !border-transparent !bg-transparent !px-2 -mr-2 !text-xs text-[#5f5048] underline decoration-transparent underline-offset-4 hover:!bg-transparent hover:!text-[#7a2e2e] hover:decoration-[#7a2e2e]"
           label="Consultar"
           productName={product.name}
           size="sm"

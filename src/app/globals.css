@@ -665,15 +665,6 @@ a {
   }
 }
 
-@keyframes kajuu-hairline-grow {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
 .fade-in-up {
   opacity: 0;
   transform: translate3d(0, 18px, 0);
@@ -684,12 +675,6 @@ a {
 .fade-in {
   opacity: 0;
   animation: kajuu-fade-in 0.7s ease-out forwards;
-}
-
-.hairline-grow {
-  display: inline-block;
-  transform-origin: left center;
-  animation: kajuu-hairline-grow 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
 .stagger > * {
@@ -1051,91 +1036,17 @@ details[open] .faq-toggle .faq-icon {
   }
 }
 
-/* Instagram editorial strip — fotos limpias, marquee silencioso */
+/* (sección Instagram: banda estática en JSX, sin CSS dedicado) */
 
-@keyframes kajuu-ig-strip-loop {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
+/* Filter bar del catálogo — sigue el estado del header fijo:
+   header visible → deja su altura libre; header oculto → sube a 0. */
+.kajuu-filter-bar {
+  top: 80px;
+  transition: top 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.kajuu-ig-strip-section {
-  border-top: 1px solid #e7d8cc;
-  background: #faf9f7;
-  padding-block: 4rem 4rem;
-}
-
-.kajuu-ig-strip-viewport {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    #000 6%,
-    #000 94%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    #000 6%,
-    #000 94%,
-    transparent 100%
-  );
-}
-
-.kajuu-ig-strip-track {
-  display: flex;
-  width: max-content;
-  gap: 1rem;
-  animation: kajuu-ig-strip-loop 50s linear infinite;
-  will-change: transform;
-}
-
-.kajuu-ig-strip-viewport:hover .kajuu-ig-strip-track,
-.kajuu-ig-strip-viewport:focus-within .kajuu-ig-strip-track {
-  animation-play-state: paused;
-}
-
-.kajuu-ig-strip-item {
-  flex: 0 0 clamp(13rem, 22vw, 17rem);
-  display: block;
-}
-
-.kajuu-ig-strip-frame {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: #efeeec;
-  border: 1px solid rgba(231, 216, 204, 0.6);
-}
-
-@media (max-width: 767px) {
-  .kajuu-ig-strip-section {
-    padding-block: 2.75rem 2.75rem;
-  }
-
-  .kajuu-ig-strip-viewport {
-    overflow-x: auto;
-    scrollbar-width: none;
-    mask-image: none;
-  }
-
-  .kajuu-ig-strip-viewport::-webkit-scrollbar {
-    display: none;
-  }
-
-  .kajuu-ig-strip-track {
-    gap: 0.75rem;
-    padding-inline: 1rem;
-    animation-duration: 36s;
-  }
-
-  .kajuu-ig-strip-item {
-    flex-basis: min(60vw, 14rem);
-  }
+html.kajuu-header-hidden .kajuu-filter-bar {
+  top: 0;
 }
 
 @media (min-width: 1024px) {
@@ -1163,17 +1074,6 @@ details[open] .faq-toggle .faq-icon {
     transform: none !important;
   }
 
-  .kajuu-ig-strip-viewport {
-    overflow-x: auto;
-    mask-image: none;
-  }
-
-  .kajuu-ig-strip-track {
-    animation: none !important;
-    transform: none !important;
-    will-change: auto;
-    gap: 0.75rem;
-  }
 
   .fade-in-up,
   .fade-in,
@@ -1181,11 +1081,6 @@ details[open] .faq-toggle .faq-icon {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
-  }
-
-  .hairline-grow {
-    animation: none !important;
-    transform: scaleX(1) !important;
   }
 
   .lift-card:hover,
@@ -1199,6 +1094,11 @@ details[open] .faq-toggle .faq-icon {
   .kajuu-header-shell.is-hidden {
     transform: none !important;
     transition: none !important;
+  }
+
+  .kajuu-filter-bar {
+    transition: none !important;
+    top: 80px !important;
   }
 
   .kajuu-header-shell.is-capsule .kajuu-header-inner {

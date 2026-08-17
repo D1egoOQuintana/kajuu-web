@@ -20,7 +20,7 @@ export const productSchema = z.object({
     .max(500, "La descripcion no debe superar los 500 caracteres."),
   price: z.number().min(0, "El precio debe ser mayor o igual a 0."),
   category: z.enum(PRODUCT_CATEGORIES),
-  sizes: z.array(z.string().trim().min(1)).min(1, "Agrega al menos un talle."),
+  sizes: z.array(z.string().trim().min(1)).min(1, "Agrega al menos una talla."),
   colors: z.array(z.string().trim().min(1)).min(1, "Agrega al menos un color."),
   stockStatus: z.enum(PRODUCT_STOCK_STATUSES),
   images: z.array(productImageSchema),

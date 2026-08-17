@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Footer } from "@/components/layout/footer";
 import { PublicHeader } from "@/components/layout/public-header";
+import { ProductConsultPanel } from "@/components/product/product-consult-panel";
+import { ProductGallery } from "@/components/product/product-gallery";
 import { ProductGrid } from "@/components/product/product-grid";
-import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 import { Badge } from "@/components/ui/badge";
 import {
   getProductBySlug,
@@ -19,6 +19,10 @@ import type {
   ProductImage,
   ProductStockStatus,
 } from "@/types/product";
+
+// Dominio de producción (coincide con metadataBase del layout); se usa para el
+// link del producto en el mensaje de WhatsApp y para las URLs de Open Graph.
+const SITE_URL = "https://kajuu.com.ar";
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -47,15 +51,15 @@ const fallbackImages: ProductImage[] = [
 ];
 
 const categoryLabels: Record<ProductCategory, string> = {
-  jeans: "Denim / Pantalones",
-  tops: "Tops / Básicos",
-  sweaters: "Knitwear / Abrigos",
-  buzos: "Buzos / Urban",
-  pantalones: "Sastrería / Pantalones",
-  camperas: "Abrigos / Camperas",
-  conjuntos: "Looks / Conjuntos",
+  jeans: "Jeans",
+  tops: "Tops",
+  sweaters: "Sweaters",
+  buzos: "Buzos",
+  pantalones: "Pantalones",
+  camperas: "Camperas",
+  conjuntos: "Conjuntos",
   accesorios: "Accesorios",
-  otros: "Colección",
+  otros: "Otros",
 };
 
 const stockLabels: Record<ProductStockStatus, string> = {
@@ -86,15 +90,15 @@ const colorSwatches: Record<string, string> = {
 const careBlocks = [
   {
     title: "Detalles de la prenda",
-    body: "Prenda seleccionada para uso diario con calce cómodo, terminación prolija y estética urbana. Consultanos por medidas puntuales antes de coordinar.",
+    body: "Prenda seleccionada para uso diario con ajuste cómodo, terminación prolija y estética urbana. Consúltanos por medidas puntuales antes de coordinar.",
   },
   {
     title: "Entregas",
     body: "Coordinamos entregas en CABA y punto de encuentro en Floresta. Los tiempos se confirman por WhatsApp según disponibilidad.",
   },
   {
-    title: "Cambios y talles",
-    body: "Los cambios se revisan según estado de la prenda y disponibilidad de talle o color. Si tenés dudas, te ayudamos a elegir antes de reservar.",
+    title: "Cambios y tallas",
+    body: "Los cambios se revisan según estado de la prenda y disponibilidad de talla o color. Si tienes dudas, te ayudamos a elegir antes de reservar.",
   },
 ] as const;
 
@@ -121,13 +125,27 @@ export async function generateMetadata({
 
   if (!product) {
     return {
-      title: "Producto no encontrado | Kajuu Indumentaria",
+      title: "Producto no encontrado",
     };
   }
 
+  const primaryImage =
+    [...product.images].sort((a, b) => a.position - b.position).at(0) ??
+    fallbackImages[0];
+  const path = `/catalogo/${product.slug}`;
+  const description = `${product.description} Consulta disponibilidad por WhatsApp en Kajuu Indumentaria.`;
+
   return {
-    title: `${product.name} | Kajuu Indumentaria`,
-    description: `${product.description} Consultá disponibilidad por WhatsApp en Kajuu Indumentaria.`,
+    title: product.name,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      title: `${product.name} | Kajuu Indumentaria`,
+      description: product.description,
+      url: path,
+      type: "website",
+      images: [{ url: primaryImage.url, alt: primaryImage.alt }],
+    },
   };
 }
 
@@ -143,9 +161,8 @@ export default async function ProductDetailPage({
 
   const galleryImages =
     product.images.length > 0
-      ? [...product.images, ...fallbackImages].slice(0, 4)
-      : fallbackImages;
-  const mainImage = galleryImages[0];
+      ? [...product.images].sort((a, b) => a.position - b.position)
+      : [fallbackImages[0]];
   const relatedProducts = getProductsByCategory(product.category)
     .filter((relatedProduct) => relatedProduct.id !== product.id)
     .slice(0, 3);
@@ -161,44 +178,7 @@ export default async function ProductDetailPage({
       <PublicHeader />
       <main className="flex-grow">
         <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-10 px-5 pt-28 pb-12 md:px-16 md:pt-36 md:pb-16 lg:grid-cols-[minmax(0,7fr)_minmax(22rem,5fr)] lg:gap-12 lg:pt-[136px] lg:pb-24">
-          <div className="relative flex flex-col-reverse gap-4 lg:flex-row lg:gap-8">
-            <div className="no-scrollbar flex shrink-0 gap-3 overflow-x-auto lg:w-24 lg:flex-col lg:overflow-visible">
-              {galleryImages.map((image, index) => (
-                <div
-                  className={[
-                    "relative h-24 w-20 shrink-0 border bg-[#efeeec] lg:h-32 lg:w-full",
-                    index === 0
-                      ? "border-[#2f140d]"
-                      : "border-[#e7d8cc] opacity-85",
-                  ].join(" ")}
-                  key={`${image.url}-${index}`}
-                >
-                  <Image
-                    alt={image.alt}
-                    className="h-full w-full object-cover"
-                    height={180}
-                    src={image.url}
-                    width={140}
-                  />
-                  <span className="absolute inset-0 bg-[#faf9f7]/20 transition-colors hover:bg-transparent" />
-                </div>
-              ))}
-            </div>
-
-            <figure className="image-container relative min-h-[420px] flex-grow border border-[#e7d8cc]/70 bg-[#efeeec] md:min-h-[620px] lg:min-h-[760px]">
-              <Image
-                alt={mainImage.alt}
-                className="h-full w-full object-cover object-center sepia-[0.08]"
-                height={1300}
-                priority
-                src={mainImage.url}
-                width={980}
-              />
-              <figcaption className="absolute bottom-4 left-4 border border-[#faf9f7]/60 bg-[#2f140d]/78 px-3 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#faf9f7] backdrop-blur-sm">
-                Kajuu editorial
-              </figcaption>
-            </figure>
-          </div>
+          <ProductGallery images={galleryImages} productName={product.name} />
 
           <aside className="flex flex-col gap-7 lg:sticky lg:top-28 lg:h-fit lg:pt-4">
             <div>
@@ -218,9 +198,10 @@ export default async function ProductDetailPage({
                 {formatPriceARS(product.price)}
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
-                <Badge variant={stockBadgeVariants[product.stockStatus]} />
+                {product.stockStatus !== "available" ? (
+                  <Badge variant={stockBadgeVariants[product.stockStatus]} />
+                ) : null}
                 {product.isNewArrival ? <Badge variant="new" /> : null}
-                {product.isFeatured ? <Badge variant="featured" /> : null}
               </div>
             </div>
 
@@ -234,66 +215,16 @@ export default async function ProductDetailPage({
               </p>
             </div>
 
-            <div className="space-y-6">
-              <section aria-labelledby="product-colors">
-                <h2 className="label-caps mb-3 text-[#1a1c1b]" id="product-colors">
-                  Colores
-                </h2>
-                <div className="flex flex-wrap gap-2">
-                  {product.colors.map((color) => (
-                    <span
-                      className="inline-flex items-center gap-2 border border-[#e7d8cc] bg-[#faf9f7] px-3 py-2 text-xs text-[#5f5048]"
-                      key={color}
-                    >
-                      <span
-                        aria-hidden="true"
-                        className={[
-                          "h-4 w-4 rounded-full border border-[#2f140d]/20",
-                          getColorSwatchClass(color),
-                        ].join(" ")}
-                      />
-                      {color}
-                    </span>
-                  ))}
-                </div>
-              </section>
-
-              <section aria-labelledby="product-sizes">
-                <div className="mb-3 flex items-center justify-between gap-4">
-                  <h2 className="label-caps text-[#1a1c1b]" id="product-sizes">
-                    Talles
-                  </h2>
-                  <Link
-                    className="label-caps text-[#5f5048] underline decoration-[#c98b7a] transition-colors hover:text-[#7a2e2e]"
-                    href="/guia-talles"
-                  >
-                    Guía de talles
-                  </Link>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {product.sizes.map((size) => (
-                    <span
-                      className="label-caps inline-flex min-h-10 min-w-10 items-center justify-center border border-[#d8c6b8] bg-[#faf9f7] px-3 text-[#2f140d]"
-                      key={size}
-                    >
-                      {size}
-                    </span>
-                  ))}
-                </div>
-              </section>
-            </div>
-
-            <div>
-              <WhatsAppCTA
-                className="w-full justify-center !min-h-14 !text-[0.78rem]"
-                label="Consultar por WhatsApp"
-                productName={product.name}
-                size="lg"
-              />
-              <p className="label-caps mt-4 text-center text-[#8c7a6b]">
-                Asesoramiento personalizado
-              </p>
-            </div>
+            <ProductConsultPanel
+              colors={product.colors.map((color) => ({
+                name: color,
+                swatchClass: getColorSwatchClass(color),
+              }))}
+              priceLabel={formatPriceARS(product.price)}
+              productName={product.name}
+              productUrl={`${SITE_URL}/catalogo/${product.slug}`}
+              sizes={product.sizes}
+            />
 
             <div className="flex flex-col">
               {careBlocks.map((item) => (
@@ -324,9 +255,8 @@ export default async function ProductDetailPage({
         <section className="border-t border-[#e7d8cc] bg-[#faf9f7]">
           <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-16 lg:py-24">
             <div className="mb-10 flex flex-col items-center text-center">
-              <span className="label-caps mb-3 text-[#8a5a3c]">Editorial</span>
               <h2 className="editorial-heading text-[32px] text-[#2f140d] md:text-[44px]">
-                Completa el look
+                Completá el look
               </h2>
             </div>
             <ProductGrid products={visibleRelatedProducts} />

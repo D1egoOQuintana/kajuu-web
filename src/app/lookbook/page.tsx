@@ -9,7 +9,7 @@ import { PublicHeader } from "@/components/layout/public-header";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 
 export const metadata: Metadata = {
-  title: "Lookbook | Kajuu Indumentaria",
+  title: "Lookbook",
   description:
     "Inspiración de outfits Kajuu con denim, básicos, abrigos y sastrería urbana.",
 };
@@ -23,7 +23,6 @@ const looks = [
     title: "Siluetas relajadas",
     description:
       "Jeans y cargos para armar looks urbanos con movimiento, textura y base neutra.",
-    tall: true,
   },
   {
     href: "/catalogo?categoria=tops",
@@ -42,7 +41,6 @@ const looks = [
     title: "Urbano pulido",
     description:
       "Prendas exteriores con presencia, pensadas para resolver día, noche y transición.",
-    tall: true,
   },
   {
     href: "/catalogo?categoria=pantalones",
@@ -96,7 +94,7 @@ export default function LookbookPage() {
                   Armar un look
                 </p>
                 <h2 className="editorial-heading text-3xl text-[#2f140d] md:text-4xl">
-                  Elegí una base y lo resolvemos juntas.
+                  Elige una base y lo resolvemos juntas.
                 </h2>
               </div>
               <WhatsAppCTA label="Consultar combinación" variant="primary" />

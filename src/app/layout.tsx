@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | Kajuu Indumentaria",
   },
   description:
-    "Catálogo boutique de indumentaria femenina urbana. Descubrí prendas seleccionadas y consultá stock por WhatsApp.",
+    "Catálogo boutique de indumentaria femenina urbana. Descubre prendas seleccionadas y consulta stock por WhatsApp.",
 };
 
 export default function RootLayout({

@@ -12,7 +12,7 @@ const leftNavigationItems = [
 
 const rightNavigationItems = [
   { href: "/como-comprar", label: "Cómo comprar" },
-  { href: "/guia-talles", label: "Guía de talles" },
+  { href: "/guia-talles", label: "Guía de tallas" },
   { href: "/contacto", label: "Contacto" },
 ] as const;
 
@@ -63,6 +63,15 @@ export function PublicHeader() {
       if (frame !== 0) window.cancelAnimationFrame(frame);
     };
   }, []);
+
+  // Elementos sticky (p. ej. filter bar del catálogo) leen esta clase para
+  // ajustar su `top` cuando el header se oculta al scrollear hacia abajo.
+  useEffect(() => {
+    document.documentElement.classList.toggle("kajuu-header-hidden", isHidden);
+    return () => {
+      document.documentElement.classList.remove("kajuu-header-hidden");
+    };
+  }, [isHidden]);
 
   useEffect(() => {
     if (!isMenuOpen) return;

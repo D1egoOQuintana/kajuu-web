@@ -8,9 +8,9 @@ import { PublicHeader } from "@/components/layout/public-header";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 
 export const metadata: Metadata = {
-  title: "Cómo comprar | Kajuu Indumentaria",
+  title: "Cómo comprar",
   description:
-    "Conocé cómo comprar en Kajuu: elegí una prenda, consultá stock y coordiná entrega por WhatsApp.",
+    "Conoce cómo comprar en Kajuu: elige una prenda, consulta stock y coordina entrega por WhatsApp.",
 };
 
 type StepIcon = "apparel" | "chat" | "delivery" | "package";
@@ -23,25 +23,25 @@ const steps: ReadonlyArray<{
 }> = [
   {
     number: "01",
-    title: "Elegí tu prenda",
-    body: "Recorré el catálogo o los últimos ingresos. Cada ficha muestra talle, color, precio y disponibilidad orientativa.",
+    title: "Elige tu prenda",
+    body: "Recorre el catálogo o los últimos ingresos. Cada ficha muestra talla, color, precio y disponibilidad orientativa.",
     icon: "apparel",
   },
   {
     number: "02",
-    title: "Consultá por WhatsApp",
-    body: "Escribinos desde la ficha del producto para confirmar medidas, color y disponibilidad real antes de avanzar.",
+    title: "Consulta por WhatsApp",
+    body: "Escríbenos desde la ficha del producto para confirmar medidas, color y disponibilidad real antes de avanzar.",
     icon: "chat",
   },
   {
     number: "03",
-    title: "Coordiná entrega",
+    title: "Coordina entrega",
     body: "Acordamos entrega en CABA o punto de encuentro en Floresta, según el día, horario y prenda disponible.",
     icon: "delivery",
   },
   {
     number: "04",
-    title: "Recibí tu pedido",
+    title: "Recibe tu pedido",
     body: "Confirmamos los detalles finales y coordinamos la entrega. Atención cálida y sin pasos innecesarios.",
     icon: "package",
   },
@@ -101,19 +101,15 @@ export default function HowToBuyPage() {
         <header className="bg-[#faf9f7]">
           <Container className="grid grid-cols-1 gap-8 pt-28 pb-12 md:pt-36 md:pb-16 lg:grid-cols-12 lg:pt-[136px]">
             <div className="lg:col-span-9 lg:col-start-2">
-              <p className="label-caps mb-5 block text-[#7a2e2e]">
-                La experiencia
-              </p>
               <h1
                 className="editorial-title text-[clamp(3.15rem,12vw,5rem)] leading-[1.02] text-[#2f140d] md:text-[80px]"
                 style={{ textWrap: "balance" }}
               >
-                Cómo Comprar
+                Cómo comprar
               </h1>
               <p className="mt-7 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg">
-                Un proceso diseñado para ser tan cuidado como nuestras prendas.
-                Cada paso está pensado para que adquieras tu próxima pieza Kajuu
-                con asistencia personalizada y total tranquilidad.
+                Comprar en Kajuu es simple: eliges la prenda, nos escribes por
+                WhatsApp y coordinamos la entrega.
               </p>
             </div>
           </Container>
@@ -163,25 +159,18 @@ export default function HowToBuyPage() {
                 />
               </div>
               <div className="p-8 md:p-10">
-                <p className="label-caps mb-4 text-[#7a2e2e]">Logística</p>
                 <h2 className="editorial-heading text-3xl text-[#2f140d] md:text-[42px]" style={{ textWrap: "balance" }}>
-                  Entregas en CABA, coordinadas con calma.
+                  Entregas en CABA
                 </h2>
                 <p className="mt-5 max-w-xl text-base leading-7 text-[#5f5048]">
-                  Confirmamos disponibilidad real y forma de entrega antes de
-                  cerrar el pedido. Sin formularios fríos ni dudas de último
-                  momento.
+                  Confirmamos disponibilidad y forma de entrega por WhatsApp
+                  antes de cerrar el pedido. También puedes retirar por Floresta.
                 </p>
-                <div className="mt-7 flex items-center gap-4">
-                  <span className="h-px w-12 bg-[#8c7a6b]/60" />
-                  <p className="label-caps text-[#8c7a6b]">CABA · Floresta</p>
-                </div>
               </div>
             </article>
 
             <article className="lift-card md:col-span-5 md:translate-y-12 group flex flex-col justify-between rounded-lg border border-[#e7d8cc] bg-[#f4f3f1] p-8 md:p-10">
               <div>
-                <p className="label-caps mb-4 text-[#7a2e2e]">Espacio físico</p>
                 <h3 className="editorial-heading text-2xl text-[#2f140d] md:text-3xl">
                   Showroom en Floresta
                 </h3>
@@ -211,16 +200,14 @@ export default function HowToBuyPage() {
 
           {/* Closing CTA — centered con border-top */}
           <section className="mt-16 flex flex-col items-center gap-7 border-t border-[#e7d8cc] py-16 text-center md:py-20">
-            <p className="label-caps text-[#7a2e2e]">Asistencia personalizada</p>
             <h2
               className="editorial-heading max-w-2xl text-[34px] leading-[1.1] text-[#2f140d] md:text-[52px]"
               style={{ textWrap: "balance" }}
             >
-              ¿Lista para tu próxima pieza?
+              ¿Viste algo que te gustó?
             </h2>
             <p className="max-w-lg text-sm leading-7 text-[#5f5048] md:text-base">
-              Empezá por el catálogo o escribinos para una recomendación
-              personalizada.
+              Recorre el catálogo o escríbenos y te ayudamos a elegir el talla.
             </p>
             <div className="mt-2 flex flex-col gap-3 sm:flex-row">
               <Link

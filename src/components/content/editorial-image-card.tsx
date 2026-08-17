@@ -8,7 +8,6 @@ type EditorialImageCardProps = {
   eyebrow: string;
   title: string;
   description: string;
-  tall?: boolean;
 };
 
 export function EditorialImageCard({
@@ -18,16 +17,10 @@ export function EditorialImageCard({
   eyebrow,
   title,
   description,
-  tall = false,
 }: EditorialImageCardProps) {
   const content = (
     <article className="group">
-      <div
-        className={[
-          "image-container relative border border-[#e7d8cc]/70 bg-[#efeeec]",
-          tall ? "aspect-[4/5]" : "aspect-[5/6]",
-        ].join(" ")}
-      >
+      <div className="image-container relative aspect-[4/5] border border-[#e7d8cc]/70 bg-[#efeeec]">
         <Image
           alt={imageAlt}
           className="h-full w-full object-cover sepia-[0.08]"

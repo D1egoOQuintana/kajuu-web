@@ -45,7 +45,7 @@ export const mockProducts: Product[] = [
     name: "Top Morley Bordó",
     slug: "top-morley-bordo",
     description:
-      "Top de morley bordó con calce al cuerpo, ideal para combinar con denim o sastrería.",
+      "Top de morley bordó con ajuste al cuerpo, ideal para combinar con denim o sastrería.",
     price: 25900,
     category: "tops",
     sizes: ["S", "M", "L"],
@@ -141,7 +141,7 @@ export const mockProducts: Product[] = [
     name: "Buzo Off White",
     slug: "buzo-off-white",
     description:
-      "Buzo off white de calce relajado, cómodo y versátil para looks casuales.",
+      "Buzo off white de ajuste relajado, cómodo y versátil para looks casuales.",
     price: 37900,
     category: "buzos",
     sizes: ["S", "M", "L", "XL"],

@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  InstagramCardStackCarousel,
-  type InstagramCardStackItem,
-} from "@/components/home/instagram-card-stack-carousel";
+import { InstagramCardStackCarousel } from "@/components/home/instagram-card-stack-carousel";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
 import { PublicHeader } from "@/components/layout/public-header";
@@ -14,9 +11,9 @@ import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 import { getNewArrivalProducts } from "@/features/catalog/catalog.service";
 
 export const metadata: Metadata = {
-  title: "Kajuu Indumentaria | Catálogo boutique femenino",
+  title: { absolute: "Kajuu Indumentaria | Catálogo boutique femenino" },
   description:
-    "Kajuu es un catálogo boutique de indumentaria femenina urbana. Descubrí últimos ingresos y consultá stock por WhatsApp.",
+    "Kajuu es un catálogo boutique de indumentaria femenina urbana. Descubre últimos ingresos y consulta stock por WhatsApp.",
 };
 
 const imagePool = [
@@ -47,65 +44,6 @@ const categoryHighlights = [
   },
 ] as const;
 
-const instagramCards: InstagramCardStackItem[] = [
-  {
-    href: "/catalogo/jean-wide-leg-celeste",
-    imageSrc: "/products/zara3.webp",
-    imageAlt: "Look editorial Kajuu con sastrería negra",
-    eyebrow: "New mood",
-    title: "Siluetas urbanas",
-  },
-  {
-    href: "/catalogo/top-morley-bordo",
-    imageSrc: "/products/450e.avif",
-    imageAlt: "Retrato editorial Kajuu con textura negra",
-    eyebrow: "Texturas",
-    title: "Básicos con carácter",
-  },
-  {
-    href: "/catalogo/campera-negra-urbana",
-    imageSrc: "/products/images.jpg",
-    imageAlt: "Look editorial Kajuu en blazer negro",
-    eyebrow: "Abrigos",
-    title: "Capas para la ciudad",
-  },
-  {
-    href: "/catalogo/pantalon-sastrero-negro",
-    imageSrc: "/products/images (1).jpg",
-    imageAlt: "Editorial Kajuu de sastrería frente al mar",
-    eyebrow: "Sastrería",
-    title: "Negro esencial",
-  },
-  {
-    href: "/catalogo/sweater-tejido-chocolate",
-    imageSrc: "/products/zara3.webp",
-    imageAlt: "Inspiración editorial Kajuu para prendas tejidas",
-    eyebrow: "Knit",
-    title: "Calidez pulida",
-  },
-  {
-    href: "/catalogo/remera-vintage",
-    imageSrc: "/products/450e.avif",
-    imageAlt: "Inspiración Kajuu para básicos vintage",
-    eyebrow: "Daily",
-    title: "Look de todos los días",
-  },
-  {
-    href: "/catalogo/cargo-denim",
-    imageSrc: "/products/images.jpg",
-    imageAlt: "Inspiración Kajuu de denim urbano",
-    eyebrow: "Denim",
-    title: "Actitud relajada",
-  },
-  {
-    href: "/catalogo/conjunto-gris-y-negro",
-    imageSrc: "/products/images (1).jpg",
-    imageAlt: "Inspiración Kajuu para conjunto gris y negro",
-    eyebrow: "Set",
-    title: "Conjunto resuelto",
-  },
-];
-
 export default function Home() {
   const newArrivals = getNewArrivalProducts().slice(0, 4);
 
@@ -119,20 +57,15 @@ export default function Home() {
 
           <div className="relative mx-auto grid w-full max-w-[1440px] grid-cols-1 items-center gap-10 xl:grid-cols-[minmax(0,0.88fr)_minmax(24rem,1.12fr)] xl:gap-12 2xl:gap-16">
             <div className="z-10 mx-auto flex w-full max-w-[38rem] flex-col justify-center xl:mx-0 xl:max-w-[36rem] 2xl:max-w-[41rem]">
-              <div className="mb-5 flex items-center gap-3 xl:ml-1">
-                <p className="label-caps text-[#7a2e2e]">Nueva selección</p>
-                <span className="h-px w-12 bg-[#c98b7a]/70" />
-              </div>
-
               <h1 className="editorial-title mb-5 text-[clamp(2.85rem,9vw,4.15rem)] leading-[1.03] text-[#2f140d] xl:text-[clamp(4.2rem,5.15vw,5.7rem)]">
                 <span className="block">Kajuu:</span>
                 <span className="block italic text-[#8a5a3c] opacity-95 xl:ml-10 2xl:ml-12">
-                  Elevá tu estilo diario
+                  Eleva tu estilo diario
                 </span>
               </h1>
               <p className="mb-7 max-w-[34rem] text-base leading-[1.65] text-[#5f5048] sm:text-lg xl:ml-10 xl:max-w-[30rem] 2xl:ml-12">
-                Indumentaria femenina urbana, cómoda y con actitud. Descubrí
-                últimos ingresos y consultá stock por WhatsApp.
+                Indumentaria femenina urbana, cómoda y con actitud. Descubre
+                últimos ingresos y consulta stock por WhatsApp.
               </p>
               <div className="flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap xl:ml-10 2xl:ml-12">
                 <Link
@@ -148,10 +81,6 @@ export default function Home() {
                 />
               </div>
 
-              <div className="mt-8 hidden items-center gap-4 xl:ml-10 xl:flex 2xl:ml-12">
-                <span className="h-px w-16 bg-[#8c7a6b]/60" />
-                <p className="label-caps text-[#8c7a6b]">Kajuu Indumentaria</p>
-              </div>
             </div>
 
             <div className="relative mx-auto w-full max-w-[34rem] xl:mx-0 xl:max-w-[36rem] xl:justify-self-end 2xl:max-w-[39rem]">
@@ -184,7 +113,7 @@ export default function Home() {
           <Container>
             <div className="mb-8 text-center md:mb-10">
               <h2 className="editorial-heading text-[32px] italic text-[#1a1c1b] md:text-[48px]">
-                Descubrí tu estilo
+                Descubre tu estilo
               </h2>
               <div className="mx-auto mt-5 h-px w-12 bg-[#8c7a6b]" />
             </div>
@@ -210,10 +139,9 @@ export default function Home() {
                       width={720}
                     />
                   </div>
-                  <h3 className="editorial-heading mx-auto max-w-[360px] text-[26px] text-[#1a1c1b] transition-colors group-hover:text-[#8c7a6b] md:text-[30px]">
+                  <h3 className="editorial-heading mx-auto max-w-[360px] text-[26px] text-[#1a1c1b] transition-colors group-hover:text-[#8a5a3c] md:text-[30px]">
                     {category.label}
                   </h3>
-                  <span aria-hidden="true" className="mx-auto mt-3 block h-px w-10 bg-[#c98b7a]/60 transition-all duration-300 group-hover:w-16 group-hover:bg-[#8a5a3c]" />
                 </Link>
               ))}
             </div>
@@ -246,7 +174,7 @@ export default function Home() {
           </section>
         ) : null}
 
-        <InstagramCardStackCarousel cards={instagramCards} />
+        <InstagramCardStackCarousel />
       </main>
       <Footer />
     </div>

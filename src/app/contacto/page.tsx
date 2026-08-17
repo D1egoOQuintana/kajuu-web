@@ -7,26 +7,26 @@ import { PublicHeader } from "@/components/layout/public-header";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 
 export const metadata: Metadata = {
-  title: "Contacto | Kajuu Indumentaria",
+  title: "Contacto",
   description:
-    "Contactá a Kajuu por WhatsApp o Instagram. Consultas de stock, talles, entregas y últimos ingresos.",
+    "Contacta a Kajuu por WhatsApp o Instagram. Consultas de stock, tallas, entregas y últimos ingresos.",
 };
 
 const faqs = [
   {
     question: "¿Cómo consulto stock?",
     answer:
-      "Entrá al producto que te interesa y tocá Consultar por WhatsApp. El mensaje llega con el nombre de la prenda para revisar disponibilidad más rápido.",
+      "Entra al producto que te interesa y toca Consultar por WhatsApp. El mensaje llega con el nombre de la prenda para revisar disponibilidad más rápido.",
   },
   {
     question: "¿Tienen cambios o devoluciones?",
     answer:
-      "Aceptamos cambios dentro de los 30 días, siempre que la prenda esté sin uso y con sus etiquetas. Para iniciarlo, escribinos por WhatsApp con tus datos.",
+      "Aceptamos cambios dentro de los 30 días, siempre que la prenda esté sin uso y con sus etiquetas. Para iniciarlo, escríbenos por WhatsApp con tus datos.",
   },
   {
-    question: "¿Cómo sé cuál es mi talle?",
+    question: "¿Cómo sé cuál es mi talla?",
     answer:
-      "Revisá la guía de talles con medidas en cm. Si dudás entre dos talles, escribinos tus medidas y te orientamos según la prenda exacta.",
+      "Revisa la guía de tallas con medidas en cm. Si dudas entre dos tallas, escríbenos tus medidas y te orientamos según la prenda exacta.",
   },
   {
     question: "¿Qué métodos de envío ofrecen?",
@@ -36,7 +36,7 @@ const faqs = [
   {
     question: "¿Dónde veo los últimos ingresos?",
     answer:
-      "Los últimos ingresos están integrados en el Home y también podés filtrarlos en el catálogo con la pestaña Últimos ingresos.",
+      "Los últimos ingresos están integrados en el Home y también puedes filtrarlos en el catálogo con la pestaña Últimos ingresos.",
   },
 ] as const;
 
@@ -68,9 +68,6 @@ export default function ContactPage() {
       <main className="pb-24">
         <Container className="pt-28 pb-12 md:pt-36 md:pb-16">
           <div className="max-w-3xl">
-            <p className="label-caps mb-5 block text-[#7a2e2e]">
-              Contacto y dudas
-            </p>
             <h1
               className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[#2f140d] md:text-[80px]"
               style={{ textWrap: "balance" }}
@@ -78,9 +75,8 @@ export default function ContactPage() {
               Estamos para ayudarte.
             </h1>
             <p className="mt-7 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg">
-              Nuestro equipo está dedicado a brindarte una experiencia de
-              compra cuidada. Explorá las preguntas frecuentes o escribinos
-              directamente para asistencia personalizada.
+              ¿Dudas de talla, stock o entrega? Escríbenos y te respondemos en
+              el día. También puedes revisar las preguntas frecuentes.
             </p>
           </div>
         </Container>
@@ -98,7 +94,7 @@ export default function ContactPage() {
                     Asistencia personalizada
                   </h2>
                   <p className="mt-3 text-sm leading-7 text-[#5f5048]">
-                    Ideal para stock, talles, colores, entregas y prendas que
+                    Ideal para stock, tallas, colores, entregas y prendas que
                     viste en Instagram.
                   </p>
                 </div>
@@ -118,17 +114,17 @@ export default function ContactPage() {
                     Instagram
                   </h2>
                   <p className="mt-3 text-sm leading-7 text-[#5f5048]">
-                    Seguinos para ver ingresos, combinaciones, prendas en uso
+                    Síguenos para ver ingresos, combinaciones, prendas en uso
                     y novedades del showroom.
                   </p>
                 </div>
                 <a
                   className="link-arrow label-caps mt-7 inline-flex w-fit items-center gap-2 border-b border-[#2f140d] pb-1 text-[#2f140d] transition-colors hover:border-[#7a2e2e] hover:text-[#7a2e2e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
-                  href="https://www.instagram.com/kajuu.indumentaria/"
+                  href="https://www.instagram.com/kajuu_indumentaria/"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  @kajuu.indumentaria
+                  @kajuu_indumentaria
                   <span aria-hidden="true" className="arrow">→</span>
                 </a>
               </article>
@@ -141,7 +137,7 @@ export default function ContactPage() {
                   Información
                 </h3>
                 <div className="mb-5">
-                  <p className="label-caps mb-2 text-[#8c7a6b]">
+                  <p className="label-caps mb-2 text-[#6d5c4e]">
                     Horarios de atención
                   </p>
                   <p className="text-[15px] leading-6 text-[#2f140d]">
@@ -151,7 +147,7 @@ export default function ContactPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="label-caps mb-2 text-[#8c7a6b]">
+                  <p className="label-caps mb-2 text-[#6d5c4e]">
                     Entregas en CABA
                   </p>
                   <p className="text-[15px] leading-6 text-[#5f5048]">
@@ -174,7 +170,7 @@ export default function ContactPage() {
                 <div className="max-w-lg">
                   <p className="label-caps mb-2 text-[#7a2e2e]">¿No encontraste tu respuesta?</p>
                   <p className="text-sm leading-7 text-[#5f5048]">
-                    Escribinos: la atención por WhatsApp es el canal más rápido y
+                    Escríbenos: la atención por WhatsApp es el canal más rápido y
                     personal.
                   </p>
                 </div>

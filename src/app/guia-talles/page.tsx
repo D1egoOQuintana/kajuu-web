@@ -7,15 +7,15 @@ import { PublicHeader } from "@/components/layout/public-header";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 
 export const metadata: Metadata = {
-  title: "Guía de talles | Kajuu Indumentaria",
+  title: "Guía de tallas",
   description:
-    "Guía general de talles Kajuu con consejos para tomar medidas y consultar dudas por WhatsApp.",
+    "Guía general de tallas Kajuu con consejos para tomar medidas y consultar dudas por WhatsApp.",
 };
 
 const measurements = [
   {
     title: "Busto / Pecho",
-    body: "Medí alrededor de la parte más amplia, manteniendo la cinta horizontal.",
+    body: "Mide alrededor de la parte más amplia, manteniendo la cinta horizontal.",
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 9h18M3 9v6h18V9M6 9V7M10 9V7M14 9V7M18 9V7" />
@@ -24,7 +24,7 @@ const measurements = [
   },
   {
     title: "Cintura",
-    body: "Medí la parte más angosta del torso, en postura natural y sin ajustar.",
+    body: "Mide la parte más angosta del torso, en postura natural y sin ajustar.",
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
         <path d="M5 5c2 4 2 10 0 14M19 5c-2 4-2 10 0 14M5 12h14" />
@@ -33,7 +33,7 @@ const measurements = [
   },
   {
     title: "Cadera",
-    body: "Medí el contorno por la parte más amplia de la cadera, con una prenda liviana.",
+    body: "Mide el contorno por la parte más amplia de la cadera, con una prenda liviana.",
     icon: (
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="8" r="3" />
@@ -59,12 +59,12 @@ const exchangePolicies = [
   {
     eyebrow: "Plazo de cambio",
     title: "Hasta 30 días",
-    body: "Dispones de 30 días corridos desde la recepción para coordinar un cambio por talle, color u otra prenda de la colección.",
+    body: "Dispones de 30 días corridos desde la recepción para coordinar un cambio por talla, color u otra prenda de la colección.",
   },
   {
     eyebrow: "Condiciones",
     title: "Prenda en estado original",
-    body: "La pieza debe devolverse sin uso, sin lavar, con todas las etiquetas adheridas y en su packaging.",
+    body: "La prenda debe devolverse sin uso, sin lavar, con todas las etiquetas adheridas y en su packaging.",
   },
   {
     eyebrow: "Proceso",
@@ -80,17 +80,14 @@ export default function SizeGuidePage() {
       <main className="pb-24">
         <Container className="pt-28 pb-12 md:pt-36 md:pb-16">
           <div className="max-w-3xl">
-            <p className="label-caps mb-5 block text-[#7a2e2e]">
-              Medidas y cambios
-            </p>
             <h1
               className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[#2f140d] md:text-[80px]"
               style={{ textWrap: "balance" }}
             >
-              Guía de Talles y Cambios
+              Guía de Tallas y Cambios
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg">
-              Encontrá tu calce perfecto. Las medidas son orientativas y pueden
+              Encuentra tu ajuste perfecto. Las medidas son orientativas y pueden
               variar según tela y silueta, por eso siempre podemos confirmar
               dudas puntuales por WhatsApp.
             </p>
@@ -98,10 +95,10 @@ export default function SizeGuidePage() {
         </Container>
 
         <Container>
-          {/* Guía de Talles section title */}
+          {/* Guía de Tallas section title */}
           <section className="pb-16">
             <h2 className="editorial-heading mb-10 border-b border-[#e7d8cc] pb-4 text-3xl text-[#2f140d] md:text-[44px]">
-              Guía de Talles
+              Guía de Tallas
             </h2>
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
@@ -148,7 +145,7 @@ export default function SizeGuidePage() {
                   <table className="kajuu-size-table min-w-[480px]">
                     <thead>
                       <tr>
-                        <th scope="col">Talle</th>
+                        <th scope="col">Talla</th>
                         <th scope="col">Busto</th>
                         <th scope="col">Cintura</th>
                         <th scope="col">Largo</th>
@@ -176,7 +173,7 @@ export default function SizeGuidePage() {
                   <table className="kajuu-size-table min-w-[480px]">
                     <thead>
                       <tr>
-                        <th scope="col">Talle / Eq</th>
+                        <th scope="col">Talla / Eq</th>
                         <th scope="col">Cintura</th>
                         <th scope="col">Cadera</th>
                         <th scope="col">Entrepierna</th>
@@ -232,7 +229,7 @@ export default function SizeGuidePage() {
                 variant="primary"
               />
               <p className="text-sm leading-7 text-[#5f5048]">
-                Respondemos durante el día por WhatsApp para coordinar talle,
+                Respondemos durante el día por WhatsApp para coordinar talla,
                 medidas o cambios.
               </p>
             </div>
