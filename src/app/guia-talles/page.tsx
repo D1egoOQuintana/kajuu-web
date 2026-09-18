@@ -9,7 +9,8 @@ import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 export const metadata: Metadata = {
   title: "Guía de tallas",
   description:
-    "Guía general de tallas Kajuu con consejos para tomar medidas y consultar dudas por WhatsApp.",
+    "Guía general de tallas KAJÚ con consejos para tomar medidas y consultar dudas por WhatsApp.",
+  alternates: { canonical: "/guia-talles" },
 };
 
 const measurements = [
@@ -75,18 +76,18 @@ const exchangePolicies = [
 
 export default function SizeGuidePage() {
   return (
-    <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
+    <div className="min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)]">
       <PublicHeader />
       <main className="pb-24">
         <Container className="pt-28 pb-12 md:pt-36 md:pb-16">
           <div className="max-w-3xl">
             <h1
-              className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[#2f140d] md:text-[80px]"
+              className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[var(--text-primary)] md:text-[80px]"
               style={{ textWrap: "balance" }}
             >
               Guía de Tallas y Cambios
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg">
+            <p className="mt-6 max-w-2xl text-base leading-[1.7] text-[var(--text-secondary)] md:text-lg">
               Encuentra tu ajuste perfecto. Las medidas son orientativas y pueden
               variar según tela y silueta, por eso siempre podemos confirmar
               dudas puntuales por WhatsApp.
@@ -97,26 +98,26 @@ export default function SizeGuidePage() {
         <Container>
           {/* Guía de Tallas section title */}
           <section className="pb-16">
-            <h2 className="editorial-heading mb-10 border-b border-[#e7d8cc] pb-4 text-3xl text-[#2f140d] md:text-[44px]">
+            <h2 className="editorial-heading mb-10 border-b border-[var(--border)] pb-4 text-3xl text-[var(--text-primary)] md:text-[44px]">
               Guía de Tallas
             </h2>
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
               {/* Sidebar — Cómo medirte + imagen */}
               <aside className="flex flex-col gap-6 lg:col-span-4">
-                <div className="rounded-lg border border-[#e7d8cc] bg-[#f4f3f1] p-7 md:p-8">
-                  <p className="label-caps mb-5 text-[#7a2e2e]">Cómo medirte</p>
+                <div className="rounded-lg border border-[var(--border)] bg-[var(--background-secondary)] p-7 md:p-8">
+                  <p className="label-caps mb-5 text-[var(--brand)]">Cómo medirte</p>
                   <ul className="space-y-5">
                     {measurements.map((item) => (
                       <li className="flex items-start gap-4" key={item.title}>
-                        <span className="mt-0.5 shrink-0 text-[#8a5a3c]">
+                        <span className="mt-0.5 shrink-0 text-[var(--brand)]">
                           {item.icon}
                         </span>
                         <div>
-                          <p className="text-[15px] font-semibold text-[#2f140d]">
+                          <p className="text-[15px] font-semibold text-[var(--text-primary)]">
                             {item.title}
                           </p>
-                          <p className="mt-1 text-[13px] leading-6 text-[#5f5048]">
+                          <p className="mt-1 text-[13px] leading-6 text-[var(--text-secondary)]">
                             {item.body}
                           </p>
                         </div>
@@ -125,9 +126,9 @@ export default function SizeGuidePage() {
                   </ul>
                 </div>
 
-                <div className="image-container relative aspect-[4/5] overflow-hidden rounded-lg border border-[#e7d8cc] bg-[#efeeec]">
+                <div className="image-container relative aspect-[4/5] overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--surface-emphasis)]">
                   <Image
-                    alt="Referencia editorial Kajuu de tomas de medidas"
+                    alt="Referencia editorial KAJÚ de tomas de medidas"
                     className="object-cover object-center grayscale transition-all duration-700 hover:grayscale-0"
                     fill
                     sizes="(min-width: 1024px) 33vw, 100vw"
@@ -139,7 +140,7 @@ export default function SizeGuidePage() {
               {/* Tablas */}
               <div className="flex flex-col gap-10 lg:col-span-8">
                 <div className="overflow-x-auto">
-                  <h3 className="label-caps mb-5 text-[#2f140d]">
+                  <h3 className="label-caps mb-5 text-[var(--text-primary)]">
                     Tops & Sweaters (cm)
                   </h3>
                   <table className="kajuu-size-table min-w-[480px]">
@@ -167,7 +168,7 @@ export default function SizeGuidePage() {
                 </div>
 
                 <div className="overflow-x-auto">
-                  <h3 className="label-caps mb-5 text-[#2f140d]">
+                  <h3 className="label-caps mb-5 text-[var(--text-primary)]">
                     Jeans & Bottoms (cm)
                   </h3>
                   <table className="kajuu-size-table min-w-[480px]">
@@ -199,23 +200,23 @@ export default function SizeGuidePage() {
 
           {/* Políticas de Cambio */}
           <section className="pb-12">
-            <h2 className="editorial-heading mb-10 border-b border-[#e7d8cc] pb-4 text-3xl text-[#2f140d] md:text-[44px]">
+            <h2 className="editorial-heading mb-10 border-b border-[var(--border)] pb-4 text-3xl text-[var(--text-primary)] md:text-[44px]">
               Políticas de Cambio
             </h2>
 
             <div className="stagger grid grid-cols-1 gap-6 md:grid-cols-3">
               {exchangePolicies.map((policy) => (
                 <article
-                  className="lift-card flex h-full flex-col items-start rounded-lg border border-[#e7d8cc] bg-[#faf9f7] p-7 md:p-8"
+                  className="lift-card flex h-full flex-col items-start rounded-lg border border-[var(--border)] bg-[var(--background-primary)] p-7 md:p-8"
                   key={policy.eyebrow}
                 >
-                  <p className="label-caps mb-4 text-[#7a2e2e]">
+                  <p className="label-caps mb-4 text-[var(--brand)]">
                     {policy.eyebrow}
                   </p>
-                  <h3 className="editorial-heading text-xl text-[#2f140d] md:text-2xl">
+                  <h3 className="editorial-heading text-xl text-[var(--text-primary)] md:text-2xl">
                     {policy.title}
                   </h3>
-                  <p className="mt-4 text-sm leading-7 text-[#5f5048]">
+                  <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
                     {policy.body}
                   </p>
                 </article>
@@ -228,7 +229,7 @@ export default function SizeGuidePage() {
                 label="Iniciar un cambio"
                 variant="primary"
               />
-              <p className="text-sm leading-7 text-[#5f5048]">
+              <p className="text-sm leading-7 text-[var(--text-secondary)]">
                 Respondemos durante el día por WhatsApp para coordinar talla,
                 medidas o cambios.
               </p>

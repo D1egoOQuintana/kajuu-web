@@ -1,8 +1,8 @@
-# Kajuu Web — Security Guidelines
+# KAJÚ Web — Security Guidelines
 
 ## 1. Security Objective
 
-Kajuu Web must be safe enough for a real boutique catalog website.
+KAJÚ Web must be safe enough for a real boutique catalog website.
 
 The project does not handle payments, customer accounts, or private customer data in the first version. This reduces risk, but the admin panel and catalog management must still be protected professionally.
 
@@ -88,7 +88,7 @@ Ensure no private environment file or service account file appears.
 
 ## 5. Authentication Model
 
-Kajuu will use Firebase Auth.
+KAJÚ will use Firebase Auth.
 
 Allowed admin login methods:
 
@@ -417,7 +417,7 @@ Rules:
 Example message:
 
 ```txt
-Hola Kajuu, vengo de la web. Quiero consultar por el producto: Jean Wide Leg Celeste. ¿Tienen stock disponible?
+Hola KAJÚ, vengo de la web. Quiero consultar por el producto: Jean Wide Leg Celeste. ¿Tienen stock disponible?
 ```
 
 ## 19. No Sensitive Customer Data
@@ -576,5 +576,5 @@ Do not:
 The final security standard is:
 
 ```txt
-If somebody finds the admin URL, inspects the browser, or calls Firebase directly, they still cannot modify Kajuu data unless they are authenticated and authorized as admin.
+If somebody finds the admin URL, inspects the browser, or calls Firebase directly, they still cannot modify KAJÚ data unless they are authenticated and authorized as admin.
 ```

@@ -11,17 +11,15 @@ import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 export const metadata: Metadata = {
   title: "Lookbook",
   description:
-    "Inspiración de outfits Kajuu con denim, básicos, abrigos y sastrería urbana.",
-  // Ruta viva pero fuera de navegación; sin fotos propias todavía, la
-  // mantenemos fuera del índice de Google hasta tener contenido diferenciado.
-  robots: { index: false, follow: true },
+    "Inspiración de outfits KAJÚ con denim, básicos, abrigos y sastrería urbana.",
+  alternates: { canonical: "/lookbook" },
 };
 
 const looks = [
   {
     href: "/catalogo?categoria=jeans",
     imageSrc: "/products/zara3.webp",
-    imageAlt: "Inspiración editorial Kajuu para denim diario",
+    imageAlt: "Inspiración editorial KAJÚ para denim diario",
     eyebrow: "Denim diario",
     title: "Siluetas relajadas",
     description:
@@ -30,7 +28,7 @@ const looks = [
   {
     href: "/catalogo?categoria=tops",
     imageSrc: "/products/450e.avif",
-    imageAlt: "Inspiración Kajuu para básicos con textura",
+    imageAlt: "Inspiración KAJÚ para básicos con textura",
     eyebrow: "Básicos",
     title: "Capas que combinan",
     description:
@@ -39,7 +37,7 @@ const looks = [
   {
     href: "/catalogo?categoria=camperas",
     imageSrc: "/products/images.jpg",
-    imageAlt: "Inspiración Kajuu para abrigos urbanos",
+    imageAlt: "Inspiración KAJÚ para abrigos urbanos",
     eyebrow: "Abrigos",
     title: "Urbano pulido",
     description:
@@ -48,7 +46,7 @@ const looks = [
   {
     href: "/catalogo?categoria=pantalones",
     imageSrc: "/products/images (1).jpg",
-    imageAlt: "Inspiración Kajuu para sastrería urbana",
+    imageAlt: "Inspiración KAJÚ para sastrería urbana",
     eyebrow: "Sastrería urbana",
     title: "Líneas limpias",
     description:
@@ -58,18 +56,18 @@ const looks = [
 
 export default function LookbookPage() {
   return (
-    <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
+    <div className="min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)]">
       <PublicHeader />
       <main className="pb-24">
         <PageHero
-          accent="Kajuu."
+          accent="KAJÚ."
           description="Un recorrido visual para imaginar combinaciones reales: prendas de todos los días con una lectura más editorial, cálida y boutique."
           eyebrow="Inspiración de outfits"
           title="Lookbook"
         >
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              className="inline-flex min-h-12 items-center justify-center border border-[#2f140d] bg-[#e8d6c0] px-5 text-center text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#2f140d] shadow-[0_8px_20px_-12px_rgba(47,20,13,0.28)] transition-all duration-300 hover:bg-[#d4bf9f] hover:shadow-[0_12px_26px_-12px_rgba(47,20,13,0.32)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
+              className="button button--primary"
               href="/catalogo"
             >
               Ver catálogo
@@ -90,13 +88,13 @@ export default function LookbookPage() {
             ))}
           </section>
 
-          <section className="border-t border-[#e7d8cc] pt-10">
-            <div className="grid gap-6 bg-[#f4f3f1] p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
+          <section className="border-t border-[var(--border)] pt-10">
+            <div className="grid gap-6 bg-[var(--background-secondary)] p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
               <div>
-                <p className="label-caps mb-3 text-[#8a5a3c]">
+                <p className="label-caps mb-3 text-[var(--brand)]">
                   Armar un look
                 </p>
-                <h2 className="editorial-heading text-3xl text-[#2f140d] md:text-4xl">
+                <h2 className="editorial-heading text-3xl text-[var(--text-primary)] md:text-4xl">
                   Elige una base y lo resolvemos juntas.
                 </h2>
               </div>

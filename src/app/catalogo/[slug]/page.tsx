@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -13,13 +14,9 @@ import {
   getProductsByCategory,
   getVisibleProducts,
 } from "@/features/catalog/catalog.service";
-import { SITE_URL } from "@/lib/site";
+import { absoluteUrl, CATEGORY_LABELS, SITE_URL } from "@/lib/site";
 import { formatPriceARS } from "@/lib/utils/format-price";
-import type {
-  ProductCategory,
-  ProductImage,
-  ProductStockStatus,
-} from "@/types/product";
+import type { ProductImage, ProductStockStatus } from "@/types/product";
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -27,37 +24,23 @@ type ProductDetailPageProps = {
   }>;
 };
 
-type StockBadgeVariant = "available" | "soldOut" | "askStock";
-
 const fallbackImages: ProductImage[] = [
   {
     url: "/products/zara3.webp",
-    alt: "Fotografía editorial principal de Kajuu",
+    alt: "Fotografía editorial principal de KAJÚ",
     position: 0,
   },
   {
     url: "/products/images.jpg",
-    alt: "Fotografía editorial alternativa de Kajuu",
+    alt: "Fotografía editorial alternativa de KAJÚ",
     position: 1,
   },
   {
     url: "/products/images (1).jpg",
-    alt: "Detalle editorial alternativo de Kajuu",
+    alt: "Detalle editorial alternativo de KAJÚ",
     position: 2,
   },
 ];
-
-const categoryLabels: Record<ProductCategory, string> = {
-  jeans: "Jeans",
-  tops: "Tops",
-  sweaters: "Sweaters",
-  buzos: "Buzos",
-  pantalones: "Pantalones",
-  camperas: "Camperas",
-  conjuntos: "Conjuntos",
-  accesorios: "Accesorios",
-  otros: "Otros",
-};
 
 const stockLabels: Record<ProductStockStatus, string> = {
   available: "En stock",
@@ -65,16 +48,10 @@ const stockLabels: Record<ProductStockStatus, string> = {
   ask_stock: "Consultar stock",
 };
 
-const stockBadgeVariants: Record<ProductStockStatus, StockBadgeVariant> = {
-  available: "available",
-  sold_out: "soldOut",
-  ask_stock: "askStock",
-};
-
 const colorSwatches: Record<string, string> = {
   azul: "bg-[#7da3b8]",
   blanco: "bg-[#f7f1e8]",
-  bordó: "bg-[#7a2e2e]",
+  bordó: "bg-[var(--brand)]",
   celeste: "bg-[#9ec5d8]",
   chocolate: "bg-[#5a3428]",
   grafito: "bg-[#4f5454]",
@@ -105,20 +82,14 @@ function getColorSwatchClass(color: string): string {
     normalizedColor.includes(knownColor),
   );
 
-  return matchedColor ? colorSwatches[matchedColor] : "bg-[#e8d6c0]";
-}
-
-export function generateStaticParams() {
-  return getVisibleProducts().map((product) => ({
-    slug: product.slug,
-  }));
+  return matchedColor ? colorSwatches[matchedColor] : "bg-[var(--surface-emphasis)]";
 }
 
 export async function generateMetadata({
   params,
 }: ProductDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return {
@@ -130,14 +101,14 @@ export async function generateMetadata({
     [...product.images].sort((a, b) => a.position - b.position).at(0) ??
     fallbackImages[0];
   const path = `/catalogo/${product.slug}`;
-  const description = `${product.description} Consulta disponibilidad por WhatsApp en Kajuu Indumentaria.`;
+  const description = `${product.description} Consulta disponibilidad por WhatsApp en KAJÚ Indumentaria.`;
 
   return {
     title: product.name,
     description,
     alternates: { canonical: path },
     openGraph: {
-      title: `${product.name} | Kajuu Indumentaria`,
+      title: `${product.name} | KAJÚ Indumentaria`,
       description: product.description,
       url: path,
       type: "website",
@@ -150,7 +121,7 @@ export default async function ProductDetailPage({
   params,
 }: ProductDetailPageProps) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
@@ -160,13 +131,13 @@ export default async function ProductDetailPage({
     product.images.length > 0
       ? [...product.images].sort((a, b) => a.position - b.position)
       : [fallbackImages[0]];
-  const relatedProducts = getProductsByCategory(product.category)
+  const relatedProducts = (await getProductsByCategory(product.category))
     .filter((relatedProduct) => relatedProduct.id !== product.id)
     .slice(0, 3);
   const visibleRelatedProducts =
     relatedProducts.length > 0
       ? relatedProducts
-      : getVisibleProducts()
+      : (await getVisibleProducts())
           .filter((relatedProduct) => relatedProduct.id !== product.id)
           .slice(0, 3);
 
@@ -184,8 +155,8 @@ export default async function ProductDetailPage({
     "@type": "Product",
     name: product.name,
     description: product.description,
-    image: `${SITE_URL}${ldPrimaryImage.url}`,
-    brand: { "@type": "Brand", name: "Kajuu Indumentaria" },
+    image: absoluteUrl(ldPrimaryImage.url),
+    brand: { "@type": "Brand", name: "KAJÚ Indumentaria" },
     offers: {
       "@type": "Offer",
       priceCurrency: "ARS",
@@ -194,12 +165,15 @@ export default async function ProductDetailPage({
       url: `${SITE_URL}/catalogo/${product.slug}`,
     },
   };
+  const safeProductJsonLd = JSON.stringify(productJsonLd).replace(/</g, "\\u003c");
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#faf9f7] text-[#1a1c1b]">
+    <div className="flex min-h-screen flex-col bg-[var(--background-primary)] text-[var(--text-primary)]">
       <script
+        nonce={nonce}
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeProductJsonLd }}
       />
       <PublicHeader />
       <main className="flex-grow">
@@ -209,33 +183,35 @@ export default async function ProductDetailPage({
           <aside className="flex flex-col gap-7 lg:sticky lg:top-28 lg:h-fit lg:pt-4">
             <div>
               <Link
-                className="label-caps mb-3 inline-flex text-[#8a5a3c] transition-colors hover:text-[#7a2e2e]"
+                className="label-caps mb-3 inline-flex min-h-11 items-center text-[var(--brand)] transition-colors hover:text-[var(--brand-hover)]"
                 href="/catalogo"
               >
                 Volver al catálogo
               </Link>
-              <p className="label-caps mb-3 text-[#5f5048]">
-                {categoryLabels[product.category]}
+              <p className="label-caps mb-3 text-[var(--text-secondary)]">
+                {CATEGORY_LABELS[product.category]}
               </p>
-              <h1 className="editorial-heading text-[clamp(2.45rem,9vw,3.65rem)] leading-[1.05] text-[#2f140d]">
+              <h1 className="editorial-heading text-[clamp(2.45rem,9vw,3.65rem)] leading-[1.05] text-[var(--text-primary)]">
                 {product.name}
               </h1>
-              <p className="mt-4 text-xl text-[#2f140d]">
+              <p className="mt-4 text-xl text-[var(--text-primary)]">
                 {formatPriceARS(product.price)}
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
-                {product.stockStatus !== "available" ? (
-                  <Badge variant={stockBadgeVariants[product.stockStatus]} />
+                {product.stockStatus === "sold_out" ? (
+                  <Badge variant="soldOut" />
+                ) : product.stockStatus === "ask_stock" ? (
+                  <Badge variant="askStock" />
                 ) : null}
                 {product.isNewArrival ? <Badge variant="new" /> : null}
               </div>
             </div>
 
-            <div className="border-y border-[#e7d8cc] py-6">
-              <p className="text-base leading-[1.75] text-[#5f5048]">
+            <div className="border-y border-[var(--border)] py-6">
+              <p className="text-base leading-[1.75] text-[var(--text-secondary)]">
                 {product.description}
               </p>
-              <p className="mt-4 text-sm leading-7 text-[#5f5048]">
+              <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
                 {stockLabels[product.stockStatus]}. Entregas en CABA y punto
                 Floresta a coordinar.
               </p>
@@ -255,21 +231,21 @@ export default async function ProductDetailPage({
             <div className="flex flex-col">
               {careBlocks.map((item) => (
                 <details
-                  className="group border-b border-[#e7d8cc] py-4"
+                  className="group border-b border-[var(--border)] py-4"
                   key={item.title}
                 >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                    <span className="label-caps text-[#1a1c1b]">
+                    <span className="label-caps text-[var(--text-primary)]">
                       {item.title}
                     </span>
                     <span
                       aria-hidden="true"
-                      className="text-lg leading-none text-[#8a5a3c] transition-transform group-open:rotate-45"
+                      className="text-lg leading-none text-[var(--brand)] transition-transform group-open:rotate-45"
                     >
                       +
                     </span>
                   </summary>
-                  <p className="pt-4 text-sm leading-7 text-[#5f5048]">
+                  <p className="pt-4 text-sm leading-7 text-[var(--text-secondary)]">
                     {item.body}
                   </p>
                 </details>
@@ -278,10 +254,10 @@ export default async function ProductDetailPage({
           </aside>
         </section>
 
-        <section className="border-t border-[#e7d8cc] bg-[#faf9f7]">
+        <section className="border-t border-[var(--border)] bg-[var(--background-primary)]">
           <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-16 lg:py-24">
             <div className="mb-10 flex flex-col items-center text-center">
-              <h2 className="editorial-heading text-[32px] text-[#2f140d] md:text-[44px]">
+              <h2 className="editorial-heading text-[32px] text-[var(--text-primary)] md:text-[44px]">
                 Completá el look
               </h2>
             </div>

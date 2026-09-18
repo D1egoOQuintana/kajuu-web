@@ -1,4 +1,4 @@
-Kajuu Web — Implementation Tasks
+KAJÚ Web — Implementation Tasks
 Phase 0 — Project Base
 
 Verify .env.local is ignored

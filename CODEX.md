@@ -1,8 +1,8 @@
-# Kajuu Web — Agent Operating Rules
+# KAJÚ Web — Agent Operating Rules
 
 ## Project Identity
 
-This project is a professional web catalog for **Kajuu Indumentaria**, a women's fashion boutique.
+This project is a professional web catalog for **KAJÚ Indumentaria**, a women's fashion boutique.
 
 The website is not a traditional ecommerce platform. It must work as a premium fashion catalog with product discovery and conversion through WhatsApp and Instagram.
 
@@ -277,7 +277,7 @@ Product messages must be prefilled with product context.
 Example:
 
 ```txt
-Hola Kajuu, vengo de la web. Quiero consultar por el producto: Jean Wide Leg Celeste. ¿Tienen stock disponible?
+Hola KAJÚ, vengo de la web. Quiero consultar por el producto: Jean Wide Leg Celeste. ¿Tienen stock disponible?
 ```
 
 Do not implement cart or checkout in this version.
@@ -312,7 +312,7 @@ A task is done only when:
 * security implications are explained
 * files changed are listed
 * no secrets are exposed
-* UI remains consistent with the Kajuu design direction
+* UI remains consistent with the KAJÚ design direction
 * implementation is simple, maintainable, and production-oriented
 
 ## Communication Style

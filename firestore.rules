@@ -2,6 +2,63 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    function hasValidProductShape() {
+      return request.resource.data.keys().hasOnly([
+          'name', 'slug', 'description', 'price', 'category', 'sizes', 'colors',
+          'stockStatus', 'images', 'isVisible', 'isFeatured', 'isNewArrival',
+          'createdAt', 'updatedAt'
+        ])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 120
+        && request.resource.data.slug is string
+        && request.resource.data.slug.matches('^[a-z0-9]+(-[a-z0-9]+)*$')
+        && request.resource.data.slug.size() <= 140
+        && request.resource.data.description is string
+        && request.resource.data.description.size() >= 1
+        && request.resource.data.description.size() <= 500
+        && request.resource.data.price is number
+        && request.resource.data.price >= 0
+        && request.resource.data.price <= 100000000
+        && request.resource.data.category in [
+          'jeans', 'tops', 'sweaters', 'buzos', 'pantalones', 'camperas',
+          'conjuntos', 'accesorios', 'otros'
+        ]
+        && request.resource.data.sizes is list
+        && request.resource.data.sizes.size() >= 1
+        && request.resource.data.sizes.size() <= 20
+        && request.resource.data.colors is list
+        && request.resource.data.colors.size() >= 1
+        && request.resource.data.colors.size() <= 20
+        && request.resource.data.stockStatus in ['available', 'sold_out', 'ask_stock']
+        && request.resource.data.images is list
+        && request.resource.data.images.size() <= 12
+        && request.resource.data.isVisible is bool
+        && request.resource.data.isFeatured is bool
+        && request.resource.data.isNewArrival is bool
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.updatedAt is timestamp;
+    }
+
+    match /products/{productId} {
+      allow get, list: if resource.data.isVisible == true || isAdmin();
+      allow create: if isAdmin()
+        && productId == request.resource.data.slug
+        && hasValidProductShape()
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+      allow update: if isAdmin()
+        && productId == request.resource.data.slug
+        && hasValidProductShape()
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if isAdmin();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

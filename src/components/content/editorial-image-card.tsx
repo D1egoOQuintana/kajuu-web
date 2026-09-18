@@ -20,7 +20,7 @@ export function EditorialImageCard({
 }: EditorialImageCardProps) {
   const content = (
     <article className="group">
-      <div className="image-container relative aspect-[4/5] border border-[#e7d8cc]/70 bg-[#efeeec]">
+      <div className="image-container relative aspect-[4/5] border border-[var(--border)] bg-[var(--surface-emphasis)]">
         <Image
           alt={imageAlt}
           className="h-full w-full object-cover sepia-[0.08]"
@@ -30,11 +30,11 @@ export function EditorialImageCard({
         />
       </div>
       <div className="mt-5">
-        <p className="label-caps mb-2 text-[#8a5a3c]">{eyebrow}</p>
-        <h2 className="editorial-heading text-3xl text-[#2f140d] transition-colors group-hover:text-[#7a2e2e]">
+        <p className="mb-2 text-xs font-medium text-[var(--text-muted)]">{eyebrow}</p>
+        <h2 className="editorial-heading text-3xl transition-colors group-hover:text-[var(--brand)]">
           {title}
         </h2>
-        <p className="mt-3 text-sm leading-7 text-[#5f5048]">{description}</p>
+        <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{description}</p>
       </div>
     </article>
   );
@@ -45,7 +45,7 @@ export function EditorialImageCard({
 
   return (
     <Link
-      className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
+      className="block"
       href={href}
     >
       {content}

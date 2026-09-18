@@ -1,7 +1,7 @@
-Kajuu Web — Data Model
+KAJÚ Web — Data Model
 Overview
 
-Kajuu Web uses Firestore to store catalog data.
+KAJÚ Web uses Firestore to store catalog data.
 
 Version 1 focuses on:
 
@@ -240,4 +240,3 @@ Conjunto Gris y Negro
 Data Principle
 
 The data model must be simple, readable, exportable, and easy to migrate later.
-

@@ -25,10 +25,9 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
               aria-label={`Ver imagen ${index + 1} de ${productName}`}
               className={[
                 "relative h-24 w-20 shrink-0 cursor-pointer border transition-colors duration-300 lg:h-32 lg:w-full",
-                "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]",
                 index === activeIndex
-                  ? "border-[#2f140d]"
-                  : "border-[#e7d8cc] opacity-80 hover:border-[#8a5a3c] hover:opacity-100",
+                  ? "border-[var(--brand)]"
+                  : "border-[var(--border)] opacity-80 hover:border-[var(--border-strong)] hover:opacity-100",
               ].join(" ")}
               key={`${image.url}-${index}`}
               onClick={() => setActiveIndex(index)}
@@ -46,10 +45,10 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
         </div>
       ) : null}
 
-      <figure className="image-container relative aspect-[4/5] w-full flex-grow border border-[#e7d8cc]/70 bg-[#efeeec]">
+      <figure className="image-container relative aspect-[4/5] w-full flex-grow border border-[var(--border)] bg-[var(--surface-emphasis)]">
         <Image
           alt={activeImage.alt}
-          className="object-cover object-center sepia-[0.08]"
+          className="object-cover object-center"
           fill
           key={activeImage.url}
           priority

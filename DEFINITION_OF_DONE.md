@@ -1,4 +1,4 @@
-Kajuu Web — Definition of Done
+KAJÚ Web — Definition of Done
 
 A task is complete only when it meets all conditions below.
 

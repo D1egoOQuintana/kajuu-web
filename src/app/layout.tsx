@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter, Playfair_Display } from "next/font/google";
+import { headers } from "next/headers";
+import { DM_Serif_Display, Inter } from "next/font/google";
 
-import { ViewTransitionProvider } from "@/components/layout/view-transition-provider";
 import { WhatsAppFloating } from "@/components/product/whatsapp-floating";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -11,40 +12,52 @@ const inter = Inter({
   display: "swap",
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const dmSerif = DM_Serif_Display({
+  variable: "--font-dm-serif",
   subsets: ["latin"],
   display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kajuu-web.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Kajuu Indumentaria | Catálogo boutique",
-    template: "%s | Kajuu Indumentaria",
+    default: `${SITE_NAME} | Catálogo boutique`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Catálogo boutique de indumentaria femenina urbana. Descubre prendas seleccionadas y consulta stock por WhatsApp.",
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    title: `${SITE_NAME} | Catálogo boutique femenino`,
+    description: SITE_DESCRIPTION,
+    type: "website",
+    locale: "es_AR",
+    siteName: SITE_NAME,
+    url: SITE_URL,
+    images: [{ url: "/products/zara3.webp", alt: "Colección KAJÚ Indumentaria" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} | Catálogo boutique femenino`,
+    description: SITE_DESCRIPTION,
+    images: ["/products/zara3.webp"],
+  },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Leer headers fuerza render dinámico, necesario para los nonces CSP por solicitud.
+  await headers();
+
   return (
     <html
       lang="es"
-      className={`${inter.variable} ${playfair.variable} ${geistMono.variable}`}
+      className={`${inter.variable} ${dmSerif.variable}`}
     >
       <body className="min-h-screen antialiased">
-        <ViewTransitionProvider>{children}</ViewTransitionProvider>
+        {children}
         <WhatsAppFloating />
       </body>
     </html>

@@ -12,6 +12,7 @@ import {
   getProductsByCategory,
   getVisibleProducts,
 } from "@/features/catalog/catalog.service";
+import { CATEGORY_LABELS } from "@/lib/site";
 import type { Product, ProductCategory } from "@/types/product";
 import { PRODUCT_CATEGORIES } from "@/types/product";
 
@@ -38,7 +39,8 @@ function sortProducts(products: Product[], sort: SortOption): Product[] {
 export const metadata: Metadata = {
   title: "Catálogo",
   description:
-    "Explora el catálogo visible de Kajuu Indumentaria por categoría y consulta stock por WhatsApp.",
+    "Explora el catálogo visible de KAJÚ Indumentaria por categoría y consulta stock por WhatsApp.",
+  alternates: { canonical: "/catalogo" },
 };
 
 type CatalogPageProps = {
@@ -47,18 +49,6 @@ type CatalogPageProps = {
     filter?: string | string[];
     sort?: string | string[];
   }>;
-};
-
-const categoryLabels: Record<ProductCategory, string> = {
-  jeans: "Jeans",
-  tops: "Tops",
-  sweaters: "Sweaters",
-  buzos: "Buzos",
-  pantalones: "Pantalones",
-  camperas: "Camperas",
-  conjuntos: "Conjuntos",
-  accesorios: "Accesorios",
-  otros: "Otros",
 };
 
 function isProductCategory(value: string): value is ProductCategory {
@@ -88,31 +78,31 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   const selectedSort: SortOption =
     sortParam && isSortOption(sortParam) ? sortParam : "recent";
 
-  const baseProducts = isNewFilter
+  const baseProducts = await (isNewFilter
     ? getNewArrivalProducts()
     : selectedCategory
       ? getProductsByCategory(selectedCategory)
-      : getVisibleProducts();
+      : getVisibleProducts());
   const products = sortProducts(baseProducts, selectedSort);
 
   return (
-    <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
+    <div className="min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)]">
       <PublicHeader />
       <main className="w-full pb-24">
         <header className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 pb-10 pt-28 md:px-16 md:pb-14 md:pt-36 lg:grid-cols-12 lg:items-end lg:pt-[136px]">
           <div className="lg:col-span-7">
-            <h1 className="editorial-title text-[clamp(3rem,11vw,4.5rem)] leading-[1.05] text-[#2f140d] md:text-[68px]">
+            <h1 className="editorial-title text-[clamp(3rem,11vw,4.5rem)] leading-[1.05] text-[var(--text-primary)] md:text-[68px]">
               {isNewFilter ? "Últimos ingresos" : "Nuestra colección"}
             </h1>
           </div>
 
           <div className="max-w-xl lg:col-span-5 lg:justify-self-end">
-            <p className="text-base leading-[1.75] text-[#5f5048] md:text-lg">
+            <p className="text-base leading-[1.75] text-[var(--text-secondary)] md:text-lg">
               {isNewFilter
                 ? "Las prendas que entraron esta semana al showroom. ¿Te gustó algo? Consúltanos el stock por WhatsApp."
                 : "Todo lo que hay en el showroom, actualizado. ¿Te gustó algo? Consúltanos el stock por WhatsApp."}
             </p>
-            <p className="mt-4 text-sm text-[#6d5c4e]">
+            <p className="mt-4 text-sm text-[var(--text-muted)]">
               {products.length === 1
                 ? "1 prenda"
                 : `${products.length} prendas`}
@@ -120,7 +110,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           </div>
         </header>
 
-        <div className="kajuu-filter-bar sticky z-40 w-full border-b border-[#e7d8cc] bg-[#faf9f7] shadow-[0_6px_16px_-12px_rgba(47,20,13,0.25)]">
+        <div className="kajuu-filter-bar sticky z-40 w-full border-b border-[var(--border)] bg-[var(--background-primary)]">
           <Container className="flex flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between md:gap-8 md:py-5">
             <nav
               aria-label="Filtrar el catálogo"
@@ -133,10 +123,10 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                       !isNewFilter && !selectedCategory ? "page" : undefined
                     }
                     className={[
-                      "label-caps whitespace-nowrap border-b pb-1 transition-colors",
+                      "inline-flex min-h-11 min-w-11 items-center whitespace-nowrap border-b text-xs font-semibold transition-colors",
                       !isNewFilter && !selectedCategory
-                        ? "border-[#2f140d] text-[#2f140d]"
-                        : "border-transparent text-[#5f5048] hover:border-[#c98b7a] hover:text-[#7a2e2e]",
+                        ? "border-[var(--text-primary)] text-[var(--text-primary)]"
+                        : "border-transparent text-[var(--text-secondary)] hover:border-[var(--border-strong)] hover:text-[var(--brand-hover)]",
                     ].join(" ")}
                     href="/catalogo"
                   >
@@ -147,10 +137,10 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                   <Link
                     aria-current={isNewFilter ? "page" : undefined}
                     className={[
-                      "label-caps whitespace-nowrap border-b pb-1 transition-colors",
+                      "inline-flex min-h-11 min-w-11 items-center whitespace-nowrap border-b text-xs font-semibold transition-colors",
                       isNewFilter
-                        ? "border-[#7a2e2e] text-[#7a2e2e]"
-                        : "border-transparent text-[#5f5048] hover:border-[#c98b7a] hover:text-[#7a2e2e]",
+                        ? "border-[var(--brand)] text-[var(--brand)]"
+                        : "border-transparent text-[var(--text-secondary)] hover:border-[var(--border-strong)] hover:text-[var(--brand-hover)]",
                     ].join(" ")}
                     href="/catalogo?filter=new"
                   >
@@ -158,7 +148,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                   </Link>
                 </li>
                 <li aria-hidden="true" className="shrink-0">
-                  <span className="block h-4 w-px bg-[#e7d8cc]" />
+                  <span className="block h-4 w-px bg-[var(--border)]" />
                 </li>
                 {PRODUCT_CATEGORIES.map((category) => (
                   <li key={category}>
@@ -167,14 +157,14 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                         selectedCategory === category ? "page" : undefined
                       }
                       className={[
-                        "label-caps whitespace-nowrap border-b pb-1 transition-colors",
+                        "inline-flex min-h-11 min-w-11 items-center whitespace-nowrap border-b text-xs font-semibold transition-colors",
                         selectedCategory === category
-                          ? "border-[#2f140d] text-[#2f140d]"
-                          : "border-transparent text-[#5f5048] hover:border-[#c98b7a] hover:text-[#7a2e2e]",
+                          ? "border-[var(--text-primary)] text-[var(--text-primary)]"
+                          : "border-transparent text-[var(--text-secondary)] hover:border-[var(--border-strong)] hover:text-[var(--brand-hover)]",
                       ].join(" ")}
                       href={`/catalogo?categoria=${category}`}
                     >
-                      {categoryLabels[category]}
+                      {CATEGORY_LABELS[category]}
                     </Link>
                   </li>
                 ))}
@@ -184,7 +174,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
             <div className="flex shrink-0 items-center gap-5 md:gap-6">
               <span
                 aria-hidden="true"
-                className="hidden h-5 w-px bg-[#e7d8cc] md:block"
+                className="hidden h-5 w-px bg-[var(--border)] md:block"
               />
               <SortSelect current={selectedSort} />
             </div>
@@ -192,18 +182,18 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
         </div>
 
         {(isNewFilter || selectedCategory) && (
-          <Container className="flex flex-wrap items-center justify-between gap-3 border-b border-[#e7d8cc]/60 py-4">
-            <p className="label-caps text-[#6d5c4e]">
+          <Container className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] py-4">
+            <p className="label-caps text-[var(--text-muted)]">
               Mostrando{" "}
-              <span className="text-[#2f140d]">{products.length}</span>{" "}
+              <span className="text-[var(--text-primary)]">{products.length}</span>{" "}
               {products.length === 1 ? "prenda" : "prendas"}
-              <span className="mx-2 text-[#c98b7a]">·</span>
-              <span className="text-[#2f140d]">
-                {isNewFilter ? "Últimos ingresos" : categoryLabels[selectedCategory!]}
+              <span className="mx-2 text-[var(--brand-secondary)]">·</span>
+              <span className="text-[var(--text-primary)]">
+                {isNewFilter ? "Últimos ingresos" : CATEGORY_LABELS[selectedCategory!]}
               </span>
             </p>
             <Link
-              className="label-caps inline-flex items-center gap-2 border-b border-[#7a2e2e]/40 pb-0.5 text-[#7a2e2e] transition-colors hover:border-[#7a2e2e] hover:text-[#5a1f1f]"
+              className="label-caps inline-flex min-h-11 items-center gap-2 border-b border-[var(--border-strong)] text-[var(--brand)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--brand-hover)]"
               href={selectedSort === "recent" ? "/catalogo" : `/catalogo?sort=${selectedSort}`}
             >
               Limpiar filtros
@@ -217,12 +207,12 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
         </section>
 
         <Container>
-          <div className="flex flex-col items-start justify-between gap-5 border-t border-[#e7d8cc] pt-8 md:flex-row md:items-center">
+          <div className="flex flex-col items-start justify-between gap-5 border-t border-[var(--border)] pt-8 md:flex-row md:items-center">
             <div>
-              <h2 className="editorial-heading mb-2 text-2xl text-[#2f140d]">
+              <h2 className="editorial-heading mb-2 text-2xl text-[var(--text-primary)]">
                 ¿No sabes qué talla elegir?
               </h2>
-              <p className="max-w-xl text-sm leading-7 text-[#5f5048]">
+              <p className="max-w-xl text-sm leading-7 text-[var(--text-secondary)]">
                 Escríbenos por WhatsApp y te ayudamos a encontrar la prenda
                 correcta.
               </p>

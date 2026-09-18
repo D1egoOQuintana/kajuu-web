@@ -10,7 +10,8 @@ import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 export const metadata: Metadata = {
   title: "Cómo comprar",
   description:
-    "Conoce cómo comprar en Kajuu: elige una prenda, consulta stock y coordina entrega por WhatsApp.",
+    "Conoce cómo comprar en KAJÚ: elige una prenda, consulta stock y coordina entrega por WhatsApp.",
+  alternates: { canonical: "/como-comprar" },
 };
 
 type StepIcon = "apparel" | "chat" | "delivery" | "package";
@@ -94,21 +95,21 @@ function StepIconSvg({ name }: { name: StepIcon }) {
 
 export default function HowToBuyPage() {
   return (
-    <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
+    <div className="min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)]">
       <PublicHeader />
       <main className="pb-24">
         {/* Header — replica Stitch: col-span-8 col-start-2, eyebrow + display + body */}
-        <header className="bg-[#faf9f7]">
+        <header className="bg-[var(--background-primary)]">
           <Container className="grid grid-cols-1 gap-8 pt-28 pb-12 md:pt-36 md:pb-16 lg:grid-cols-12 lg:pt-[136px]">
             <div className="lg:col-span-9 lg:col-start-2">
               <h1
-                className="editorial-title text-[clamp(3.15rem,12vw,5rem)] leading-[1.02] text-[#2f140d] md:text-[80px]"
+                className="editorial-title text-[clamp(3.15rem,12vw,5rem)] leading-[1.02] text-[var(--text-primary)] md:text-[80px]"
                 style={{ textWrap: "balance" }}
               >
                 Cómo comprar
               </h1>
-              <p className="mt-7 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg">
-                Comprar en Kajuu es simple: eliges la prenda, nos escribes por
+              <p className="mt-7 max-w-2xl text-base leading-[1.7] text-[var(--text-secondary)] md:text-lg">
+                Comprar en KAJÚ es simple: eliges la prenda, nos escribes por
                 WhatsApp y coordinamos la entrega.
               </p>
             </div>
@@ -123,19 +124,19 @@ export default function HowToBuyPage() {
           >
             {steps.map((step) => (
               <article
-                className="lift-card group flex h-full flex-col items-center rounded-lg border border-[#e7d8cc] bg-[#f4f3f1] p-8 text-center shadow-[0_1px_2px_rgba(47,20,13,0.04)]"
+                className="lift-card group flex h-full flex-col items-center rounded-lg border border-[var(--border)] bg-[var(--background-secondary)] p-8 text-center"
                 key={step.number}
               >
                 <span className="step-icon-circle mb-7">
                   <StepIconSvg name={step.icon} />
                 </span>
-                <p className="label-caps mb-3 text-[#7a2e2e]">
+                <p className="label-caps mb-3 text-[var(--brand)]">
                   Paso {step.number}
                 </p>
-                <h2 className="editorial-heading text-2xl text-[#2f140d]">
+                <h2 className="editorial-heading text-2xl text-[var(--text-primary)]">
                   {step.title}
                 </h2>
-                <p className="mt-4 text-sm leading-7 text-[#5f5048]">
+                <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
                   {step.body}
                 </p>
               </article>
@@ -144,7 +145,7 @@ export default function HowToBuyPage() {
 
           {/* Bento — image card 7/5 con offset translate-y, hover image-zoom */}
           <section className="grid grid-cols-1 gap-6 py-14 md:grid-cols-12 lg:py-20">
-            <article className="lift-card md:col-span-7 group overflow-hidden rounded-lg border border-[#e7d8cc] bg-[#faf9f7]">
+            <article className="lift-card md:col-span-7 group overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--background-primary)]">
               <div className="image-container relative h-64 w-full overflow-hidden md:h-80">
                 <Image
                   alt="Entrega cuidada en CABA"
@@ -155,26 +156,26 @@ export default function HowToBuyPage() {
                 />
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#2f140d]/35 via-transparent to-transparent"
+                  className="pointer-events-none absolute inset-0 "
                 />
               </div>
               <div className="p-8 md:p-10">
-                <h2 className="editorial-heading text-3xl text-[#2f140d] md:text-[42px]" style={{ textWrap: "balance" }}>
+                <h2 className="editorial-heading text-3xl text-[var(--text-primary)] md:text-[42px]" style={{ textWrap: "balance" }}>
                   Entregas en CABA
                 </h2>
-                <p className="mt-5 max-w-xl text-base leading-7 text-[#5f5048]">
+                <p className="mt-5 max-w-xl text-base leading-7 text-[var(--text-secondary)]">
                   Confirmamos disponibilidad y forma de entrega por WhatsApp
                   antes de cerrar el pedido. También puedes retirar por Floresta.
                 </p>
               </div>
             </article>
 
-            <article className="lift-card md:col-span-5 md:translate-y-12 group flex flex-col justify-between rounded-lg border border-[#e7d8cc] bg-[#f4f3f1] p-8 md:p-10">
+            <article className="lift-card md:col-span-5 md:translate-y-12 group flex flex-col justify-between rounded-lg border border-[var(--border)] bg-[var(--background-secondary)] p-8 md:p-10">
               <div>
-                <h3 className="editorial-heading text-2xl text-[#2f140d] md:text-3xl">
+                <h3 className="editorial-heading text-2xl text-[var(--text-primary)] md:text-3xl">
                   Showroom en Floresta
                 </h3>
-                <p className="mt-5 text-sm leading-7 text-[#5f5048] md:text-base md:leading-8">
+                <p className="mt-5 text-sm leading-7 text-[var(--text-secondary)] md:text-base md:leading-8">
                   Un espacio íntimo y privado para que conozcas las prendas en
                   persona. Coordinamos tu visita por WhatsApp.
                 </p>
@@ -188,7 +189,7 @@ export default function HowToBuyPage() {
               </div>
               <div className="image-container mt-8 h-48 w-full overflow-hidden rounded-lg md:h-56">
                 <Image
-                  alt="Showroom Kajuu en Floresta"
+                  alt="Showroom KAJÚ en Floresta"
                   className="h-full w-full object-cover object-center sepia-[0.06]"
                   height={480}
                   src="/products/images.jpg"
@@ -199,19 +200,19 @@ export default function HowToBuyPage() {
           </section>
 
           {/* Closing CTA — centered con border-top */}
-          <section className="mt-16 flex flex-col items-center gap-7 border-t border-[#e7d8cc] py-16 text-center md:py-20">
+          <section className="mt-16 flex flex-col items-center gap-7 border-t border-[var(--border)] py-16 text-center md:py-20">
             <h2
-              className="editorial-heading max-w-2xl text-[34px] leading-[1.1] text-[#2f140d] md:text-[52px]"
+              className="editorial-heading max-w-2xl text-[34px] leading-[1.1] text-[var(--text-primary)] md:text-[52px]"
               style={{ textWrap: "balance" }}
             >
               ¿Viste algo que te gustó?
             </h2>
-            <p className="max-w-lg text-sm leading-7 text-[#5f5048] md:text-base">
+            <p className="max-w-lg text-sm leading-7 text-[var(--text-secondary)] md:text-base">
               Recorre el catálogo o escríbenos y te ayudamos a elegir el talla.
             </p>
             <div className="mt-2 flex flex-col gap-3 sm:flex-row">
               <Link
-                className="inline-flex min-h-12 items-center justify-center rounded-[2px] border border-[#2f140d] bg-[#e8d6c0] px-8 text-center text-[12px] font-semibold uppercase tracking-[0.16em] text-[#2f140d] shadow-[0_8px_20px_-12px_rgba(47,20,13,0.28)] transition-all duration-300 hover:bg-[#d4bf9f] hover:shadow-[0_14px_28px_-12px_rgba(47,20,13,0.32)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
+                className="button button--primary"
                 href="/catalogo"
               >
                 Iniciar consulta

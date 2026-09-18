@@ -38,11 +38,11 @@ export function SortSelect({ current }: SortSelectProps) {
       className="flex shrink-0 items-center gap-3"
       htmlFor={selectId}
     >
-      <span className="label-caps text-[#6d5c4e]">Ordenar</span>
+      <span className="label-caps text-[var(--text-muted)]">Ordenar</span>
       <span className="relative inline-flex items-center">
         <select
           aria-label="Ordenar productos"
-          className="label-caps cursor-pointer appearance-none border-b border-[#2f140d] bg-transparent pr-6 pb-1 text-[#2f140d] outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
+          className="min-h-11 cursor-pointer appearance-none border-b border-[var(--text-primary)] bg-transparent pr-7 pb-1 text-sm font-medium text-[var(--text-primary)]"
           id={selectId}
           onChange={handleChange}
           value={current}
@@ -55,7 +55,7 @@ export function SortSelect({ current }: SortSelectProps) {
         </select>
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-[10px] text-[#2f140d]"
+          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-[10px] text-[var(--text-primary)]"
         >
           ▾
         </span>

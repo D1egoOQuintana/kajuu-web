@@ -1,8 +1,8 @@
-# Kajuu Web — Architecture
+# KAJÚ Web — Architecture
 
 ## 1. Project Overview
 
-Kajuu Web is a professional fashion catalog website for **Kajuu Indumentaria**.
+KAJÚ Web is a professional fashion catalog website for **KAJÚ Indumentaria**.
 
 The product is designed as a premium digital catalog, not a full ecommerce platform.
 
@@ -11,7 +11,7 @@ The business model is:
 ```txt
 Instagram / WhatsApp traffic
         ↓
-Kajuu Web
+KAJÚ Web
         ↓
 Catalog / Lookbook / Product Detail
         ↓
@@ -113,7 +113,7 @@ Public pages:
 
 Purpose:
 
-* introduce Kajuu as a premium boutique
+* introduce KAJÚ as a premium boutique
 * drive users to catalog and WhatsApp
 * show new arrivals and featured products
 * communicate trust and style
@@ -559,7 +559,7 @@ The UI must:
 
 ## 18. Design System Direction
 
-The design system must be custom for Kajuu.
+The design system must be custom for KAJÚ.
 
 Visual direction:
 

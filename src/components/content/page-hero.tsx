@@ -18,23 +18,23 @@ export function PageHero({
   children,
 }: PageHeroProps) {
   return (
-    <header className="bg-[#faf9f7]">
+    <header className="bg-[var(--background-primary)]">
       <Container className="grid gap-8 pb-10 pt-28 md:pb-14 md:pt-36 lg:grid-cols-12 lg:items-end lg:pt-[136px]">
         <div className="lg:col-span-7">
-          <p className="label-caps mb-4 text-[#8a5a3c]">{eyebrow}</p>
-          <h1 className="editorial-title text-[clamp(3.15rem,12vw,5rem)] leading-[1.02] text-[#2f140d] md:text-[80px]">
+          <p className="mb-4 text-sm font-medium text-[var(--brand)]">{eyebrow}</p>
+          <h1 className="editorial-title text-[clamp(3.15rem,12vw,5rem)] md:text-[80px]">
             {title}
             {accent ? (
               <>
                 <br />
-                <span className="italic text-[#8a5a3c]">{accent}</span>
+                <span className="text-[var(--brand)]">{accent}</span>
               </>
             ) : null}
           </h1>
         </div>
 
         <div className="max-w-xl lg:col-span-5 lg:justify-self-end">
-          <p className="text-base leading-[1.75] text-[#5f5048] md:text-lg">
+          <p className="text-base leading-[1.75] text-[var(--text-secondary)] md:text-lg">
             {description}
           </p>
           {children ? <div className="mt-6">{children}</div> : null}

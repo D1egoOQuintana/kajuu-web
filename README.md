@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# KAJÚ Web
 
-## Getting Started
+Catálogo público y panel privado para KAJÚ Indumentaria. La aplicación usa Next.js, Firebase Authentication, Cloud Firestore y Firebase Storage.
 
-First, run the development server:
+## Requisitos
+
+- Node.js 22 o superior
+- Java 17 o superior para los emuladores de Firebase incluidos en las pruebas
+- Un proyecto Firebase con Authentication, Firestore y Storage habilitados
+
+## Configuración local
+
+1. Instala dependencias con `npm ci`.
+2. Copia `.env.example` como `.env.local` y completa los valores. Las variables `NEXT_PUBLIC_*` llegan al navegador; las variables `FIREBASE_*` son privadas y solo deben existir en el servidor.
+3. Habilita el proveedor **Correo electrónico/Contraseña** en Firebase Authentication.
+4. Inicia la aplicación con `npm run dev`.
+
+El sitio abre en `http://localhost:3000` y el panel privado en `http://localhost:3000/kajuu-panel`.
+
+## Preparar Firebase
+
+Despliega reglas e índices antes de habilitar el panel:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx firebase-tools deploy --only firestore:rules,firestore:indexes,storage
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Crea la cuenta administradora en Firebase Authentication y concédele el custom claim `admin` desde un entorno que tenga las credenciales privadas configuradas:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run admin:grant -- correo@dominio.com
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+La persona debe cerrar y volver a iniciar sesión para recibir el nuevo claim. Las reglas permiten lectura pública únicamente de productos visibles. Solo una cuenta con `admin: true` puede crear, editar, eliminar o subir imágenes.
 
-## Learn More
+Para migrar el catálogo inicial que venía incluido en el prototipo:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run seed:products
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Este comando crea o actualiza documentos usando el slug como identificador. Ejecútalo una sola vez contra el proyecto correcto.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Seguridad de producción
 
-## Deploy on Vercel
+- Configura Firebase App Check con reCAPTCHA v3 y añade `NEXT_PUBLIC_FIREBASE_APP_CHECK_SITE_KEY`.
+- Restringe la API key pública en Google Cloud a los dominios de producción y a las APIs de Firebase necesarias.
+- Guarda `FIREBASE_PRIVATE_KEY`, `FIREBASE_CLIENT_EMAIL` y `FIREBASE_PROJECT_ID` como secretos del proveedor de hosting. Nunca los confirmes en Git.
+- Autoriza el dominio final en Firebase Authentication y App Check.
+- Usa un número internacional sin `+` ni espacios en `NEXT_PUBLIC_WHATSAPP_PHONE`.
+- Define `NEXT_PUBLIC_SITE_URL` con el dominio canónico para sitemap, Open Graph y datos estructurados.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Calidad
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm test
+npm run test:rules
+npm run build
+```
+
+`npm run check` ejecuta lint, pruebas unitarias y build. Las pruebas de reglas arrancan los emuladores de Firestore y Storage y necesitan Java.
+
+## Despliegue
+
+1. Configura todas las variables de `.env.example` en el entorno de producción.
+2. Ejecuta `npm ci` y `npm run check` en integración continua.
+3. Despliega las reglas de Firebase.
+4. Publica la aplicación con `npm run build` y `npm run start` o mediante el adaptador oficial del proveedor.
+5. Comprueba `/`, `/catalogo`, `/ultimos-ingresos`, un detalle de producto y el acceso a `/kajuu-panel`.
+
+El catálogo público consulta Firestore desde el servidor y mantiene una caché de 60 segundos. El panel escribe directamente mediante el SDK web; Firestore y Storage vuelven a validar cada operación con sus reglas.

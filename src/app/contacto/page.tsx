@@ -5,11 +5,13 @@ import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
 import { PublicHeader } from "@/components/layout/public-header";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
+import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Contacta a Kajuu por WhatsApp o Instagram. Consultas de stock, tallas, entregas y últimos ingresos.",
+    "Contacta a KAJÚ por WhatsApp o Instagram. Consultas de stock, tallas, entregas y últimos ingresos.",
+  alternates: { canonical: "/contacto" },
 };
 
 const faqs = [
@@ -63,18 +65,18 @@ const InfoIcon = () => (
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-[#faf9f7] text-[#1a1c1b]">
+    <div className="min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)]">
       <PublicHeader />
       <main className="pb-24">
         <Container className="pt-28 pb-12 md:pt-36 md:pb-16">
           <div className="max-w-3xl">
             <h1
-              className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[#2f140d] md:text-[80px]"
+              className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[var(--text-primary)] md:text-[80px]"
               style={{ textWrap: "balance" }}
             >
               Estamos para ayudarte.
             </h1>
-            <p className="mt-7 max-w-2xl text-base leading-[1.7] text-[#5f5048] md:text-lg">
+            <p className="mt-7 max-w-2xl text-base leading-[1.7] text-[var(--text-secondary)] md:text-lg">
               ¿Dudas de talla, stock o entrega? Escríbenos y te respondemos en
               el día. También puedes revisar las preguntas frecuentes.
             </p>
@@ -85,72 +87,72 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 gap-8 pb-16 md:grid-cols-12">
             {/* Bento info column (Stitch: md:col-span-4) */}
             <aside className="stagger flex flex-col gap-6 md:col-span-4">
-              <article className="lift-card group flex h-full min-h-[260px] cursor-pointer flex-col justify-between rounded-xl border border-[#e7d8cc] bg-[#f4f3f1] p-7 shadow-[0_1px_2px_rgba(47,20,13,0.04)] md:p-8">
+              <article className="lift-card group flex h-full min-h-[260px] cursor-pointer flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--background-secondary)] p-7 md:p-8">
                 <div>
-                  <span className="mb-5 inline-flex text-[#7a2e2e]">
+                  <span className="mb-5 inline-flex text-[var(--brand)]">
                     <ChatIcon />
                   </span>
-                  <h2 className="editorial-heading text-2xl text-[#2f140d] md:text-3xl">
+                  <h2 className="editorial-heading text-2xl text-[var(--text-primary)] md:text-3xl">
                     Asistencia personalizada
                   </h2>
-                  <p className="mt-3 text-sm leading-7 text-[#5f5048]">
+                  <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
                     Ideal para stock, tallas, colores, entregas y prendas que
                     viste en Instagram.
                   </p>
                 </div>
                 <WhatsAppCTA
-                  className="link-arrow mt-7 !justify-start !border-transparent !bg-transparent !px-0 text-[#7a2e2e] hover:!bg-transparent hover:!text-[#5a1f1f]"
+                  className="link-arrow mt-7 !justify-start !border-transparent !bg-transparent !px-0 text-[var(--brand)] hover:!bg-transparent hover:!text-[var(--brand-hover)]"
                   label="Iniciar chat"
                   variant="ghost"
                 />
               </article>
 
-              <article className="lift-card group flex h-full cursor-pointer flex-col justify-between rounded-xl border border-[#e7d8cc] bg-[#faf9f7] p-7 shadow-[0_1px_2px_rgba(47,20,13,0.04)] md:p-8">
+              <article className="lift-card group flex h-full cursor-pointer flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--background-primary)] p-7 md:p-8">
                 <div>
-                  <span className="mb-5 inline-flex text-[#2f140d]">
+                  <span className="mb-5 inline-flex text-[var(--text-primary)]">
                     <CameraIcon />
                   </span>
-                  <h2 className="editorial-heading text-2xl text-[#2f140d] md:text-3xl">
+                  <h2 className="editorial-heading text-2xl text-[var(--text-primary)] md:text-3xl">
                     Instagram
                   </h2>
-                  <p className="mt-3 text-sm leading-7 text-[#5f5048]">
+                  <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
                     Síguenos para ver ingresos, combinaciones, prendas en uso
                     y novedades del showroom.
                   </p>
                 </div>
                 <a
-                  className="link-arrow label-caps mt-7 inline-flex w-fit items-center gap-2 border-b border-[#2f140d] pb-1 text-[#2f140d] transition-colors hover:border-[#7a2e2e] hover:text-[#7a2e2e] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a2e2e]"
-                  href="https://www.instagram.com/kajuu_indumentaria/"
+                  className="link-arrow label-caps mt-7 inline-flex min-h-11 w-fit items-center gap-2 border-b border-[var(--text-primary)] text-[var(--text-primary)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+                  href={INSTAGRAM_URL}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  @kajuu_indumentaria
+                  {INSTAGRAM_HANDLE}
                   <span aria-hidden="true" className="arrow">→</span>
                 </a>
               </article>
 
-              <article className="lift-card rounded-xl border border-[#e7d8cc] bg-[#faf9f7] p-7 shadow-[0_1px_2px_rgba(47,20,13,0.04)] md:p-8">
-                <span className="mb-5 inline-flex text-[#8a5a3c]">
+              <article className="lift-card rounded-xl border border-[var(--border)] bg-[var(--background-primary)] p-7 md:p-8">
+                <span className="mb-5 inline-flex text-[var(--brand)]">
                   <InfoIcon />
                 </span>
-                <h3 className="editorial-heading mb-5 text-2xl text-[#2f140d] md:text-3xl">
+                <h3 className="editorial-heading mb-5 text-2xl text-[var(--text-primary)] md:text-3xl">
                   Información
                 </h3>
                 <div className="mb-5">
-                  <p className="label-caps mb-2 text-[#6d5c4e]">
+                  <p className="label-caps mb-2 text-[var(--text-muted)]">
                     Horarios de atención
                   </p>
-                  <p className="text-[15px] leading-6 text-[#2f140d]">
+                  <p className="text-[15px] leading-6 text-[var(--text-primary)]">
                     Lunes a viernes
                     <br />
                     10:00 – 19:00 hs
                   </p>
                 </div>
                 <div>
-                  <p className="label-caps mb-2 text-[#6d5c4e]">
+                  <p className="label-caps mb-2 text-[var(--text-muted)]">
                     Entregas en CABA
                   </p>
-                  <p className="text-[15px] leading-6 text-[#5f5048]">
+                  <p className="text-[15px] leading-6 text-[var(--text-secondary)]">
                     Mensajería privada en el día para pedidos confirmados antes
                     de las 13:00 hs.
                   </p>
@@ -160,16 +162,16 @@ export default function ContactPage() {
 
             {/* FAQ column */}
             <div className="md:col-span-8 md:pl-6 lg:pl-10">
-              <h2 className="editorial-heading mb-8 border-b border-[#e7d8cc] pb-4 text-3xl text-[#2f140d] md:text-[44px]">
+              <h2 className="editorial-heading mb-8 border-b border-[var(--border)] pb-4 text-3xl text-[var(--text-primary)] md:text-[44px]">
                 Preguntas Frecuentes
               </h2>
 
               <KajuuFaq items={[...faqs]} />
 
-              <div className="mt-12 flex flex-col items-start justify-between gap-5 rounded-xl border border-[#e7d8cc] bg-[#f4f3f1] p-7 md:flex-row md:items-center md:p-8">
+              <div className="mt-12 flex flex-col items-start justify-between gap-5 rounded-xl border border-[var(--border)] bg-[var(--background-secondary)] p-7 md:flex-row md:items-center md:p-8">
                 <div className="max-w-lg">
-                  <p className="label-caps mb-2 text-[#7a2e2e]">¿No encontraste tu respuesta?</p>
-                  <p className="text-sm leading-7 text-[#5f5048]">
+                  <p className="label-caps mb-2 text-[var(--brand)]">¿No encontraste tu respuesta?</p>
+                  <p className="text-sm leading-7 text-[var(--text-secondary)]">
                     Escríbenos: la atención por WhatsApp es el canal más rápido y
                     personal.
                   </p>

@@ -1,9 +1,16 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 import { createProductWhatsAppUrl } from "@/lib/utils/whatsapp";
 
 export function WhatsAppFloating() {
+  const pathname = usePathname();
   const url = createProductWhatsAppUrl({
-    productName: "el catálogo de Kajuu",
+    productName: "el catálogo de KAJÚ",
   });
+
+  if (pathname.startsWith("/kajuu-panel")) return null;
 
   return (
     <a

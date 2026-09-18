@@ -7,18 +7,20 @@ type CreateProductWhatsAppUrlParams = {
   productUrl?: string;
 };
 
-const DEFAULT_KAJUU_WHATSAPP_PHONE = "51989498385";
-
 export function createProductWhatsAppUrl({
   productName,
-  phoneNumber = DEFAULT_KAJUU_WHATSAPP_PHONE,
+  phoneNumber = WHATSAPP_PHONE,
   size,
   color,
   priceLabel,
   productUrl,
 }: CreateProductWhatsAppUrlParams): string {
+  const safePhoneNumber = phoneNumber.replace(/\D/g, "");
+  if (!safePhoneNumber) {
+    throw new Error("El número de WhatsApp no está configurado.");
+  }
   const lines = [
-    "Hola Kajuu, vengo de la web.",
+    "Hola KAJÚ, vengo de la web.",
     `Quiero consultar por: ${productName}`,
   ];
 
@@ -30,5 +32,6 @@ export function createProductWhatsAppUrl({
   lines.push("¿Tienen stock disponible?");
 
   const message = lines.join("\n");
-  return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${safePhoneNumber}?text=${encodeURIComponent(message)}`;
 }
+import { WHATSAPP_PHONE } from "@/lib/site";

@@ -46,9 +46,11 @@ export function KajuuFaq({ items }: KajuuFaqProps) {
               </span>
             </button>
             <div
+              aria-hidden={!isOpen}
               aria-labelledby={buttonId}
               className="kajuu-faq-panel"
               id={panelId}
+              inert={!isOpen}
               role="region"
             >
               <div className="kajuu-faq-panel-inner">

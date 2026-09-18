@@ -1,13 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { BrandLogo } from "@/components/brand/brand-logo";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 
 const leftNavigationItems = [
   { href: "/", label: "Inicio" },
   { href: "/catalogo", label: "Catálogo" },
+  { href: "/lookbook", label: "Lookbook" },
 ] as const;
 
 const rightNavigationItems = [
@@ -25,12 +28,16 @@ const SCROLL_HIDE_THRESHOLD = 80;
 const SCROLL_CAPSULE_THRESHOLD = 24;
 
 export function PublicHeader() {
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCapsule, setIsCapsule] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const lastScrollY = useRef(0);
   const drawerRef = useRef<HTMLElement>(null);
   const burgerRef = useRef<HTMLButtonElement>(null);
+
+  const isCurrent = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   useEffect(() => {
     let frame = 0;
@@ -132,6 +139,7 @@ export function PublicHeader() {
           >
             {leftNavigationItems.map((item) => (
               <Link
+                aria-current={isCurrent(item.href) ? "page" : undefined}
                 className="kajuu-header-link"
                 href={item.href}
                 key={item.href}
@@ -142,20 +150,19 @@ export function PublicHeader() {
           </nav>
 
           <Link
-            aria-label="Kajuu — ir al inicio"
+            aria-label="KAJÚ — ir al inicio"
             className="kajuu-header-brand"
             href="/"
           >
-            <span className="kajuu-header-brand-full">Kajuu</span>
-            <span aria-hidden="true" className="kajuu-header-brand-mark">
-              K
-            </span>
+            <BrandLogo alt="" priority variant="horizontal" />
+            <BrandLogo alt="" priority variant="compact" />
           </Link>
 
           <div className="hidden items-center gap-6 xl:flex">
-            <nav aria-label="Navegación principal derecha" className="kajuu-header-nav">
+            <nav aria-label="Navegación principal derecha" className="kajuu-header-nav flex">
               {rightNavigationItems.map((item) => (
                 <Link
+                  aria-current={isCurrent(item.href) ? "page" : undefined}
                   className="kajuu-header-link"
                   href={item.href}
                   key={item.href}
@@ -164,7 +171,7 @@ export function PublicHeader() {
                 </Link>
               ))}
             </nav>
-            <span aria-hidden="true" className="h-4 w-px bg-[#2f140d]/20" />
+            <span aria-hidden="true" className="h-4 w-px bg-[var(--border)]" />
             <WhatsAppCTA label="WhatsApp" size="sm" variant="ghost" />
           </div>
 
@@ -203,13 +210,18 @@ export function PublicHeader() {
           isMenuOpen ? "is-open" : "",
         ].join(" ")}
         id="kajuu-mobile-drawer"
+        inert={!isMenuOpen}
         ref={drawerRef}
         role="dialog"
       >
-        <div className="flex items-center justify-between border-b border-[#e7d8cc] px-6 py-5">
-          <span className="editorial-heading text-2xl tracking-tight text-[#2f140d]">
-            Kajuu
-          </span>
+        <div className="flex items-center justify-between border-b border-[var(--border)] px-6 py-4">
+          <Link
+            aria-label="KAJÚ — ir al inicio"
+            href="/"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <BrandLogo alt="" className="w-[52px]" variant="compact" />
+          </Link>
           <button
             aria-label="Cerrar menú"
             className="kajuu-drawer-close"
@@ -223,6 +235,7 @@ export function PublicHeader() {
         <nav aria-label="Navegación móvil" className="flex flex-col px-6 py-4">
           {mobileNavigationItems.map((item, index) => (
             <Link
+              aria-current={isCurrent(item.href) ? "page" : undefined}
               className="kajuu-drawer-link"
               href={item.href}
               key={item.href}
@@ -240,8 +253,8 @@ export function PublicHeader() {
           ))}
         </nav>
 
-        <div className="mt-auto border-t border-[#e7d8cc] px-6 py-6">
-          <p className="label-caps mb-3 text-[#7a2e2e]">Asistencia directa</p>
+        <div className="mt-auto border-t border-[var(--border)] px-6 py-6">
+          <p className="label-caps mb-3 text-[var(--brand)]">Asistencia directa</p>
           <WhatsAppCTA
             className="w-full"
             label="Consultar por WhatsApp"
