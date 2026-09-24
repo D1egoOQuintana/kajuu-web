@@ -16,7 +16,7 @@
   "dependencies": {
     "@rive-app/react-canvas-lite": "^4.34.3",
     "firebase": "^12.19.0",
-    "firebase-admin": "^14.4.0",
+    "firebase-admin": "13.10.0",
     "next": "^16.3.5",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
