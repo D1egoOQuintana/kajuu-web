@@ -1,9 +1,10 @@
-import { getVisibleProducts } from "@/features/catalog/catalog.service";
-
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
+    const { getVisibleProducts } = await import(
+      "@/features/catalog/catalog.service"
+    );
     const firstRead = await getVisibleProducts();
     const secondRead = await getVisibleProducts();
     const firstProduct = secondRead[0];
