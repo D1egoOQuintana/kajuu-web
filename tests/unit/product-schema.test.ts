@@ -51,4 +51,12 @@ describe("productWriteSchema", () => {
       expect(productSchema.safeParse(product).success, product.slug).toBe(true);
     }
   });
+
+  it("rehidrata fechas serializadas por la caché de producción", () => {
+    const cachedProduct = JSON.parse(JSON.stringify(mockProducts[0]));
+    const result = productSchema.parse(cachedProduct);
+
+    expect(result.createdAt).toBeInstanceOf(Date);
+    expect(result.updatedAt).toBeInstanceOf(Date);
+  });
 });

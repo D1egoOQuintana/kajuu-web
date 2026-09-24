@@ -21,6 +21,10 @@ function hasUniqueValues(values: string[]): boolean {
 
 const firestoreDateSchema = z.preprocess((value) => {
   if (value instanceof Date) return value;
+  if (typeof value === "string" || typeof value === "number") {
+    const parsedDate = new Date(value);
+    if (!Number.isNaN(parsedDate.getTime())) return parsedDate;
+  }
   if (
     typeof value === "object" &&
     value !== null &&

@@ -55,18 +55,25 @@ const getCachedVisibleProducts = unstable_cache(
   { revalidate: 60, tags: ["products"] },
 );
 
+async function getNormalizedVisibleProducts(): Promise<Product[]> {
+  return (await getCachedVisibleProducts())
+    .map((product) => productSchema.safeParse(product))
+    .filter((result) => result.success)
+    .map((result) => result.data);
+}
+
 export async function getVisibleProducts(): Promise<Product[]> {
-  return getCachedVisibleProducts();
+  return getNormalizedVisibleProducts();
 }
 
 export async function getFeaturedProducts(): Promise<Product[]> {
-  return (await getCachedVisibleProducts()).filter(
+  return (await getNormalizedVisibleProducts()).filter(
     (product) => product.isFeatured === true,
   );
 }
 
 export async function getNewArrivalProducts(): Promise<Product[]> {
-  return (await getCachedVisibleProducts()).filter(
+  return (await getNormalizedVisibleProducts()).filter(
     (product) => product.isNewArrival === true,
   );
 }
@@ -74,7 +81,7 @@ export async function getNewArrivalProducts(): Promise<Product[]> {
 export async function getProductsByCategory(
   category: ProductCategory,
 ): Promise<Product[]> {
-  return (await getCachedVisibleProducts()).filter(
+  return (await getNormalizedVisibleProducts()).filter(
     (product) => product.category === category,
   );
 }
@@ -82,7 +89,7 @@ export async function getProductsByCategory(
 export async function getProductBySlug(
   slug: string,
 ): Promise<Product | undefined> {
-  return (await getCachedVisibleProducts()).find(
+  return (await getNormalizedVisibleProducts()).find(
     (product) => product.slug === slug,
   );
 }
