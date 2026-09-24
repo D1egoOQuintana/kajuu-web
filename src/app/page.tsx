@@ -98,17 +98,20 @@ export default async function Home() {
           <div aria-hidden="true" className="home-hero__wash" />
           <div className="home-hero__inner">
             <div className="home-hero__copy">
-              <p className="home-hero__eyebrow">
-                Colección de jeans · KAJÚ
-              </p>
               <h1 className="home-hero__title">
                 Tu próximo jean{" "}
                 <span>empieza por el calce.</span>
               </h1>
               <p className="home-hero__description">
-                Jeans y prendas urbanas diseñadas para realzar tu silueta todos
-                los días. Encuentra variedad de calces, tiros y lavados con
-                asesoramiento personalizado.
+                <span className="home-hero__description-desktop">
+                  Jeans y prendas urbanas diseñadas para realzar tu silueta todos
+                  los días. Encuentra variedad de calces, tiros y lavados con
+                  asesoramiento personalizado.
+                </span>
+                <span className="home-hero__description-mobile">
+                  Tres calces urbanos. Desliza, elige tu favorito y consúltanos
+                  por disponibilidad.
+                </span>
               </p>
               <div className="home-hero__actions">
                 <Link
@@ -121,7 +124,7 @@ export default async function Home() {
                   </span>
                 </Link>
                 <WhatsAppCTA
-                  className="w-full whitespace-nowrap sm:w-auto sm:min-w-[15rem]"
+                  className="home-hero__cta-secondary w-full whitespace-nowrap sm:w-auto sm:min-w-[15rem]"
                   label="Preguntar por disponibilidad"
                   productName="un jean KAJÚ"
                   variant="secondary"
