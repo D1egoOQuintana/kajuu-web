@@ -7,185 +7,165 @@ import { PublicHeader } from "@/components/layout/public-header";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from "@/lib/site";
 
+import styles from "./contacto.module.css";
+
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Contacta a KAJÚ por WhatsApp o Instagram. Consultas de stock, tallas, entregas y últimos ingresos.",
+    "Contacta a KAJÚ por WhatsApp o Instagram para consultar disponibilidad, colores, entregas y cambios.",
   alternates: { canonical: "/contacto" },
 };
 
 const faqs = [
   {
-    question: "¿Cómo consulto stock?",
+    question: "¿Cómo consulto la disponibilidad?",
     answer:
-      "Entra al producto que te interesa y toca Consultar por WhatsApp. El mensaje llega con el nombre de la prenda para revisar disponibilidad más rápido.",
+      "Abre la ficha de la prenda y toca Preguntar por esta prenda. El mensaje incluye el producto y puede sumar el color seleccionado.",
   },
   {
-    question: "¿Tienen cambios o devoluciones?",
+    question: "¿Puedo coordinar un cambio?",
     answer:
-      "Aceptamos cambios dentro de los 30 días, siempre que la prenda esté sin uso y con sus etiquetas. Para iniciarlo, escríbenos por WhatsApp con tus datos.",
+      "Sí. Escríbenos con el nombre de la prenda. Revisamos el estado, las etiquetas y la disponibilidad del producto antes de coordinar.",
   },
   {
-    question: "¿Cómo sé cuál es mi talla?",
+    question: "¿Cómo coordinan las entregas?",
     answer:
-      "Revisa la guía de tallas con medidas en cm. Si dudas entre dos tallas, escríbenos tus medidas y te orientamos según la prenda exacta.",
-  },
-  {
-    question: "¿Qué métodos de envío ofrecen?",
-    answer:
-      "Coordinamos entregas en CABA y punto de encuentro en Floresta. La modalidad exacta y tiempos se confirman por WhatsApp antes de cerrar el pedido.",
+      "Coordinamos entregas en CABA y envíos a todo el país. La modalidad disponible se confirma por WhatsApp.",
   },
   {
     question: "¿Dónde veo los últimos ingresos?",
     answer:
-      "Los últimos ingresos están integrados en el Home y también puedes filtrarlos en el catálogo con la pestaña Últimos ingresos.",
+      "Están en el inicio y en el filtro Últimos ingresos dentro del catálogo.",
   },
 ] as const;
 
-const ChatIcon = () => (
-  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M4 5h16v11H8l-4 4V5Z" />
-    <path d="M8 10h8M8 13h5" />
-  </svg>
-);
-
-const CameraIcon = () => (
-  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M4 7h3l2-2h6l2 2h3v12H4z" />
-    <circle cx="12" cy="13" r="3.5" />
-  </svg>
-);
-
-const InfoIcon = () => (
-  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="12" cy="12" r="9" />
-    <path d="M12 8h.01M11 12h1v5h1" />
-  </svg>
-);
-
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)]">
+    <div className={styles.page}>
       <PublicHeader />
-      <main className="pb-24">
-        <Container className="pt-28 pb-12 md:pt-36 md:pb-16">
-          <div className="max-w-3xl">
-            <h1
-              className="editorial-title text-[clamp(3rem,11vw,5rem)] leading-[1.04] text-[var(--text-primary)] md:text-[80px]"
-              style={{ textWrap: "balance" }}
-            >
-              Estamos para ayudarte.
-            </h1>
-            <p className="mt-7 max-w-2xl text-base leading-[1.7] text-[var(--text-secondary)] md:text-lg">
-              ¿Dudas de talla, stock o entrega? Escríbenos y te respondemos en
-              el día. También puedes revisar las preguntas frecuentes.
-            </p>
-          </div>
-        </Container>
 
-        <Container>
-          <div className="grid grid-cols-1 gap-8 pb-16 md:grid-cols-12">
-            {/* Bento info column (Stitch: md:col-span-4) */}
-            <aside className="stagger flex flex-col gap-6 md:col-span-4">
-              <article className="lift-card group flex h-full min-h-[260px] cursor-pointer flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--background-secondary)] p-7 md:p-8">
+      <main>
+        <header className={styles.hero}>
+          <Container className={styles.heroGrid}>
+            <div>
+              <p className={styles.eyebrow}>Contacto · KAJÚ</p>
+              <h1 className={styles.heroTitle}>
+                Estamos para ayudarte a elegir.
+              </h1>
+            </div>
+
+            <div className={styles.heroIntro}>
+              <p className={styles.heroLead}>
+                Consulta disponibilidad, colores, entregas o cambios. Te
+                respondemos de forma personal para que compres con claridad.
+              </p>
+              <dl className={styles.serviceFacts}>
                 <div>
-                  <span className="mb-5 inline-flex text-[var(--brand)]">
-                    <ChatIcon />
-                  </span>
-                  <h2 className="editorial-heading text-2xl text-[var(--text-primary)] md:text-3xl">
-                    Asistencia personalizada
-                  </h2>
-                  <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
-                    Ideal para stock, tallas, colores, entregas y prendas que
-                    viste en Instagram.
+                  <dt>Atención</dt>
+                  <dd>Lunes a sábado</dd>
+                </div>
+                <div>
+                  <dt>Envíos</dt>
+                  <dd>CABA y todo el país</dd>
+                </div>
+              </dl>
+            </div>
+          </Container>
+        </header>
+
+        <section className={styles.channels} aria-labelledby="contact-channels">
+          <Container>
+            <div className={styles.sectionIntro}>
+              <div>
+                <p className={styles.eyebrow}>Canales de atención</p>
+                <h2 className={styles.sectionTitle} id="contact-channels">
+                  Elige cómo comunicarte.
+                </h2>
+              </div>
+            </div>
+
+            <div className={styles.channelGrid}>
+              <article className={styles.primaryChannel}>
+                <div>
+                  <p className={styles.channelNumber}>01 / WhatsApp</p>
+                  <h3 className={styles.primaryTitle}>
+                    La forma más directa de consultar.
+                  </h3>
+                  <p className={styles.primaryBody}>
+                    Confirma una prenda, un color o la modalidad de entrega con
+                    una persona del equipo.
                   </p>
                 </div>
-                <WhatsAppCTA
-                  className="link-arrow mt-7 !justify-start !border-transparent !bg-transparent !px-0 text-[var(--brand)] hover:!bg-transparent hover:!text-[var(--brand-hover)]"
-                  label="Iniciar chat"
-                  variant="ghost"
-                />
+
+                <div className={styles.primaryAction}>
+                  <div className={styles.topicList} aria-label="Puedes consultar por">
+                    <span>Disponibilidad</span>
+                    <span>Colores</span>
+                    <span>Entregas y cambios</span>
+                  </div>
+                  <WhatsAppCTA
+                    className={styles.whatsappButton}
+                    label="Escríbenos por WhatsApp"
+                    variant="inverse"
+                  />
+                </div>
               </article>
 
-              <article className="lift-card group flex h-full cursor-pointer flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--background-primary)] p-7 md:p-8">
-                <div>
-                  <span className="mb-5 inline-flex text-[var(--text-primary)]">
-                    <CameraIcon />
-                  </span>
-                  <h2 className="editorial-heading text-2xl text-[var(--text-primary)] md:text-3xl">
-                    Instagram
-                  </h2>
-                  <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
-                    Síguenos para ver ingresos, combinaciones, prendas en uso
-                    y novedades del showroom.
-                  </p>
-                </div>
+              <div className={styles.secondaryChannels}>
                 <a
-                  className="link-arrow label-caps mt-7 inline-flex min-h-11 w-fit items-center gap-2 border-b border-[var(--text-primary)] text-[var(--text-primary)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+                  aria-label={`Abrir Instagram de KAJÚ: ${INSTAGRAM_HANDLE}`}
+                  className={`${styles.secondaryChannel} ${styles.instagramChannel}`}
                   href={INSTAGRAM_URL}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  {INSTAGRAM_HANDLE}
-                  <span aria-hidden="true" className="arrow">→</span>
+                  <span className={styles.channelNumber}>02 / Instagram</span>
+                  <span className={styles.secondaryContent}>
+                    <strong>Novedades y prendas en uso.</strong>
+                    <span>
+                      Sigue los nuevos ingresos y la selección diaria de KAJÚ.
+                    </span>
+                  </span>
+                  <span className={styles.channelLink}>
+                    {INSTAGRAM_HANDLE} <span aria-hidden="true">↗</span>
+                  </span>
                 </a>
-              </article>
 
-              <article className="lift-card rounded-xl border border-[var(--border)] bg-[var(--background-primary)] p-7 md:p-8">
-                <span className="mb-5 inline-flex text-[var(--brand)]">
-                  <InfoIcon />
-                </span>
-                <h3 className="editorial-heading mb-5 text-2xl text-[var(--text-primary)] md:text-3xl">
-                  Información
-                </h3>
-                <div className="mb-5">
-                  <p className="label-caps mb-2 text-[var(--text-muted)]">
-                    Horarios de atención
-                  </p>
-                  <p className="text-[15px] leading-6 text-[var(--text-primary)]">
-                    Lunes a viernes
-                    <br />
-                    10:00 – 19:00 hs
-                  </p>
-                </div>
-                <div>
-                  <p className="label-caps mb-2 text-[var(--text-muted)]">
-                    Entregas en CABA
-                  </p>
-                  <p className="text-[15px] leading-6 text-[var(--text-secondary)]">
-                    Mensajería privada en el día para pedidos confirmados antes
-                    de las 13:00 hs.
-                  </p>
-                </div>
-              </article>
-            </aside>
-
-            {/* FAQ column */}
-            <div className="md:col-span-8 md:pl-6 lg:pl-10">
-              <h2 className="editorial-heading mb-8 border-b border-[var(--border)] pb-4 text-3xl text-[var(--text-primary)] md:text-[44px]">
-                Preguntas Frecuentes
-              </h2>
-
-              <KajuuFaq items={[...faqs]} />
-
-              <div className="mt-12 flex flex-col items-start justify-between gap-5 rounded-xl border border-[var(--border)] bg-[var(--background-secondary)] p-7 md:flex-row md:items-center md:p-8">
-                <div className="max-w-lg">
-                  <p className="label-caps mb-2 text-[var(--brand)]">¿No encontraste tu respuesta?</p>
-                  <p className="text-sm leading-7 text-[var(--text-secondary)]">
-                    Escríbenos: la atención por WhatsApp es el canal más rápido y
-                    personal.
-                  </p>
-                </div>
-                <WhatsAppCTA
-                  className="link-arrow group"
-                  label="Enviar consulta"
-                  variant="primary"
-                />
+                <article className={styles.secondaryChannel}>
+                  <span className={styles.channelNumber}>03 / Entregas</span>
+                  <span className={styles.secondaryContent}>
+                    <strong>Coordinación antes de comprar.</strong>
+                    <span>
+                      Entregas en CABA y envíos a todo el país, según la opción
+                      disponible para tu pedido.
+                    </span>
+                  </span>
+                  <span className={styles.locationNote}>Buenos Aires · Argentina</span>
+                </article>
               </div>
             </div>
-          </div>
-        </Container>
+          </Container>
+        </section>
+
+        <section className={styles.faqSection} aria-labelledby="faq-title">
+          <Container className={styles.faqGrid}>
+            <div className={styles.faqIntro}>
+              <p className={styles.eyebrow}>Antes de escribirnos</p>
+              <h2 className={styles.faqTitle} id="faq-title">
+                Preguntas frecuentes
+              </h2>
+              <p className={styles.faqLead}>
+                Respuestas rápidas sobre disponibilidad, cambios y entregas.
+              </p>
+            </div>
+
+            <div className={styles.faqList}>
+              <KajuuFaq items={[...faqs]} />
+            </div>
+          </Container>
+        </section>
       </main>
+
       <Footer />
     </div>
   );

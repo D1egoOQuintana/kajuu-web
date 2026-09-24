@@ -1,6 +1,6 @@
 import { createProductWhatsAppUrl } from "@/lib/utils/whatsapp";
 
-type WhatsAppCTAVariant = "primary" | "secondary" | "ghost";
+type WhatsAppCTAVariant = "primary" | "secondary" | "ghost" | "inverse";
 type WhatsAppCTASize = "sm" | "md" | "lg";
 
 type WhatsAppCTAProps = {
@@ -9,7 +9,6 @@ type WhatsAppCTAProps = {
   className?: string;
   variant?: WhatsAppCTAVariant;
   size?: WhatsAppCTASize;
-  productSize?: string;
   productColor?: string;
   priceLabel?: string;
   productUrl?: string;
@@ -19,6 +18,7 @@ const variantClasses: Record<WhatsAppCTAVariant, string> = {
   primary: "button--primary",
   secondary: "button--secondary",
   ghost: "button--ghost",
+  inverse: "button--inverse",
 };
 
 const sizeClasses: Record<WhatsAppCTASize, string> = {
@@ -33,14 +33,12 @@ export function WhatsAppCTA({
   className,
   variant = "primary",
   size = "md",
-  productSize,
   productColor,
   priceLabel,
   productUrl,
 }: WhatsAppCTAProps) {
   const url = createProductWhatsAppUrl({
     productName: productName ?? "el catálogo de KAJÚ",
-    size: productSize,
     color: productColor,
     priceLabel,
     productUrl,
@@ -60,7 +58,7 @@ export function WhatsAppCTA({
       rel="noopener noreferrer"
       target="_blank"
     >
-      {label ?? "Consultar por WhatsApp"}
+      {label ?? "Escríbenos por WhatsApp"}
     </a>
   );
 }

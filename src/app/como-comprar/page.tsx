@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 
+import { BotanicalBloom } from "@/components/brand/botanical-bloom";
 import { Container } from "@/components/layout/container";
 import { Footer } from "@/components/layout/footer";
 import { PublicHeader } from "@/components/layout/public-header";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 
+import styles from "./como-comprar.module.css";
+
 export const metadata: Metadata = {
   title: "Cómo comprar",
   description:
-    "Conoce cómo comprar en KAJÚ: elige una prenda, consulta stock y coordina entrega por WhatsApp.",
+    "Descubre cómo comprar en KAJÚ: elige una prenda, consulta su disponibilidad y coordina la entrega por WhatsApp.",
   alternates: { canonical: "/como-comprar" },
 };
 
@@ -20,46 +22,52 @@ const steps: ReadonlyArray<{
   number: string;
   title: string;
   body: string;
+  detail: string;
   icon: StepIcon;
 }> = [
   {
     number: "01",
     title: "Elige tu prenda",
-    body: "Recorre el catálogo o los últimos ingresos. Cada ficha muestra talla, color, precio y disponibilidad orientativa.",
+    body: "Recorre el catálogo y abre la ficha para conocer el precio, los colores y los detalles del modelo.",
+    detail: "Catálogo actualizado",
     icon: "apparel",
   },
   {
     number: "02",
-    title: "Consulta por WhatsApp",
-    body: "Escríbenos desde la ficha del producto para confirmar medidas, color y disponibilidad real antes de avanzar.",
+    title: "Consúltanos por WhatsApp",
+    body: "Desde cada ficha puedes iniciar una consulta con la información de la prenda ya incluida.",
+    detail: "Atención personalizada",
     icon: "chat",
   },
   {
     number: "03",
-    title: "Coordina entrega",
-    body: "Acordamos entrega en CABA o punto de encuentro en Floresta, según el día, horario y prenda disponible.",
-    icon: "delivery",
+    title: "Confirmamos disponibilidad",
+    body: "Revisamos el stock real y aclaramos cualquier duda antes de avanzar con la compra.",
+    detail: "Confirmación antes de comprar",
+    icon: "package",
   },
   {
     number: "04",
-    title: "Recibe tu pedido",
-    body: "Confirmamos los detalles finales y coordinamos la entrega. Atención cálida y sin pasos innecesarios.",
-    icon: "package",
+    title: "Coordinamos la entrega",
+    body: "Definimos por WhatsApp la modalidad de entrega en CABA y envíos a todo el país.",
+    detail: "Entrega coordinada",
+    icon: "delivery",
   },
 ];
 
 function StepIconSvg({ name }: { name: StepIcon }) {
   const common = {
-    width: 30,
-    height: 30,
+    width: 24,
+    height: 24,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
-    strokeWidth: 1.4,
+    strokeWidth: 1.35,
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
     "aria-hidden": true,
   };
+
   switch (name) {
     case "apparel":
       return (
@@ -95,133 +103,116 @@ function StepIconSvg({ name }: { name: StepIcon }) {
 
 export default function HowToBuyPage() {
   return (
-    <div className="min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)]">
+    <div className={styles.page}>
       <PublicHeader />
-      <main className="pb-24">
-        {/* Header — replica Stitch: col-span-8 col-start-2, eyebrow + display + body */}
-        <header className="bg-[var(--background-primary)]">
-          <Container className="grid grid-cols-1 gap-8 pt-28 pb-12 md:pt-36 md:pb-16 lg:grid-cols-12 lg:pt-[136px]">
-            <div className="lg:col-span-9 lg:col-start-2">
-              <h1
-                className="editorial-title text-[clamp(3.15rem,12vw,5rem)] leading-[1.02] text-[var(--text-primary)] md:text-[80px]"
-                style={{ textWrap: "balance" }}
-              >
-                Cómo comprar
+
+      <main>
+        <section className={styles.hero}>
+          <Container className={styles.heroGrid}>
+            <div className={styles.heroCopy}>
+              <p className={styles.eyebrow}>Cómo comprar en KAJÚ</p>
+              <h1 className={styles.heroTitle}>
+                Elige tu próxima prenda con atención personalizada.
               </h1>
-              <p className="mt-7 max-w-2xl text-base leading-[1.7] text-[var(--text-secondary)] md:text-lg">
-                Comprar en KAJÚ es simple: eliges la prenda, nos escribes por
-                WhatsApp y coordinamos la entrega.
+              <p className={styles.heroLead}>
+                Una experiencia simple y acompañada: explora la colección,
+                consulta por WhatsApp y coordinamos la entrega contigo.
+              </p>
+
+              <div className={styles.heroActions}>
+                <Link className="button button--primary" href="/catalogo">
+                  Explorar catálogo
+                </Link>
+                <WhatsAppCTA
+                  label="Hablar con KAJÚ"
+                  variant="secondary"
+                />
+              </div>
+            </div>
+
+            <aside className={styles.heroPanel} aria-label="Resumen de compra">
+              <div className={styles.heroPanelCopy}>
+                <p className={styles.panelIndex}>01 — 04</p>
+                <p className={styles.panelTitle}>Sin carrito. Sin vueltas.</p>
+                <p className={styles.panelBody}>
+                  Te acompañamos desde la elección hasta la entrega.
+                </p>
+              </div>
+              <div className={styles.heroArt}>
+                <BotanicalBloom
+                  className={styles.heroFlower}
+                  motion="none"
+                  tone="dark"
+                  variant="cluster"
+                />
+              </div>
+            </aside>
+          </Container>
+        </section>
+
+        <section className={styles.process} aria-labelledby="purchase-process">
+          <Container>
+            <div className={styles.sectionHeading}>
+              <div>
+                <p className={styles.eyebrow}>El proceso</p>
+                <h2 className={styles.sectionTitle} id="purchase-process">
+                  Cuatro pasos, una conversación.
+                </h2>
+              </div>
+              <p className={styles.sectionLead}>
+                Cada compra se confirma de forma personal para que sepas qué
+                estás eligiendo y cómo vas a recibirlo.
               </p>
             </div>
+
+            <ol className={styles.steps}>
+              {steps.map((step) => (
+                <li className={styles.step} key={step.number}>
+                  <div className={styles.stepTopline}>
+                    <span className={styles.stepNumber}>{step.number}</span>
+                    <span className={styles.stepIcon} aria-hidden="true">
+                      <StepIconSvg name={step.icon} />
+                    </span>
+                  </div>
+                  <h3 className={styles.stepTitle}>{step.title}</h3>
+                  <p className={styles.stepBody}>{step.body}</p>
+                  <p className={styles.stepDetail}>{step.detail}</p>
+                </li>
+              ))}
+            </ol>
           </Container>
-        </header>
+        </section>
 
-        {/* Steps — 4 cards centradas con círculo de icono, hover lift, stagger reveal */}
-        <Container>
-          <section
-            aria-label="Pasos para comprar"
-            className="stagger grid grid-cols-1 gap-6 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:py-20"
-          >
-            {steps.map((step) => (
-              <article
-                className="lift-card group flex h-full flex-col items-center rounded-lg border border-[var(--border)] bg-[var(--background-secondary)] p-8 text-center"
-                key={step.number}
-              >
-                <span className="step-icon-circle mb-7">
-                  <StepIconSvg name={step.icon} />
-                </span>
-                <p className="label-caps mb-3 text-[var(--brand)]">
-                  Paso {step.number}
-                </p>
-                <h2 className="editorial-heading text-2xl text-[var(--text-primary)]">
-                  {step.title}
-                </h2>
-                <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-                  {step.body}
-                </p>
-              </article>
-            ))}
-          </section>
+        <Container className={styles.closingWrap}>
+          <section className={styles.closing}>
+            <div className={styles.closingCopy}>
+              <p className={styles.closingEyebrow}>Entrega y envíos</p>
+              <h2 className={styles.closingTitle}>
+                Coordinamos cada detalle antes de cerrar la compra.
+              </h2>
+              <p className={styles.closingBody}>
+                Realizamos entregas en CABA y envíos a todo el país. La modalidad disponible se confirma de forma personalizada por WhatsApp.
+              </p>
+            </div>
 
-          {/* Bento — image card 7/5 con offset translate-y, hover image-zoom */}
-          <section className="grid grid-cols-1 gap-6 py-14 md:grid-cols-12 lg:py-20">
-            <article className="lift-card md:col-span-7 group overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--background-primary)]">
-              <div className="image-container relative h-64 w-full overflow-hidden md:h-80">
-                <Image
-                  alt="Entrega cuidada en CABA"
-                  className="object-cover object-center sepia-[0.06]"
-                  fill
-                  sizes="(min-width: 768px) 58vw, 100vw"
-                  src="/products/zara3.webp"
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 "
-                />
-              </div>
-              <div className="p-8 md:p-10">
-                <h2 className="editorial-heading text-3xl text-[var(--text-primary)] md:text-[42px]" style={{ textWrap: "balance" }}>
-                  Entregas en CABA
-                </h2>
-                <p className="mt-5 max-w-xl text-base leading-7 text-[var(--text-secondary)]">
-                  Confirmamos disponibilidad y forma de entrega por WhatsApp
-                  antes de cerrar el pedido. También puedes retirar por Floresta.
-                </p>
-              </div>
-            </article>
-
-            <article className="lift-card md:col-span-5 md:translate-y-12 group flex flex-col justify-between rounded-lg border border-[var(--border)] bg-[var(--background-secondary)] p-8 md:p-10">
-              <div>
-                <h3 className="editorial-heading text-2xl text-[var(--text-primary)] md:text-3xl">
-                  Showroom en Floresta
-                </h3>
-                <p className="mt-5 text-sm leading-7 text-[var(--text-secondary)] md:text-base md:leading-8">
-                  Un espacio íntimo y privado para que conozcas las prendas en
-                  persona. Coordinamos tu visita por WhatsApp.
-                </p>
-              </div>
-              <div className="mt-8">
-                <WhatsAppCTA
-                  className="link-arrow group"
-                  label="Coordinar visita"
-                  variant="primary"
-                />
-              </div>
-              <div className="image-container mt-8 h-48 w-full overflow-hidden rounded-lg md:h-56">
-                <Image
-                  alt="Showroom KAJÚ en Floresta"
-                  className="h-full w-full object-cover object-center sepia-[0.06]"
-                  height={480}
-                  src="/products/images.jpg"
-                  width={720}
-                />
-              </div>
-            </article>
-          </section>
-
-          {/* Closing CTA — centered con border-top */}
-          <section className="mt-16 flex flex-col items-center gap-7 border-t border-[var(--border)] py-16 text-center md:py-20">
-            <h2
-              className="editorial-heading max-w-2xl text-[34px] leading-[1.1] text-[var(--text-primary)] md:text-[52px]"
-              style={{ textWrap: "balance" }}
-            >
-              ¿Viste algo que te gustó?
-            </h2>
-            <p className="max-w-lg text-sm leading-7 text-[var(--text-secondary)] md:text-base">
-              Recorre el catálogo o escríbenos y te ayudamos a elegir el talla.
-            </p>
-            <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+            <div className={styles.closingActions}>
+              <WhatsAppCTA
+                className={styles.closingButton}
+                label="Escríbenos por WhatsApp"
+                variant="inverse"
+              />
               <Link
-                className="button button--primary"
+                className={`${styles.closingLink} link-arrow`}
                 href="/catalogo"
               >
-                Iniciar consulta
+                Ver la colección <span className="arrow">→</span>
               </Link>
-              <WhatsAppCTA label="Hablar por WhatsApp" variant="secondary" />
             </div>
+
           </section>
         </Container>
       </main>
+
       <Footer />
     </div>
   );

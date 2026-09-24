@@ -38,7 +38,7 @@ describe("productWriteSchema", () => {
     expect(result.success).toBe(false);
   });
 
-  it("rechaza tallas duplicadas aunque cambie la capitalización", () => {
+  it("rechaza variantes duplicadas aunque cambie la capitalización", () => {
     const result = productWriteSchema.safeParse({
       ...validProduct,
       sizes: ["M", "m"],

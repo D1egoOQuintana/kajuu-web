@@ -1,7 +1,6 @@
 type CreateProductWhatsAppUrlParams = {
   productName: string;
   phoneNumber?: string;
-  size?: string;
   color?: string;
   priceLabel?: string;
   productUrl?: string;
@@ -10,7 +9,6 @@ type CreateProductWhatsAppUrlParams = {
 export function createProductWhatsAppUrl({
   productName,
   phoneNumber = WHATSAPP_PHONE,
-  size,
   color,
   priceLabel,
   productUrl,
@@ -24,12 +22,11 @@ export function createProductWhatsAppUrl({
     `Quiero consultar por: ${productName}`,
   ];
 
-  if (size) lines.push(`Talla: ${size}`);
   if (color) lines.push(`Color: ${color}`);
   if (priceLabel) lines.push(`Precio: ${priceLabel}`);
   if (productUrl) lines.push(productUrl);
 
-  lines.push("¿Tienen stock disponible?");
+  lines.push("¿Está disponible?");
 
   const message = lines.join("\n");
   return `https://wa.me/${safePhoneNumber}?text=${encodeURIComponent(message)}`;

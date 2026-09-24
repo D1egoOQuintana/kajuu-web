@@ -14,6 +14,7 @@ import {
   getProductsByCategory,
   getVisibleProducts,
 } from "@/features/catalog/catalog.service";
+import { getProductPresentation } from "@/lib/product-presentation";
 import { absoluteUrl, CATEGORY_LABELS, SITE_URL } from "@/lib/site";
 import { formatPriceARS } from "@/lib/utils/format-price";
 import type { ProductImage, ProductStockStatus } from "@/types/product";
@@ -43,14 +44,15 @@ const fallbackImages: ProductImage[] = [
 ];
 
 const stockLabels: Record<ProductStockStatus, string> = {
-  available: "En stock",
+  available: "Disponible",
   sold_out: "Agotado",
-  ask_stock: "Consultar stock",
+  ask_stock: "Consultar disponibilidad",
 };
 
 const colorSwatches: Record<string, string> = {
   azul: "bg-[#7da3b8]",
   blanco: "bg-[#f7f1e8]",
+  "blanco crudo": "bg-[#f5efe4]",
   bordó: "bg-[var(--brand)]",
   celeste: "bg-[#9ec5d8]",
   chocolate: "bg-[#5a3428]",
@@ -64,15 +66,15 @@ const colorSwatches: Record<string, string> = {
 const careBlocks = [
   {
     title: "Detalles de la prenda",
-    body: "Prenda seleccionada para uso diario con ajuste cómodo, terminación prolija y estética urbana. Consúltanos por medidas puntuales antes de coordinar.",
+    body: "Prenda seleccionada para uso diario con ajuste cómodo, terminación prolija y estética urbana. Consúltanos por colores y disponibilidad antes de coordinar.",
   },
   {
     title: "Entregas",
-    body: "Coordinamos entregas en CABA y punto de encuentro en Floresta. Los tiempos se confirman por WhatsApp según disponibilidad.",
+    body: "Coordinamos entregas en CABA y envíos a todo el país. Los tiempos se confirman por WhatsApp según disponibilidad.",
   },
   {
-    title: "Cambios y tallas",
-    body: "Los cambios se revisan según estado de la prenda y disponibilidad de talla o color. Si tienes dudas, te ayudamos a elegir antes de reservar.",
+    title: "Cambios",
+    body: "Los cambios se revisan según el estado de la prenda y la disponibilidad del producto. Si tienes dudas, escríbenos antes de reservar.",
   },
 ] as const;
 
@@ -97,18 +99,20 @@ export async function generateMetadata({
     };
   }
 
+  const presentation = getProductPresentation(product);
+
   const primaryImage =
-    [...product.images].sort((a, b) => a.position - b.position).at(0) ??
+    presentation.primaryImage ??
     fallbackImages[0];
   const path = `/catalogo/${product.slug}`;
   const description = `${product.description} Consulta disponibilidad por WhatsApp en KAJÚ Indumentaria.`;
 
   return {
-    title: product.name,
+    title: presentation.name,
     description,
     alternates: { canonical: path },
     openGraph: {
-      title: `${product.name} | KAJÚ Indumentaria`,
+      title: `${presentation.name} | KAJÚ Indumentaria`,
       description: product.description,
       url: path,
       type: "website",
@@ -127,8 +131,12 @@ export default async function ProductDetailPage({
     notFound();
   }
 
+  const presentation = getProductPresentation(product);
+
   const galleryImages =
-    product.images.length > 0
+    presentation.usesTemporaryImage && presentation.primaryImage
+      ? [presentation.primaryImage]
+      : product.images.length > 0
       ? [...product.images].sort((a, b) => a.position - b.position)
       : [fallbackImages[0]];
   const relatedProducts = (await getProductsByCategory(product.category))
@@ -142,7 +150,7 @@ export default async function ProductDetailPage({
           .slice(0, 3);
 
   const ldPrimaryImage =
-    [...product.images].sort((a, b) => a.position - b.position).at(0) ??
+    presentation.primaryImage ??
     fallbackImages[0];
   const availability =
     product.stockStatus === "sold_out"
@@ -153,7 +161,7 @@ export default async function ProductDetailPage({
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: product.name,
+    name: presentation.name,
     description: product.description,
     image: absoluteUrl(ldPrimaryImage.url),
     brand: { "@type": "Brand", name: "KAJÚ Indumentaria" },
@@ -177,10 +185,12 @@ export default async function ProductDetailPage({
       />
       <PublicHeader />
       <main className="flex-grow">
-        <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-10 px-5 pt-28 pb-12 md:px-16 md:pt-36 md:pb-16 lg:grid-cols-[minmax(0,7fr)_minmax(22rem,5fr)] lg:gap-12 lg:pt-[136px] lg:pb-24">
-          <ProductGallery images={galleryImages} productName={product.name} />
+        <section className="product-detail-hero relative isolate mx-auto grid max-w-[1440px] grid-cols-1 gap-10 overflow-hidden px-5 pt-28 pb-12 md:px-16 md:pt-36 md:pb-16 lg:grid-cols-[minmax(0,7fr)_minmax(22rem,5fr)] lg:gap-12 lg:pt-[136px] lg:pb-24">
+          <div className="relative z-10">
+            <ProductGallery images={galleryImages} productName={presentation.name} />
+          </div>
 
-          <aside className="flex flex-col gap-7 lg:sticky lg:top-28 lg:h-fit lg:pt-4">
+          <aside className="relative z-10 flex flex-col gap-7 lg:sticky lg:top-28 lg:h-fit lg:pt-4">
             <div>
               <Link
                 className="label-caps mb-3 inline-flex min-h-11 items-center text-[var(--brand)] transition-colors hover:text-[var(--brand-hover)]"
@@ -192,7 +202,7 @@ export default async function ProductDetailPage({
                 {CATEGORY_LABELS[product.category]}
               </p>
               <h1 className="editorial-heading text-[clamp(2.45rem,9vw,3.65rem)] leading-[1.05] text-[var(--text-primary)]">
-                {product.name}
+                {presentation.name}
               </h1>
               <p className="mt-4 text-xl text-[var(--text-primary)]">
                 {formatPriceARS(product.price)}
@@ -212,20 +222,18 @@ export default async function ProductDetailPage({
                 {product.description}
               </p>
               <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-                {stockLabels[product.stockStatus]}. Entregas en CABA y punto
-                Floresta a coordinar.
+                {stockLabels[product.stockStatus]}. Entregas en CABA y envíos a todo el país a coordinar.
               </p>
             </div>
 
             <ProductConsultPanel
-              colors={product.colors.map((color) => ({
+              colors={presentation.colors.map((color) => ({
                 name: color,
                 swatchClass: getColorSwatchClass(color),
               }))}
               priceLabel={formatPriceARS(product.price)}
-              productName={product.name}
+              productName={presentation.name}
               productUrl={`${SITE_URL}/catalogo/${product.slug}`}
-              sizes={product.sizes}
             />
 
             <div className="flex flex-col">
@@ -234,7 +242,7 @@ export default async function ProductDetailPage({
                   className="group border-b border-[var(--border)] py-4"
                   key={item.title}
                 >
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                  <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 rounded-[2px]">
                     <span className="label-caps text-[var(--text-primary)]">
                       {item.title}
                     </span>
@@ -254,11 +262,11 @@ export default async function ProductDetailPage({
           </aside>
         </section>
 
-        <section className="border-t border-[var(--border)] bg-[var(--background-primary)]">
-          <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-16 lg:py-24">
+        <section className="related-products relative isolate overflow-hidden border-t border-[var(--border)] bg-[var(--background-primary)]">
+          <div className="relative z-10 mx-auto max-w-[1440px] px-5 py-20 md:px-16 lg:py-24">
             <div className="mb-10 flex flex-col items-center text-center">
               <h2 className="editorial-heading text-[32px] text-[var(--text-primary)] md:text-[44px]">
-                Completá el look
+                Completá el conjunto
               </h2>
             </div>
             <ProductGrid products={visibleRelatedProducts} />

@@ -77,7 +77,13 @@ export function AdminProductsList() {
                   <td className="px-5 py-4">{CATEGORY_LABELS[product.category]}</td>
                   <td className="px-5 py-4">{formatPriceARS(product.price)}</td>
                   <td className="px-5 py-4">{product.stockStatus === "available" ? "Disponible" : product.stockStatus === "sold_out" ? "Agotado" : "Consultar"}</td>
-                  <td className="px-5 py-4">{product.isVisible ? "Visible" : "Oculto"}</td>
+                  <td className="px-5 py-4">
+                    <div className="flex max-w-52 flex-wrap gap-2">
+                      <span className={product.isVisible ? "bg-emerald-50 px-2 py-1 text-xs text-emerald-800" : "bg-stone-100 px-2 py-1 text-xs text-stone-600"}>{product.isVisible ? "Visible" : "Oculto"}</span>
+                      {product.isFeatured ? <span className="bg-[#f6d5dc] px-2 py-1 text-xs text-[#7a1f33]">Portada {String(product.featuredOrder ?? 0).padStart(2, "0")}</span> : null}
+                      {product.isNewArrival ? <span className="bg-[#efe7df] px-2 py-1 text-xs text-[#5f3427]">Nuevo</span> : null}
+                    </div>
+                  </td>
                   <td className="px-5 py-4">
                     <div className="flex justify-end gap-3">
                       <Link className="border border-[#2f140d] px-3 py-2 hover:bg-[#f4f3f1]" href={`/kajuu-panel/productos/${product.id}/editar`}>Editar</Link>

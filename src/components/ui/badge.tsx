@@ -15,7 +15,7 @@ const badgeLabels: Record<BadgeVariant, string> = {
   new: "Nuevo",
   featured: "Destacado",
   soldOut: "Agotado",
-  askStock: "Consultar stock",
+  askStock: "Consultar disponibilidad",
   neutral: "Catálogo",
 };
 

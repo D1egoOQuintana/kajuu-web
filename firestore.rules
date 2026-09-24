@@ -9,7 +9,7 @@ service cloud.firestore {
     function hasValidProductShape() {
       return request.resource.data.keys().hasOnly([
           'name', 'slug', 'description', 'price', 'category', 'sizes', 'colors',
-          'stockStatus', 'images', 'isVisible', 'isFeatured', 'isNewArrival',
+          'stockStatus', 'images', 'isVisible', 'isFeatured', 'featuredOrder', 'isNewArrival',
           'createdAt', 'updatedAt'
         ])
         && request.resource.data.name is string
@@ -39,6 +39,10 @@ service cloud.firestore {
         && request.resource.data.images.size() <= 12
         && request.resource.data.isVisible is bool
         && request.resource.data.isFeatured is bool
+        && (!request.resource.data.keys().hasAny(['featuredOrder'])
+          || (request.resource.data.featuredOrder is int
+            && request.resource.data.featuredOrder >= 0
+            && request.resource.data.featuredOrder <= 99))
         && request.resource.data.isNewArrival is bool
         && request.resource.data.createdAt is timestamp
         && request.resource.data.updatedAt is timestamp;

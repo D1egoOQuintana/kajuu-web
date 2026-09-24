@@ -65,9 +65,9 @@ export const productWriteSchema = z.object({
   category: z.enum(PRODUCT_CATEGORIES),
   sizes: z
     .array(z.string().trim().min(1).max(30))
-    .min(1, "Agrega al menos una talla.")
+    .min(1, "Agrega al menos una variante.")
     .max(20)
-    .refine(hasUniqueValues, "Las tallas no deben repetirse."),
+    .refine(hasUniqueValues, "Las variantes no deben repetirse."),
   colors: z
     .array(z.string().trim().min(1).max(50))
     .min(1, "Agrega al menos un color.")
@@ -77,6 +77,7 @@ export const productWriteSchema = z.object({
   images: z.array(productImageSchema).max(12, "Puedes cargar hasta 12 imágenes."),
   isVisible: z.boolean(),
   isFeatured: z.boolean(),
+  featuredOrder: z.number().int().min(0).max(99).default(0),
   isNewArrival: z.boolean(),
 }).strict();
 

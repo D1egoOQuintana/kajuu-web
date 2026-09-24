@@ -1,90 +1,116 @@
 import Link from "next/link";
 
+import { BotanicalBloom } from "@/components/brand/botanical-bloom";
 import { BrandLogo } from "@/components/brand/brand-logo";
 import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 import { INSTAGRAM_HANDLE, INSTAGRAM_URL } from "@/lib/site";
 
 const assistanceLinks = [
-  { href: "/como-comprar", label: "Cómo Comprar" },
-  { href: "/guia-talles", label: "Guía de Tallas" },
-  { href: "/contacto", label: "Contacto" },
+  { href: "/como-comprar", label: "Cómo comprar" },
+  { href: "/contacto", label: "Preguntas y contacto" },
 ] as const;
 
 const exploreLinks = [
-  { href: "/catalogo", label: "Catálogo" },
-  { href: "/ultimos-ingresos", label: "Últimos Ingresos" },
-  { href: "/lookbook", label: "Lookbook" },
+  { href: "/catalogo", label: "Catálogo completo" },
+  { href: "/catalogo?categoria=jeans", label: "Cortes de jeans" },
+  { href: "/catalogo?filter=new", label: "Últimos ingresos" },
 ] as const;
 
 export function Footer() {
   return (
-    <footer className="mt-0 w-full border-t border-[var(--border)] bg-[var(--footer-bg)] text-[var(--footer-text)]">
-      <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 py-20 md:grid-cols-4 md:px-16 md:py-24">
-        <div className="col-span-1 md:col-span-2">
-          <Link
-            aria-label="KAJÚ — ir al inicio"
-            className="focus-inverse mb-8 block w-fit bg-[var(--surface-emphasis)] p-5"
-            href="/"
-          >
-            <BrandLogo alt="" className="w-[190px] md:w-[220px]" variant="primary" />
-          </Link>
-          <p className="mb-8 max-w-sm text-base leading-[1.65] text-[var(--footer-text)]">
-            Ropa femenina urbana, elegida prenda por prenda. Vendemos por
-            WhatsApp y coordinamos entregas en CABA.
-          </p>
+    <footer className="site-footer">
+      <BotanicalBloom
+        className="site-footer__botanical"
+        motion="sway"
+        tone="dark"
+        variant="footer-flower"
+      />
+
+      <div className="site-footer__inner">
+        <div className="site-footer__topline">
+          <p className="site-footer__topline-brand">KAJÚ · INDUMENTARIA FEMENINA · BUENOS AIRES</p>
+          <div className="site-footer__topline-badges">
+            <span>ATENCIÓN PERSONALIZADA</span>
+            <span aria-hidden="true">·</span>
+            <span>ENVÍOS A TODO EL PAÍS</span>
+            <span aria-hidden="true">·</span>
+            <span>CABA · BUENOS AIRES</span>
+          </div>
         </div>
 
-        <nav className="col-span-1 mt-8 md:mt-0" aria-label="Asistencia">
-          <h2 className="label-caps mb-4 text-[var(--footer-text)]">Asistencia</h2>
-          <ul>
-            {assistanceLinks.map((item) => (
-              <li className="mb-2" key={item.href}>
-                <Link
-                  className="focus-inverse block min-h-11 py-3 text-sm text-[var(--footer-text)] transition-colors duration-200 hover:text-[var(--accent)]"
-                  href={item.href}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className="site-footer__grid">
+          <div className="site-footer__brand">
+            <Link
+              aria-label="KAJÚ — ir al inicio"
+              className="site-footer__logo focus-inverse"
+              href="/"
+            >
+              <BrandLogo alt="" variant="horizontal-inverse" />
+            </Link>
+            <p className="site-footer__eyebrow">Calce, textura y detalles urbanos</p>
+            <p className="site-footer__description">
+              Selección cuidada de jeans y prendas urbanas pensadas para
+              acompañar tu estilo todos los días. Escríbenos para recibir
+              atención personalizada y coordinar tu entrega.
+            </p>
+            <WhatsAppCTA
+              className="site-footer__cta focus-inverse"
+              label="Hablar con KAJÚ"
+              variant="primary"
+            />
+          </div>
 
-        <div className="col-span-1 mt-4 md:mt-0">
-          <nav aria-label="Explorar">
-            <h2 className="label-caps mb-4 text-[var(--footer-text)]">Explorar</h2>
+          <nav aria-label="Ayuda" className="site-footer__nav">
+            <h2>Ayuda</h2>
             <ul>
-              {exploreLinks.map((item) => (
-                <li className="mb-2" key={item.href}>
-                  <Link
-                    className="focus-inverse block min-h-11 py-3 text-sm text-[var(--footer-text)] transition-colors duration-200 hover:text-[var(--accent)]"
-                    href={item.href}
-                  >
+              {assistanceLinks.map((item) => (
+                <li key={item.href}>
+                  <Link className="site-footer__link focus-inverse" href={item.href}>
                     {item.label}
+                    <span aria-hidden="true">↗</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
 
-          <div className="mt-8">
-            <WhatsAppCTA
-              className="focus-inverse !border-[var(--footer-text)] !bg-transparent !text-[var(--footer-text)] hover:!bg-[var(--surface-emphasis)] hover:!text-[var(--text-primary)]"
-              label="WhatsApp"
-              variant="secondary"
-            />
+          <nav aria-label="Explorar" className="site-footer__nav">
+            <h2>Colecciones</h2>
+            <ul>
+              {exploreLinks.map((item) => (
+                <li key={item.href}>
+                  <Link className="site-footer__link focus-inverse" href={item.href}>
+                    {item.label}
+                    <span aria-hidden="true">↗</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="site-footer__contact">
+            <h2>Atención & Entregas</h2>
+            <p>Asesoramiento 1 a 1 por WhatsApp e Instagram de lunes a sábado.</p>
             <a
-              className="focus-inverse mt-4 block min-h-11 w-fit py-3 text-sm text-[var(--footer-text)] transition-colors duration-200 hover:text-[var(--accent)]"
+              aria-label={`Seguir a KAJÚ en Instagram: ${INSTAGRAM_HANDLE}`}
+              className="site-footer__social focus-inverse"
               href={INSTAGRAM_URL}
               rel="noopener noreferrer"
               target="_blank"
             >
-              {INSTAGRAM_HANDLE}
+              <span>Instagram Oficial</span>
+              <strong>{INSTAGRAM_HANDLE}</strong>
+              <span aria-hidden="true">↗</span>
             </a>
-            <p className="mt-4 text-sm leading-[1.6] text-[var(--footer-text)]">
-              Entregas en CABA. Punto Floresta a coordinar.
+            <p className="site-footer__location">
+              Entregas en CABA y envíos a todo el país, con coordinación previa.
             </p>
           </div>
+        </div>
+
+        <div className="site-footer__bottom">
+          <p>© 2026 KAJÚ Indumentaria · Todos los derechos reservados</p>
+          <p>Moda urbana femenina · Buenos Aires, Argentina</p>
         </div>
       </div>
     </footer>

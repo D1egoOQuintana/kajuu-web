@@ -1,0 +1,602 @@
+.mascot,
+.mascotPlaceholder {
+  position: relative;
+  width: min(100%, 15rem);
+  aspect-ratio: 1;
+}
+
+.mascot {
+  contain: layout paint;
+  overflow: hidden;
+  background: #232323;
+  touch-action: pan-y;
+}
+
+.mascotCompact,
+.mascotPlaceholder:has(+ .mascotCompact) {
+  width: 7rem;
+}
+
+.riveCanvas,
+.riveCanvas canvas {
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+}
+
+.riveCanvas {
+  transform: scale(1.58);
+  transform-origin: center 58%;
+}
+
+.mascotPlaceholder {
+  opacity: 0;
+}
+
+.mascotFailed {
+  visibility: hidden;
+}
+
+.mascotButton {
+  contain: layout;
+  overflow: visible;
+  background: transparent;
+}
+
+.mascotButton .riveCanvas {
+  transform: scale(1.72);
+  transform-origin: center 57%;
+}
+
+.mascotLink {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: var(--button-primary-text);
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgb(43 27 30 / 0.16);
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease;
+}
+
+.mascotLink:hover {
+  box-shadow: 0 14px 34px rgb(43 27 30 / 0.22);
+}
+
+.mascotLink:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+.mascotLinkHeader {
+  min-width: 8.5rem;
+  min-height: 2.875rem;
+  padding: 0 1rem 0 0.85rem;
+}
+
+.mascotLinkFloating {
+  min-width: 9rem;
+  min-height: 3.25rem;
+  padding: 0 1.2rem 0 1rem;
+}
+
+.mascotLinkSurface {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border: 1px solid color-mix(in srgb, var(--brand) 84%, #fff);
+  border-radius: inherit;
+  background: var(--brand);
+  transition: background-color 180ms ease;
+}
+
+.mascotLink:hover .mascotLinkSurface {
+  background: var(--brand-hover);
+}
+
+.mascotLinkContent {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+}
+
+.mascotLinkIcon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: 0 0 auto;
+}
+
+.mascotLinkStage {
+  position: absolute;
+  z-index: 1;
+  bottom: calc(100% - 0.55rem);
+  left: 50%;
+  width: 4.8rem;
+  height: 3.65rem;
+  overflow: visible;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.mascotLinkHeader .mascotLinkStage {
+  top: -0.8rem;
+  bottom: auto;
+  left: 50%;
+  width: 4rem;
+  height: 3.3rem;
+}
+
+.mascotLinkFloating .mascotLinkStage {
+  /* Tuck the drawn paws into the button edge. The SVG viewBox includes
+     transparent space below them, so positioning by the SVG box alone
+     leaves a visible gap even when both boxes technically overlap. */
+  bottom: calc(100% - 1.1rem);
+  left: 50%;
+  width: 5.2rem;
+  height: 4.1rem;
+}
+
+.buttonCat {
+  --cat-eye-x: 0px;
+  --cat-eye-y: 0px;
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-origin: 50% 100%;
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.buttonCatSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 4px 5px rgb(43 27 30 / 0.16));
+  transform: translateY(-0.6rem);
+}
+
+.buttonCatFace,
+.buttonCatBody,
+.buttonCatPaws {
+  fill: var(--surface-emphasis);
+  stroke: var(--text-primary);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.buttonCatEar,
+.buttonCatMouth,
+.buttonCatWhiskers {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.buttonCatEarInner,
+.buttonCatNose {
+  fill: var(--brand);
+}
+
+.buttonCatHappyMouth,
+.buttonCatCheeks {
+  opacity: 0;
+  transition: opacity 140ms ease;
+}
+
+.buttonCatHappyMouth {
+  fill: var(--surface);
+  stroke: var(--text-primary);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.buttonCatCheeks {
+  fill: var(--brand-secondary);
+}
+
+.buttonCatEyes {
+  fill: var(--surface);
+  stroke: var(--text-primary);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: button-cat-blink 5.8s ease-in-out infinite;
+}
+
+.buttonCatPupils {
+  fill: var(--text-primary);
+  stroke: none;
+  transform: translate(var(--cat-eye-x), var(--cat-eye-y));
+  transition: transform 90ms linear;
+}
+
+.buttonCatTail {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: 85% 80%;
+  animation: button-cat-tail 3.8s ease-in-out infinite;
+}
+
+.buttonCatPaws {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.buttonCatHead {
+  transform-box: fill-box;
+  transform-origin: center 72%;
+}
+
+.mascotLink:hover .buttonCatHead {
+  animation: button-cat-happy-nod 680ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mascotLink:hover .buttonCatMouth {
+  opacity: 0;
+}
+
+.mascotLink:hover .buttonCatHappyMouth,
+.mascotLink:hover .buttonCatCheeks {
+  opacity: 1;
+}
+
+.mascotLink:hover .buttonCatEyes {
+  animation: none;
+  transform: scaleY(0.28);
+}
+
+@keyframes button-cat-happy-nod {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  28% {
+    transform: translateY(2.5px) rotate(1.5deg);
+  }
+  55% {
+    transform: translateY(-1px) rotate(-1deg);
+  }
+  78% {
+    transform: translateY(1.5px) rotate(0.75deg);
+  }
+}
+
+@keyframes button-cat-blink {
+  0%,
+  44%,
+  48%,
+  100% {
+    transform: scaleY(1);
+  }
+  46% {
+    transform: scaleY(0.12);
+  }
+}
+
+@keyframes button-cat-tail {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+}
+
+.featured {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 27rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.featured::before {
+  position: absolute;
+  z-index: -1;
+  inset: 1.2rem;
+  border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+  content: "";
+  pointer-events: none;
+}
+
+.featuredHome {
+  grid-template-columns: minmax(0, 1.15fr) minmax(17rem, 0.85fr);
+  background: var(--surface);
+}
+
+.featuredContact {
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.72fr);
+  border-color: color-mix(in srgb, var(--surface-emphasis) 35%, transparent);
+  background: var(--brand);
+  color: var(--surface);
+}
+
+.featuredCopy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2.5rem, 6vw, 5.5rem);
+}
+
+.eyebrow {
+  color: var(--brand);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.featuredContact .eyebrow {
+  color: var(--surface-emphasis);
+}
+
+.featuredTitle {
+  max-width: 10ch;
+  margin-top: 1rem;
+  font-family: var(--font-dm-serif), Georgia, serif;
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.featuredBody {
+  max-width: 35rem;
+  margin-top: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.featuredContact .featuredBody {
+  color: color-mix(in srgb, var(--surface) 78%, transparent);
+}
+
+.featuredAction {
+  display: flex;
+  width: fit-content;
+  min-width: 17rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.7rem;
+  margin-top: 2rem;
+}
+
+.actionNote {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+}
+
+.featuredContact .actionNote {
+  color: color-mix(in srgb, var(--surface) 64%, transparent);
+}
+
+.featuredCharacter {
+  position: relative;
+  display: grid;
+  min-height: 100%;
+  place-items: end center;
+  padding: 2.5rem 2rem 1.2rem;
+  border-left: 1px solid var(--border);
+  background: #232323;
+}
+
+.featuredCharacter::after {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  height: 1px;
+  background: color-mix(in srgb, var(--surface-emphasis) 42%, transparent);
+  content: "";
+}
+
+.featuredContact .featuredCharacter {
+  border-color: color-mix(in srgb, var(--surface-emphasis) 35%, transparent);
+  background: #232323;
+}
+
+.bubble,
+.contactBubble {
+  position: absolute;
+  z-index: 2;
+  top: 3.25rem;
+  left: 50%;
+  display: flex;
+  width: max-content;
+  max-width: calc(100% - 3rem);
+  transform: translateX(-50%);
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 2px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.bubble {
+  padding: 0.72rem 0.75rem 0.72rem 1rem;
+}
+
+.contactBubble {
+  justify-content: center;
+  padding: 0.72rem 1rem;
+}
+
+.bubbleDismiss {
+  display: inline-grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--brand);
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.2rem;
+}
+
+.bubbleDismiss:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.productCta {
+  position: relative;
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+  overflow: visible;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 1.5rem;
+}
+
+.productMascot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: 7rem;
+  place-items: end center;
+  overflow: hidden;
+  background: #232323;
+}
+
+.productCopy,
+.productAction {
+  position: relative;
+  z-index: 1;
+}
+
+.productPrompt {
+  margin-top: 0.45rem;
+  font-family: var(--font-dm-serif), Georgia, serif;
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  line-height: 1.05;
+}
+
+.productNote {
+  margin-top: 0.6rem;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.productAction {
+  grid-column: 2;
+}
+
+@media (max-width: 767px) {
+  .featuredHome,
+  .featuredContact {
+    grid-template-columns: 1fr;
+  }
+
+  .featured {
+    min-height: 0;
+  }
+
+  .featured::before {
+    inset: 0.75rem;
+  }
+
+  .featuredCopy {
+    padding: 2.6rem 1.5rem 1.75rem;
+  }
+
+  .featuredTitle {
+    max-width: 12ch;
+    font-size: clamp(2.2rem, 12vw, 3.35rem);
+  }
+
+  .featuredBody {
+    margin-top: 1rem;
+  }
+
+  .featuredAction {
+    width: 100%;
+    min-width: 0;
+    margin-top: 1.5rem;
+  }
+
+  .featuredAction :global(.button) {
+    width: 100%;
+  }
+
+  .featuredCharacter {
+    min-height: 16rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+    border-left: 0;
+  }
+
+  .featuredCharacter .mascot,
+  .featuredCharacter .mascotPlaceholder {
+    width: 11.5rem;
+  }
+
+  .bubble,
+  .contactBubble {
+    top: 1.25rem;
+  }
+
+  .productCta {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.1rem;
+  }
+
+  .productMascot {
+    min-height: 5rem;
+  }
+
+  .productMascot .mascot,
+  .productMascot .mascotPlaceholder {
+    width: 5rem;
+  }
+
+  .productAction {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot,
+  .riveCanvas,
+  .riveCanvas canvas {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .buttonCat,
+  .buttonCatHead,
+  .buttonCatEyes,
+  .buttonCatPupils,
+  .buttonCatTail,
+  .buttonCatPaws {
+    animation: none !important;
+    transition: none !important;
+  }
+}

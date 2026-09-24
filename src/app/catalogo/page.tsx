@@ -39,7 +39,7 @@ function sortProducts(products: Product[], sort: SortOption): Product[] {
 export const metadata: Metadata = {
   title: "Catálogo",
   description:
-    "Explora el catálogo visible de KAJÚ Indumentaria por categoría y consulta stock por WhatsApp.",
+    "Explora el catálogo de KAJÚ Indumentaria por categoría y consulta la disponibilidad por WhatsApp.",
   alternates: { canonical: "/catalogo" },
 };
 
@@ -89,18 +89,18 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     <div className="min-h-screen bg-[var(--background-primary)] text-[var(--text-primary)]">
       <PublicHeader />
       <main className="w-full pb-24">
-        <header className="mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 px-5 pb-10 pt-28 md:px-16 md:pb-14 md:pt-36 lg:grid-cols-12 lg:items-end lg:pt-[136px]">
-          <div className="lg:col-span-7">
+        <header className="catalog-hero relative isolate mx-auto grid w-full max-w-[1440px] grid-cols-1 gap-8 overflow-hidden px-5 pb-10 pt-28 md:px-16 md:pb-14 md:pt-36 lg:grid-cols-12 lg:items-end lg:pt-[136px]">
+          <div className="relative z-10 lg:col-span-7">
             <h1 className="editorial-title text-[clamp(3rem,11vw,4.5rem)] leading-[1.05] text-[var(--text-primary)] md:text-[68px]">
               {isNewFilter ? "Últimos ingresos" : "Nuestra colección"}
             </h1>
           </div>
 
-          <div className="max-w-xl lg:col-span-5 lg:justify-self-end">
+          <div className="relative z-10 max-w-xl lg:col-span-5 lg:justify-self-end">
             <p className="text-base leading-[1.75] text-[var(--text-secondary)] md:text-lg">
               {isNewFilter
-                ? "Las prendas que entraron esta semana al showroom. ¿Te gustó algo? Consúltanos el stock por WhatsApp."
-                : "Todo lo que hay en el showroom, actualizado. ¿Te gustó algo? Consúltanos el stock por WhatsApp."}
+                ? "Las prendas que llegaron esta semana a la tienda. ¿Te gustó algo? Consulta su disponibilidad por WhatsApp."
+                : "Todo lo disponible en la tienda, actualizado. ¿Te gustó algo? Consulta su disponibilidad por WhatsApp."}
             </p>
             <p className="mt-4 text-sm text-[var(--text-muted)]">
               {products.length === 1
@@ -202,22 +202,24 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           </Container>
         )}
 
-        <section className="mx-auto w-full max-w-[1440px] px-5 py-10 md:px-16 md:py-14">
-          <ProductGrid products={products} />
+        <section className="catalog-grid relative isolate mx-auto w-full max-w-[1440px] overflow-hidden px-5 py-10 md:px-16 md:py-14">
+          <div className="relative z-10">
+            <ProductGrid products={products} />
+          </div>
         </section>
 
         <Container>
-          <div className="flex flex-col items-start justify-between gap-5 border-t border-[var(--border)] pt-8 md:flex-row md:items-center">
-            <div>
+          <div className="catalog-help relative isolate flex flex-col items-start justify-between gap-5 overflow-hidden border-t border-[var(--border)] pt-8 md:flex-row md:items-center">
+            <div className="relative z-10">
               <h2 className="editorial-heading mb-2 text-2xl text-[var(--text-primary)]">
-                ¿No sabes qué talla elegir?
+                ¿Necesitas ayuda para elegir?
               </h2>
               <p className="max-w-xl text-sm leading-7 text-[var(--text-secondary)]">
                 Escríbenos por WhatsApp y te ayudamos a encontrar la prenda
                 correcta.
               </p>
             </div>
-            <WhatsAppCTA label="Consultar por WhatsApp" variant="secondary" />
+            <WhatsAppCTA className="relative z-10" label="Cuéntanos qué buscas" variant="secondary" />
           </div>
         </Container>
       </main>

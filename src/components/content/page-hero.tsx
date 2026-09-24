@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 
+import { BotanicalBloom } from "@/components/brand/botanical-bloom";
 import { Container } from "@/components/layout/container";
 
 type PageHeroProps = {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   accent?: string;
   description: string;
@@ -18,10 +19,19 @@ export function PageHero({
   children,
 }: PageHeroProps) {
   return (
-    <header className="bg-[var(--background-primary)]">
-      <Container className="grid gap-8 pb-10 pt-28 md:pb-14 md:pt-36 lg:grid-cols-12 lg:items-end lg:pt-[136px]">
+    <header className="page-hero relative isolate overflow-hidden bg-[var(--background-primary)]">
+      <BotanicalBloom
+        className="page-hero__botanical"
+        motion="none"
+        variant="stem"
+      />
+      <Container className="relative z-10 grid gap-8 pb-10 pt-28 md:pb-14 md:pt-36 lg:grid-cols-12 lg:items-end lg:pt-[136px]">
         <div className="lg:col-span-7">
-          <p className="mb-4 text-sm font-medium text-[var(--brand)]">{eyebrow}</p>
+          {eyebrow ? (
+            <p className="mb-4 text-sm font-medium text-[var(--brand)]">
+              {eyebrow}
+            </p>
+          ) : null}
           <h1 className="editorial-title text-[clamp(3.15rem,12vw,5rem)] md:text-[80px]">
             {title}
             {accent ? (

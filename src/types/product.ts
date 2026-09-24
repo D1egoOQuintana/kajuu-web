@@ -40,6 +40,7 @@ export type Product = {
   images: ProductImage[];
   isVisible: boolean;
   isFeatured: boolean;
+  featuredOrder?: number;
   isNewArrival: boolean;
   createdAt: Date;
   updatedAt: Date;

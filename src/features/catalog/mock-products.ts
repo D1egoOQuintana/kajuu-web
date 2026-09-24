@@ -13,24 +13,24 @@ const localImages = {
 export const mockProducts: Product[] = [
   {
     id: "prod-jean-wide-leg-celeste",
-    name: "Jean Wide Leg Celeste",
+    name: "Jean celeste de corte amplio",
     slug: "jean-wide-leg-celeste",
     description:
-      "Jean wide leg de tiro alto en denim celeste, pensado para looks urbanos cómodos y frescos.",
+      "Jean de tiro alto y pierna amplia en tela celeste, pensado para conjuntos urbanos cómodos y frescos.",
     price: 49900,
     category: "jeans",
     sizes: ["36", "38", "40", "42"],
-    colors: ["Celeste", "Azul denim"],
+    colors: ["Celeste", "Azul jean"],
     stockStatus: "available",
     images: [
       {
         url: localImages.editorialWide,
-        alt: "Modelo con look editorial en blanco y negro para Jean Wide Leg Celeste",
+        alt: "Modelo con conjunto editorial para jean celeste de corte amplio",
         position: 0,
       },
       {
         url: localImages.studioClose,
-        alt: "Detalle editorial blanco y negro para Jean Wide Leg Celeste",
+        alt: "Detalle editorial para jean celeste de corte amplio",
         position: 1,
       },
     ],
@@ -42,10 +42,10 @@ export const mockProducts: Product[] = [
   },
   {
     id: "prod-top-morley-bordo",
-    name: "Top Morley Bordó",
+    name: "Remera de morley bordó",
     slug: "top-morley-bordo",
     description:
-      "Top de morley bordó con ajuste al cuerpo, ideal para combinar con denim o sastrería.",
+      "Remera de morley bordó con ajuste al cuerpo, ideal para combinar con jeans o sastrería.",
     price: 25900,
     category: "tops",
     sizes: ["S", "M", "L"],
@@ -54,7 +54,7 @@ export const mockProducts: Product[] = [
     images: [
       {
         url: localImages.softLook,
-        alt: "Top Morley Bordó en fotografía editorial blanco y negro",
+        alt: "Remera de morley bordó en fotografía editorial",
         position: 0,
       },
     ],
@@ -66,10 +66,10 @@ export const mockProducts: Product[] = [
   },
   {
     id: "prod-sweater-tejido-chocolate",
-    name: "Sweater Tejido Chocolate",
+    name: "Suéter tejido color chocolate",
     slug: "sweater-tejido-chocolate",
     description:
-      "Sweater tejido en tono chocolate, suave y abrigado para elevar looks diarios.",
+      "Suéter tejido en tono chocolate, suave y abrigado para realzar conjuntos cotidianos.",
     price: 42900,
     category: "sweaters",
     sizes: ["S", "M", "L"],
@@ -78,7 +78,7 @@ export const mockProducts: Product[] = [
     images: [
       {
         url: localImages.studioClose,
-        alt: "Sweater Tejido Chocolate en editorial de moda blanco y negro",
+        alt: "Suéter tejido color chocolate en fotografía editorial",
         position: 0,
       },
     ],
@@ -93,7 +93,7 @@ export const mockProducts: Product[] = [
     name: "Campera Negra Urbana",
     slug: "campera-negra-urbana",
     description:
-      "Campera negra de silueta urbana, fácil de sumar a outfits de día y noche.",
+      "Campera negra de silueta urbana, fácil de sumar a conjuntos de día y noche.",
     price: 68900,
     category: "camperas",
     sizes: ["S", "M", "L"],
@@ -138,19 +138,19 @@ export const mockProducts: Product[] = [
   },
   {
     id: "prod-buzo-off-white",
-    name: "Buzo Off White",
+    name: "Buzo blanco crudo",
     slug: "buzo-off-white",
     description:
-      "Buzo off white de ajuste relajado, cómodo y versátil para looks casuales.",
+      "Buzo blanco crudo de ajuste relajado, cómodo y versátil para combinaciones informales.",
     price: 37900,
     category: "buzos",
     sizes: ["S", "M", "L", "XL"],
-    colors: ["Off white"],
+    colors: ["Blanco crudo"],
     stockStatus: "available",
     images: [
       {
         url: localImages.studioClose,
-        alt: "Buzo Off White en fotografía editorial blanco y negro",
+        alt: "Buzo blanco crudo en fotografía editorial",
         position: 0,
       },
     ],
@@ -162,10 +162,10 @@ export const mockProducts: Product[] = [
   },
   {
     id: "prod-remera-vintage",
-    name: "Remera Vintage",
+    name: "Remera de estilo clásico",
     slug: "remera-vintage",
     description:
-      "Remera de inspiración vintage con textura suave, pensada para uso diario.",
+      "Remera de inspiración clásica con textura suave, pensada para uso diario.",
     price: 21900,
     category: "tops",
     sizes: ["S", "M", "L"],
@@ -174,7 +174,7 @@ export const mockProducts: Product[] = [
     images: [
       {
         url: localImages.softLook,
-        alt: "Remera Vintage en fotografía editorial blanco y negro",
+        alt: "Remera de estilo clásico en fotografía editorial",
         position: 0,
       },
     ],
@@ -186,18 +186,18 @@ export const mockProducts: Product[] = [
   },
   {
     id: "prod-cargo-denim",
-    name: "Cargo Denim",
+    name: "Jean cargo",
     slug: "cargo-denim",
-    description: "Pantalón cargo denim con bolsillos laterales y actitud urbana.",
+    description: "Jean cargo con bolsillos laterales y actitud urbana.",
     price: 57900,
     category: "jeans",
     sizes: ["36", "38", "40", "42"],
-    colors: ["Azul denim"],
+    colors: ["Azul jean"],
     stockStatus: "ask_stock",
     images: [
       {
         url: localImages.editorialWide,
-        alt: "Cargo Denim en fotografía editorial blanco y negro",
+        alt: "Jean cargo en fotografía editorial",
         position: 0,
       },
     ],
@@ -236,7 +236,7 @@ export const mockProducts: Product[] = [
     name: "Conjunto Gris y Negro",
     slug: "conjunto-gris-y-negro",
     description:
-      "Conjunto gris y negro de dos piezas, cómodo y pulido para resolver el look completo.",
+      "Conjunto gris y negro de dos piezas, cómodo y cuidado para resolver la combinación completa.",
     price: 74900,
     category: "conjuntos",
     sizes: ["S", "M", "L"],
@@ -257,10 +257,10 @@ export const mockProducts: Product[] = [
   },
   {
     id: "prod-accesorio-cartera-bordo",
-    name: "Cartera Bordó Mini",
+    name: "Cartera bordó pequeña",
     slug: "cartera-bordo-mini",
     description:
-      "Cartera mini bordó para sumar un acento femenino y cálido al outfit.",
+      "Cartera bordó pequeña para sumar un acento femenino y cálido al conjunto.",
     price: 32900,
     category: "accesorios",
     sizes: ["Único"],
@@ -269,7 +269,7 @@ export const mockProducts: Product[] = [
     images: [
       {
         url: localImages.softLook,
-        alt: "Cartera Bordó Mini en fotografía editorial blanco y negro",
+        alt: "Cartera bordó pequeña en fotografía editorial",
         position: 0,
       },
     ],

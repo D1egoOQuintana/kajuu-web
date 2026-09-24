@@ -4,6 +4,20 @@ import { applicationDefault, cert, getApps, initializeApp } from "firebase-admin
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 
+export function isFirebaseAdminConfigured() {
+  const hasServiceAccount = Boolean(
+    process.env.FIREBASE_PROJECT_ID &&
+      process.env.FIREBASE_CLIENT_EMAIL &&
+      process.env.FIREBASE_PRIVATE_KEY,
+  );
+
+  return Boolean(
+    process.env.FIRESTORE_EMULATOR_HOST ||
+      process.env.GOOGLE_APPLICATION_CREDENTIALS ||
+      hasServiceAccount,
+  );
+}
+
 function createAdminApp() {
   const existingApp = getApps()[0];
   if (existingApp) return existingApp;

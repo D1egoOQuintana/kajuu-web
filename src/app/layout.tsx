@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { DM_Serif_Display, Inter } from "next/font/google";
 
+import { PageTransition } from "@/components/layout/page-transition";
 import { WhatsAppFloating } from "@/components/product/whatsapp-floating";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -55,9 +56,10 @@ export default async function RootLayout({
     <html
       lang="es"
       className={`${inter.variable} ${dmSerif.variable}`}
+      data-scroll-behavior="smooth"
     >
       <body className="min-h-screen antialiased">
-        {children}
+        <PageTransition>{children}</PageTransition>
         <WhatsAppFloating />
       </body>
     </html>

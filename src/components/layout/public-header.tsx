@@ -5,23 +5,12 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { BrandLogo } from "@/components/brand/brand-logo";
-import { WhatsAppCTA } from "@/components/product/whatsapp-cta";
 
-const leftNavigationItems = [
+const navigationItems = [
   { href: "/", label: "Inicio" },
   { href: "/catalogo", label: "Catálogo" },
-  { href: "/lookbook", label: "Lookbook" },
-] as const;
-
-const rightNavigationItems = [
   { href: "/como-comprar", label: "Cómo comprar" },
-  { href: "/guia-talles", label: "Guía de tallas" },
   { href: "/contacto", label: "Contacto" },
-] as const;
-
-const mobileNavigationItems = [
-  ...leftNavigationItems,
-  ...rightNavigationItems,
 ] as const;
 
 const SCROLL_HIDE_THRESHOLD = 80;
@@ -32,7 +21,6 @@ export function PublicHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCapsule, setIsCapsule] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-  const lastScrollY = useRef(0);
   const drawerRef = useRef<HTMLElement>(null);
   const burgerRef = useRef<HTMLButtonElement>(null);
 
@@ -45,19 +33,9 @@ export function PublicHeader() {
     const update = () => {
       frame = 0;
       const currentY = window.scrollY;
-      const previousY = lastScrollY.current;
 
       setIsCapsule(currentY > SCROLL_CAPSULE_THRESHOLD);
-
-      if (currentY < SCROLL_HIDE_THRESHOLD) {
-        setIsHidden(false);
-      } else if (currentY > previousY + 4) {
-        setIsHidden(true);
-      } else if (currentY < previousY - 4) {
-        setIsHidden(false);
-      }
-
-      lastScrollY.current = currentY;
+      setIsHidden(currentY >= SCROLL_HIDE_THRESHOLD);
     };
 
     const handleScroll = () => {
@@ -72,15 +50,6 @@ export function PublicHeader() {
       if (frame !== 0) window.cancelAnimationFrame(frame);
     };
   }, []);
-
-  // Elementos sticky (p. ej. filter bar del catálogo) leen esta clase para
-  // ajustar su `top` cuando el header se oculta al scrollear hacia abajo.
-  useEffect(() => {
-    document.documentElement.classList.toggle("kajuu-header-hidden", isHidden);
-    return () => {
-      document.documentElement.classList.remove("kajuu-header-hidden");
-    };
-  }, [isHidden]);
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -133,11 +102,19 @@ export function PublicHeader() {
         ].join(" ")}
       >
         <header className="kajuu-header-inner">
-          <nav
-            aria-label="Navegación principal izquierda"
-            className="kajuu-header-nav hidden xl:flex"
+          <Link
+            aria-label="KAJÚ — ir al inicio"
+            className="kajuu-header-brand"
+            href="/"
           >
-            {leftNavigationItems.map((item) => (
+            <BrandLogo alt="" priority variant="horizontal" />
+          </Link>
+
+          <nav
+            aria-label="Navegación principal"
+            className="kajuu-header-nav hidden lg:flex"
+          >
+            {navigationItems.map((item) => (
               <Link
                 aria-current={isCurrent(item.href) ? "page" : undefined}
                 className="kajuu-header-link"
@@ -149,37 +126,19 @@ export function PublicHeader() {
             ))}
           </nav>
 
-          <Link
-            aria-label="KAJÚ — ir al inicio"
-            className="kajuu-header-brand"
-            href="/"
-          >
-            <BrandLogo alt="" priority variant="horizontal" />
-            <BrandLogo alt="" priority variant="compact" />
-          </Link>
-
-          <div className="hidden items-center gap-6 xl:flex">
-            <nav aria-label="Navegación principal derecha" className="kajuu-header-nav flex">
-              {rightNavigationItems.map((item) => (
-                <Link
-                  aria-current={isCurrent(item.href) ? "page" : undefined}
-                  className="kajuu-header-link"
-                  href={item.href}
-                  key={item.href}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-            <span aria-hidden="true" className="h-4 w-px bg-[var(--border)]" />
-            <WhatsAppCTA label="WhatsApp" size="sm" variant="ghost" />
+          <div className="kajuu-header-actions hidden lg:flex">
+            <span
+              aria-hidden="true"
+              className="kajuu-header-whatsapp-anchor"
+              data-whatsapp-header-anchor
+            />
           </div>
 
           <button
             aria-controls="kajuu-mobile-drawer"
             aria-expanded={isMenuOpen}
             aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-            className="kajuu-header-burger inline-flex xl:hidden"
+            className="kajuu-header-burger inline-flex lg:hidden"
             onClick={() => setIsMenuOpen((current) => !current)}
             ref={burgerRef}
             type="button"
@@ -195,7 +154,7 @@ export function PublicHeader() {
       <div
         aria-hidden={!isMenuOpen}
         className={[
-          "kajuu-drawer-backdrop xl:hidden",
+          "kajuu-drawer-backdrop lg:hidden",
           isMenuOpen ? "is-open" : "",
         ].join(" ")}
         onClick={() => setIsMenuOpen(false)}
@@ -206,7 +165,7 @@ export function PublicHeader() {
         aria-label="Menú móvil"
         aria-modal={isMenuOpen}
         className={[
-          "kajuu-drawer xl:hidden",
+          "kajuu-drawer lg:hidden",
           isMenuOpen ? "is-open" : "",
         ].join(" ")}
         id="kajuu-mobile-drawer"
@@ -220,7 +179,12 @@ export function PublicHeader() {
             href="/"
             onClick={() => setIsMenuOpen(false)}
           >
-            <BrandLogo alt="" className="w-[52px]" variant="compact" />
+            <BrandLogo
+              alt=""
+              className="w-[132px]"
+              priority
+              variant="horizontal"
+            />
           </Link>
           <button
             aria-label="Cerrar menú"
@@ -233,7 +197,7 @@ export function PublicHeader() {
         </div>
 
         <nav aria-label="Navegación móvil" className="flex flex-col px-6 py-4">
-          {mobileNavigationItems.map((item, index) => (
+          {navigationItems.map((item, index) => (
             <Link
               aria-current={isCurrent(item.href) ? "page" : undefined}
               className="kajuu-drawer-link"
@@ -252,15 +216,6 @@ export function PublicHeader() {
             </Link>
           ))}
         </nav>
-
-        <div className="mt-auto border-t border-[var(--border)] px-6 py-6">
-          <p className="label-caps mb-3 text-[var(--brand)]">Asistencia directa</p>
-          <WhatsAppCTA
-            className="w-full"
-            label="Consultar por WhatsApp"
-            variant="primary"
-          />
-        </div>
       </aside>
     </>
   );

@@ -75,7 +75,7 @@ function LogoUsagePreview() {
               width={1672}
             />
           </div>
-          <span>Lookbook</span>
+          <span>Galería de estilo</span>
           <span>Contacto</span>
         </div>
         <p>Horizontal transparente. Mantiene la lectura del descriptor sin elevar el navbar.</p>
@@ -176,7 +176,7 @@ function ProposalOne() {
       <div className={styles.proposalNotes} id="proposal-one-notes">
         <p><strong>Sensación:</strong> revista boutique, calma y curaduría.</p>
         <p><strong>Floral:</strong> Dirección A, apenas visible y fuera de las prendas.</p>
-        <p><strong>Riesgo:</strong> puede sentirse demasiado discreta si Home necesita un quiebre más memorable.</p>
+        <p><strong>Riesgo:</strong> puede sentirse demasiado discreta si la portada necesita un quiebre más memorable.</p>
       </div>
     </article>
   );
@@ -246,7 +246,7 @@ function ProposalTwo() {
       <div className={styles.proposalNotes} id="proposal-two-notes">
         <p><strong>Sensación:</strong> una firma de marca clara, contemporánea y reconocible.</p>
         <p><strong>Floral:</strong> Dirección B como gesto de fondo, sin cruzar producto ni texto.</p>
-        <p><strong>Control:</strong> es el único bloque oscuro de Home; el resto de la página recupera aire.</p>
+        <p><strong>Control:</strong> es el único bloque oscuro de la portada; el resto de la página recupera aire.</p>
       </div>
     </article>
   );
@@ -284,7 +284,7 @@ export default function PhaseZeroSixPreview() {
             <p className={styles.phaseLabel}>Fase 0.6 · Dirección visual final</p>
             <h1>Una identidad botánica con carácter urbano.</h1>
             <p className={styles.heroLead}>
-              Comparación visual para decidir el sistema floral y el momento de marca más importante de Home.
+              Comparación visual para decidir el sistema floral y el momento de marca más importante de la portada.
             </p>
             <div className={styles.heroMeta}>
               <span>KAJÚ</span>
@@ -393,7 +393,7 @@ export default function PhaseZeroSixPreview() {
                 <div><dt>Trazo</dt><dd>Line art · 0.8–1.1 px</dd></div>
                 <div><dt>Color</dt><dd>#7A1E33 / #E8A8B8</dd></div>
                 <div><dt>Opacidad</dt><dd>5–9%</dd></div>
-                <div><dt>Uso</dt><dd>Lookbook, cierre editorial, propuesta 1</dd></div>
+                <div><dt>Uso</dt><dd>Galería de estilo, cierre editorial, propuesta 1</dd></div>
                 <div><dt>No usar</dt><dd>Logo, producto, cards, controles o móvil</dd></div>
               </dl>
               <p className={styles.riskNote}>
@@ -434,7 +434,7 @@ export default function PhaseZeroSixPreview() {
 
         <section className={styles.discoverSection} id="discover" aria-labelledby="discover-title">
           <div className={styles.sectionIntro}>
-            <p className={styles.sectionLabel}>Momento visual de Home</p>
+            <p className={styles.sectionLabel}>Momento visual de la portada</p>
             <h2 id="discover-title">“Descubre tu estilo” con una dirección de arte propia.</h2>
             <p>
               Las dos propuestas usan el mismo contenido para que la decisión se base en composición, intensidad y personalidad de marca.
@@ -453,7 +453,7 @@ export default function PhaseZeroSixPreview() {
           </div>
           <div className={styles.recommendationCopy}>
             <p>
-              Es la combinación con más identidad para KAJÚ: relaciona flor y movimiento textil, crea un quiebre memorable en Home y diferencia la marca sin convertir el sitio en cosmética o papelería romántica.
+              Es la combinación con más identidad para KAJÚ: relaciona flor y movimiento textil, crea un quiebre memorable en la portada y diferencia la marca sin convertir el sitio en cosmética o papelería romántica.
             </p>
             <p>
               La condición es mantenerla excepcional: una sola sección rosewood, una sola flor de gran escala y ninguna ornamentación dentro de catálogo, cards o controles.

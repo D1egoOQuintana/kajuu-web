@@ -1,0 +1,340 @@
+.preview {
+  min-height: 100vh;
+  overflow-x: clip;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 1px), var(--border) 50%, transparent calc(50% + 1px)) top / 100% 7rem no-repeat,
+    var(--background-primary);
+  color: var(--text-primary);
+}
+
+.header {
+  display: flex;
+  min-height: 7rem;
+  max-width: 1440px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin: 0 auto;
+  padding: 1.5rem clamp(1.25rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--border);
+}
+
+.header a {
+  display: block;
+  width: clamp(10.5rem, 16vw, 14rem);
+}
+
+.header div {
+  text-align: right;
+}
+
+.header p,
+.kicker,
+.sectionHeading > p,
+.miniLabel {
+  color: var(--brand);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.header span {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.intro,
+.section,
+.auditSection,
+.behavior,
+.footer {
+  width: min(100% - 2.5rem, 1240px);
+  margin-inline: auto;
+}
+
+.intro {
+  padding-block: clamp(4.5rem, 10vw, 8rem);
+}
+
+.intro h1 {
+  max-width: 14ch;
+  margin-top: 1rem;
+  font-family: var(--font-dm-serif), Georgia, serif;
+  font-size: clamp(3rem, 8vw, 7.4rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+}
+
+.intro > p:last-child {
+  max-width: 43rem;
+  margin-top: 2rem;
+  color: var(--text-secondary);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.75;
+}
+
+.section,
+.auditSection {
+  padding-block: clamp(4rem, 9vw, 7rem);
+  border-top: 1px solid var(--border);
+}
+
+.sectionHeading {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
+  gap: 0.8rem 2rem;
+  align-items: end;
+  margin-bottom: 2rem;
+}
+
+.sectionHeading > p {
+  grid-column: 1 / -1;
+}
+
+.sectionHeading h2 {
+  font-family: var(--font-dm-serif), Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.7rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.sectionHeading > span {
+  max-width: 34rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.productDemo {
+  display: grid;
+  max-width: 44rem;
+  gap: 1.5rem;
+  margin-inline: auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  border: 1px solid var(--border);
+  background: var(--background-secondary);
+}
+
+.productDemoHeader {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.productDemoHeader h3,
+.standardDemo h3 {
+  margin-top: 0.3rem;
+  font-family: var(--font-dm-serif), Georgia, serif;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.colorPicker {
+  border: 0;
+}
+
+.colorPicker legend {
+  margin-bottom: 0.65rem;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.colorPicker button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0.6rem 0.85rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.colorPicker button[aria-pressed="true"] {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.colorPicker button span {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--text-muted);
+  border-radius: 50%;
+  background: #2e4057;
+}
+
+.standardDemo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.auditSection {
+  position: relative;
+  isolation: isolate;
+}
+
+.auditSection::before {
+  position: absolute;
+  z-index: -1;
+  inset-block: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: var(--background-secondary);
+  content: "";
+}
+
+.auditGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+.auditCard {
+  min-height: 8rem;
+  padding: 1.5rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+}
+
+.auditCard > span {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.auditCard > strong,
+.auditCard li {
+  line-height: 1.65;
+}
+
+.auditCard ul {
+  display: grid;
+  gap: 0.35rem;
+  list-style: none;
+}
+
+.behavior {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem;
+  padding-block: clamp(4rem, 9vw, 7rem);
+}
+
+.behavior h2 {
+  max-width: 15ch;
+  margin-top: 0.6rem;
+  font-family: var(--font-dm-serif), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.behavior > p {
+  align-self: end;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.footer {
+  display: flex;
+  min-height: 7rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.footer a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+
+@media (max-width: 767px) {
+  .header {
+    min-height: 5.5rem;
+  }
+
+  .header a {
+    width: 9rem;
+  }
+
+  .header div {
+    display: none;
+  }
+
+  .intro,
+  .section,
+  .auditSection,
+  .behavior,
+  .footer {
+    width: min(100% - 2rem, 1240px);
+  }
+
+  .intro {
+    padding-block: 4.5rem;
+  }
+
+  .intro h1 {
+    font-size: clamp(3rem, 17vw, 4.65rem);
+  }
+
+  .sectionHeading,
+  .behavior {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHeading > span {
+    margin-top: 0.35rem;
+  }
+
+  .standardDemo,
+  .footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .standardDemo :global(.button) {
+    width: 100%;
+  }
+
+  .auditGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .behavior {
+    gap: 1.5rem;
+  }
+
+  .footer {
+    justify-content: center;
+    padding-block: 2rem;
+  }
+}

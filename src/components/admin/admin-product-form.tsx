@@ -22,7 +22,7 @@ import {
 const STOCK_LABELS: Record<ProductStockStatus, string> = {
   available: "Disponible",
   sold_out: "Agotado",
-  ask_stock: "Consultar stock",
+  ask_stock: "Consultar disponibilidad",
 };
 
 function slugify(value: string): string {
@@ -60,6 +60,7 @@ export function AdminProductForm({ productId }: { productId?: string }) {
   const [files, setFiles] = useState<File[]>([]);
   const [isVisible, setIsVisible] = useState(true);
   const [isFeatured, setIsFeatured] = useState(false);
+  const [featuredOrder, setFeaturedOrder] = useState("0");
   const [isNewArrival, setIsNewArrival] = useState(true);
 
   useEffect(() => {
@@ -81,6 +82,7 @@ export function AdminProductForm({ productId }: { productId?: string }) {
         setImages(product.images);
         setIsVisible(product.isVisible);
         setIsFeatured(product.isFeatured);
+        setFeaturedOrder(String(product.featuredOrder ?? 0));
         setIsNewArrival(product.isNewArrival);
       })
       .catch((loadError) => {
@@ -123,6 +125,7 @@ export function AdminProductForm({ productId }: { productId?: string }) {
       images,
       isVisible,
       isFeatured,
+      featuredOrder: Number(featuredOrder),
       isNewArrival,
     });
     if (!parsed.success) {
@@ -167,12 +170,12 @@ export function AdminProductForm({ productId }: { productId?: string }) {
             {PRODUCT_CATEGORIES.map((value) => <option key={value} value={value}>{CATEGORY_LABELS[value]}</option>)}
           </select>
         </label>
-        <label className="text-sm font-medium text-[#2f140d]">Estado de stock
+        <label className="text-sm font-medium text-[#2f140d]">Estado de disponibilidad
           <select className={inputClass} onChange={(event) => setStockStatus(event.target.value as ProductStockStatus)} value={stockStatus}>
             {PRODUCT_STOCK_STATUSES.map((value) => <option key={value} value={value}>{STOCK_LABELS[value]}</option>)}
           </select>
         </label>
-        <label className="text-sm font-medium text-[#2f140d]">Tallas separadas por coma
+        <label className="text-sm font-medium text-[#2f140d]">Variantes disponibles separadas por coma
           <input className={inputClass} onChange={(event) => setSizes(event.target.value)} placeholder="S, M, L" required value={sizes} />
         </label>
         <label className="text-sm font-medium text-[#2f140d]">Colores separados por coma
@@ -208,10 +211,23 @@ export function AdminProductForm({ productId }: { productId?: string }) {
         </label>
       </section>
 
-      <section className="grid gap-4 border border-[#e7d8cc] bg-white p-6 sm:grid-cols-3 md:p-8">
-        <label className="flex items-center gap-3 text-sm font-medium"><input checked={isVisible} onChange={(event) => setIsVisible(event.target.checked)} type="checkbox" /> Visible en el sitio</label>
-        <label className="flex items-center gap-3 text-sm font-medium"><input checked={isFeatured} onChange={(event) => setIsFeatured(event.target.checked)} type="checkbox" /> Destacado</label>
-        <label className="flex items-center gap-3 text-sm font-medium"><input checked={isNewArrival} onChange={(event) => setIsNewArrival(event.target.checked)} type="checkbox" /> Último ingreso</label>
+      <section className="grid gap-4 border border-[#e7d8cc] bg-white p-6 sm:grid-cols-2 lg:grid-cols-4 md:p-8">
+        <label className="flex items-start gap-3 text-sm font-medium">
+          <input checked={isVisible} className="mt-1" onChange={(event) => setIsVisible(event.target.checked)} type="checkbox" />
+          <span>Visible en el sitio<small className="mt-1 block font-normal leading-5 text-[#6d5c4e]">Publica la prenda en el catálogo.</small></span>
+        </label>
+        <label className="flex items-start gap-3 text-sm font-medium">
+          <input checked={isFeatured} className="mt-1" onChange={(event) => setIsFeatured(event.target.checked)} type="checkbox" />
+          <span>Destacado en portada<small className="mt-1 block font-normal leading-5 text-[#6d5c4e]">Los jeans destacados alimentan el carrusel principal.</small></span>
+        </label>
+        <label className="text-sm font-medium text-[#2f140d]">Orden en portada
+          <input className={inputClass} disabled={!isFeatured} max="99" min="0" onChange={(event) => setFeaturedOrder(event.target.value)} type="number" value={featuredOrder} />
+          <span className="mt-1 block text-xs font-normal leading-5 text-[#6d5c4e]">0 aparece antes que 1, 2 y 3.</span>
+        </label>
+        <label className="flex items-start gap-3 text-sm font-medium">
+          <input checked={isNewArrival} className="mt-1" onChange={(event) => setIsNewArrival(event.target.checked)} type="checkbox" />
+          <span>Último ingreso<small className="mt-1 block font-normal leading-5 text-[#6d5c4e]">Lo muestra en la sección de novedades.</small></span>
+        </label>
       </section>
 
       {error && <p className="border border-red-200 bg-red-50 p-4 text-sm text-red-800" role="alert">{error}</p>}

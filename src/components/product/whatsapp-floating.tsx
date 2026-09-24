@@ -1,38 +1,203 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { createProductWhatsAppUrl } from "@/lib/utils/whatsapp";
+import { WhatsAppMascotLink } from "@/components/whatsapp/whatsapp-mascot-link";
 
 export function WhatsAppFloating() {
   const pathname = usePathname();
-  const url = createProductWhatsAppUrl({
-    productName: "el catálogo de KAJÚ",
-  });
+  const portalRef = useRef<HTMLDivElement>(null);
+  const transitionTimer = useRef<number | null>(null);
+  const revealTimer = useRef<number | null>(null);
+  const routeSettleTimer = useRef<number | null>(null);
+  const previousPathname = useRef(pathname);
+  const currentMode = useRef<"header" | "floating">("header");
+  const hasMeasured = useRef(false);
+  const [mode, setMode] = useState<"header" | "floating">("header");
+  const [isReady, setIsReady] = useState(false);
+  const [isRouteSettling, setIsRouteSettling] = useState(false);
+  const [isTraveling, setIsTraveling] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  if (pathname.startsWith("/kajuu-panel")) return null;
+  const measurePosition = useCallback((nextMode: "header" | "floating") => {
+    const portal = portalRef.current;
+    if (!portal) return;
+
+    const margin = window.innerWidth < 640 ? 12 : 24;
+    const width = portal.offsetWidth || 144;
+    const height = portal.offsetHeight || 52;
+    const anchor = document.querySelector<HTMLElement>(
+      "[data-whatsapp-header-anchor]",
+    );
+    const anchorBounds = anchor?.getBoundingClientRect();
+    const headerShell = anchor?.closest<HTMLElement>(".kajuu-header-shell");
+    const headerTransform = headerShell
+      ? window.getComputedStyle(headerShell).transform
+      : "none";
+    const headerMatrix =
+      headerTransform !== "none"
+        ? new DOMMatrixReadOnly(headerTransform)
+        : null;
+    const canUseHeader =
+      nextMode === "header" &&
+      anchorBounds &&
+      anchorBounds.width > 0 &&
+      anchorBounds.height > 0;
+
+    // En el primer frame el CSS responsive todavía puede no haber medido el
+    // ancla. Esperamos el siguiente pase en vez de mostrar el botón abajo.
+    if (nextMode === "header" && !canUseHeader) return;
+
+    setPosition(
+      canUseHeader
+        ? {
+            // El header sale del viewport con transform. Restamos ese
+            // desplazamiento para apuntar siempre a su posición visible final.
+            x: anchorBounds.left - (headerMatrix?.m41 ?? 0),
+            // Conservamos aire para que orejas y cabeza nunca crucen el
+            // borde superior durante la transición de cápsula a header.
+            y: Math.max(
+              28,
+              anchorBounds.top - (headerMatrix?.m42 ?? 0),
+            ),
+          }
+        : {
+            x: window.innerWidth - width - margin,
+            y: window.innerHeight - height - margin,
+          },
+    );
+    setIsReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (previousPathname.current === pathname) return;
+
+    previousPathname.current = pathname;
+    if (routeSettleTimer.current !== null) {
+      window.clearTimeout(routeSettleTimer.current);
+    }
+
+    setIsRouteSettling(true);
+    routeSettleTimer.current = window.setTimeout(() => {
+      setIsRouteSettling(false);
+      routeSettleTimer.current = null;
+    }, 560);
+
+    return () => {
+      if (routeSettleTimer.current !== null) {
+        window.clearTimeout(routeSettleTimer.current);
+        routeSettleTimer.current = null;
+      }
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const nextMode =
+        window.innerWidth >= 1024 && window.scrollY < 80
+          ? "header"
+          : "floating";
+
+      if (!hasMeasured.current) {
+        currentMode.current = nextMode;
+        hasMeasured.current = true;
+        setMode(nextMode);
+        measurePosition(nextMode);
+        return;
+      }
+
+      if (currentMode.current !== nextMode) {
+        currentMode.current = nextMode;
+
+        if (transitionTimer.current !== null) {
+          window.clearTimeout(transitionTimer.current);
+        }
+        if (revealTimer.current !== null) {
+          window.clearTimeout(revealTimer.current);
+        }
+
+        // Ocultamos suavemente el CTA, cambiamos su anclaje fuera de vista y
+        // lo revelamos en el nuevo lugar. Así nunca cruza la pantalla.
+        setIsTraveling(true);
+        transitionTimer.current = window.setTimeout(() => {
+          setMode(nextMode);
+          measurePosition(nextMode);
+          transitionTimer.current = null;
+
+          revealTimer.current = window.setTimeout(() => {
+            setIsTraveling(false);
+            revealTimer.current = null;
+          }, 40);
+        }, 140);
+
+        return;
+      }
+
+      if (transitionTimer.current === null) {
+        measurePosition(nextMode);
+      }
+    };
+
+    const scheduleUpdate = () => {
+      if (frame === 0) frame = window.requestAnimationFrame(update);
+    };
+
+    scheduleUpdate();
+    const settleTimers = [
+      window.setTimeout(scheduleUpdate, 120),
+      window.setTimeout(scheduleUpdate, 560),
+    ];
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    return () => {
+      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("scroll", scheduleUpdate);
+      if (frame !== 0) window.cancelAnimationFrame(frame);
+      if (transitionTimer.current !== null) {
+        window.clearTimeout(transitionTimer.current);
+      }
+      if (revealTimer.current !== null) {
+        window.clearTimeout(revealTimer.current);
+      }
+      settleTimers.forEach((timer) => window.clearTimeout(timer));
+    };
+  }, [measurePosition]);
+
+  if (
+    pathname.startsWith("/kajuu-panel") ||
+    pathname.startsWith("/__preview")
+  ) {
+    return null;
+  }
 
   return (
-    <a
-      aria-label="Consultar por WhatsApp"
-      className="kajuu-wa-bubble group"
-      href={url}
-      rel="noopener noreferrer"
-      target="_blank"
+    <div
+      aria-hidden={!isReady}
+      className={[
+        "kajuu-wa-portal",
+        isReady ? "is-ready" : "",
+        isRouteSettling ? "is-route-settling" : "",
+        isTraveling ? "is-traveling" : "",
+        mode === "header" ? "is-header" : "is-floating",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      ref={portalRef}
+      style={{
+        transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
+      }}
     >
-      <span aria-hidden="true" className="kajuu-wa-pulse" />
-      <svg
-        aria-hidden="true"
-        className="kajuu-wa-icon"
-        fill="currentColor"
-        height="26"
-        viewBox="0 0 24 24"
-        width="26"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.695.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.83 9.83 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.82 11.82 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.88 11.88 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 0 0-3.48-8.413" />
-      </svg>
-      <span className="kajuu-wa-label">WhatsApp</span>
-    </a>
+      <div className="kajuu-wa-motion">
+        <WhatsAppMascotLink
+          className="kajuu-wa-bubble"
+          label="Escríbenos"
+          presentation={mode}
+        />
+      </div>
+    </div>
   );
 }

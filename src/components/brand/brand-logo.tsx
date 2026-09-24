@@ -1,6 +1,10 @@
 import Image from "next/image";
 
-type BrandLogoVariant = "compact" | "horizontal" | "primary";
+type BrandLogoVariant =
+  | "compact"
+  | "horizontal"
+  | "horizontal-inverse"
+  | "primary";
 
 type BrandLogoProps = {
   alt?: string;
@@ -22,6 +26,11 @@ const logoAssets: Record<
     height: 941,
     src: "/brand/Logo horizontal sin fondo.png",
     width: 1672,
+  },
+  "horizontal-inverse": {
+    height: 1254,
+    src: "/brand/image-gen-2(4).png",
+    width: 1254,
   },
   primary: {
     height: 1086,
@@ -50,7 +59,7 @@ export function BrandLogo({
         height={asset.height}
         priority={priority}
         sizes={
-          variant === "horizontal"
+          variant.includes("horizontal")
             ? "200px"
             : variant === "primary"
               ? "220px"
